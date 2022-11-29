@@ -13,7 +13,7 @@ import {
   fetchName,
   fetchAddressFromDomain,
   getAccount
-} from '@walletconnect/solib'
+} from '@dcspark/adalib'
 import { useCallback, useEffect, useState } from 'react'
 import {
   Badge,

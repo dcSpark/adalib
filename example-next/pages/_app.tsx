@@ -6,7 +6,7 @@ import {
   PhantomConnector,
   WalletConnectConnector,
   InjectedConnector
-} from '@walletconnect/solib'
+} from '@dcspark/adalib'
 import { ColorModeProvider, ChakraProvider } from '@chakra-ui/react'
 
 const PROJECT_ID = process.env.NEXT_PUBLIC_PROJECT_ID

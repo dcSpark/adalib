@@ -37,8 +37,8 @@ init(
       new WalletConnectConnector({
         relayerRegion: 'wss://relay.walletconnect.com',
         metadata: {
-          description: 'Test app for solib',
-          name: 'Test Solib dApp',
+          description: 'Test app for adalib',
+          name: 'Test Adalib dApp',
           icons: ['https://avatars.githubusercontent.com/u/37784886'],
           url: 'http://localhost:3000'
         },
