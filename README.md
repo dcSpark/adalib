@@ -1,30 +1,30 @@
-# Solib
+# Adalib
 
-**Solana** friendly API
+**Cardano** friendly API
 
-Checkout [the complete docs](https://solib-docs.vercel.app)!
+### TODO: Replace underlying connect logic with [CCWW](https://github.com/cardano-foundation/cardano-connect-with-wallet)
 
-# Current Capabilities
+## WIP Capabilities
 
-## API
+### API
 
 - Connect Wallet:
-  - Phantom
+  - Flint
   - WalletConnect
 - Get balance
 - Sign Transaction
 - Send Transaction
 - Sign and send Transaction
 - Sign Message
-- Watch Transactions
+- ~~Watch Transactions~~
 
 ### Init
 
-The init function needs to be called to prepare `solib` to be able to call all
+The init function needs to be called to prepare `adalib` to be able to call all
 the functions in its API.
 
 ```ts
-import { init } from 'solib'
+import { init } from 'adalib'
 
 init(
   {
