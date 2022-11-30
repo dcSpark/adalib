@@ -2,6 +2,129 @@ import type { Transaction } from '@solana/web3.js'
 import type { BlockResult } from './block'
 import type { TransactionResult } from './transaction'
 
+// BEGIN CARDANO
+
+// Fake types just to make the API more readable
+type HexString = string
+type Cbor<_T> = string
+type Hash32 = string
+
+export interface Paginate {
+  page: number
+  limit: number
+}
+
+export interface CardanoInjectorFields {
+  apiVersion: string
+  name: string
+  icon: string
+}
+
+export interface CardanoInjectorEventMethods {
+  onAccountChangeTrigger: (addresses: Cbor<'address'>[]) => Promise<undefined>
+  onNetworkChangeTrigger: (network: number) => Promise<undefined>
+}
+
+/** Enable is, for backwards-compatibility reasons, overridden in two places */
+interface EnableOverride {
+  enable: () => Promise<Omit<typeof window.cardano, 'enable' | 'isEnabled'>>
+}
+
+export const PER_WALLET_NAMESPACE = {
+  enable: 'enable',
+  isEnabled: 'isEnabled'
+} as const
+export type PerWalletNamespace = CardanoInjectorFields &
+  EnableOverride &
+  Pick<CardanoContentScriptApi, Exclude<keyof typeof PER_WALLET_NAMESPACE, 'enable'>>
+
+interface DataSignature {
+  signature: Cbor<'CoseSign1'>
+  key: Cbor<'CoseKey'>
+}
+export type InjectAsWallet = [] | [string]
+/* Functions not part of CIP30 that may or may not be standardized */
+export const SUPPORTED_EXPERIMENTAL_MESSAGES = {
+  getCollateral: 'getCollateral'
+} as const
+/* Messages used to debug Flint or integration w/ Flint. Only in dev builds */
+export const DEBUG_MESSAGES = {
+  openDebug: 'openDebug'
+} as const
+
+export type CardanoContentScriptApi = CardanoInjectorEventMethods & {
+  enable: () => Promise<true>
+  isEnabled: () => Promise<boolean>
+  getNetworkId: () => Promise<number>
+  getUtxos: (
+    amount?: Cbor<'Value'>,
+    paginate?: Paginate
+  ) => Promise<Cbor<'TransactionUnspentOutput'>[] | undefined>
+  getBalance: () => Promise<Cbor<'value'>>
+  getUsedAddresses: (paginate?: Paginate) => Promise<Cbor<'address'>[]>
+  getUnusedAddresses: (paginate?: Paginate) => Promise<Cbor<'address'>[]>
+  getChangeAddress: () => Promise<Cbor<'address'>>
+  getRewardAddress: () => Promise<Cbor<'address'>>
+  getRewardAddresses: () => Promise<Cbor<'address'>[]>
+  signTx: (
+    tx: Cbor<'transaction'>,
+    partialSign?: boolean
+  ) => Promise<Cbor<'transaction_witness_set'>>
+  signData: (addr: Cbor<'address'>, payload: HexString) => Promise<DataSignature>
+  submitTx: (tx: Cbor<'transaction'>) => Promise<Hash32>
+
+  // Should be protected, but we call it from the website part of content script, so it's external
+  getInjectAs: () => Promise<InjectAsWallet>
+
+  // Debug messages
+  openDebug: () => Promise<undefined>
+
+  // Experimental
+  getCollateral: () => Promise<Cbor<'TransactionUnspentOutput'>[]>
+}
+
+// CIP-30 Compliant
+export interface CardanoInjectedNamespaceApi {
+  isEnabled: () => Promise<boolean>
+  getNetworkId: () => Promise<number>
+  getUtxos: (
+    amount?: Cbor<'Value'>,
+    paginate?: Paginate
+  ) => Promise<Cbor<'TransactionUnspentOutput'>[] | undefined>
+  getBalance: () => Promise<Cbor<'value'>>
+  getUsedAddresses: (paginate?: Paginate) => Promise<Cbor<'address'>[]>
+  getUnusedAddresses: (paginate?: Paginate) => Promise<Cbor<'address'>[]>
+  getChangeAddress: () => Promise<Cbor<'address'>>
+  getRewardAddress: () => Promise<Cbor<'address'>>
+  getRewardAddresses: () => Promise<Cbor<'address'>[]>
+  signTx: (
+    tx: Cbor<'transaction'>,
+    partialSign?: boolean
+  ) => Promise<Cbor<'transaction_witness_set'>>
+  signData: (addr: Cbor<'address'>, payload: HexString) => Promise<DataSignature>
+  submitTx: (tx: Cbor<'transaction'>) => Promise<Hash32>
+  getCollateral: () => Promise<Cbor<'TransactionUnspentOutput'>[]>
+  enable: () => Promise<Omit<typeof window.cardano, 'enable' | 'isEnabled'>>
+  onAccountChange: (
+    callback: CardanoContentScriptApi['onAccountChangeTrigger']
+  ) => Promise<undefined>
+  onNetworkChange: (
+    callback: CardanoContentScriptApi['onNetworkChangeTrigger']
+  ) => Promise<undefined>
+  nami?: PerWalletNamespace | undefined
+  ccvault?: PerWalletNamespace | undefined
+  flint?: PerWalletNamespace | undefined
+  flintExperimental?: PerWalletNamespace | undefined
+  typhon?: PerWalletNamespace | undefined
+  gerowallet?: PerWalletNamespace | undefined
+  yoroi?: PerWalletNamespace | undefined
+  experimental:
+    | Pick<CardanoContentScriptApi, keyof typeof SUPPORTED_EXPERIMENTAL_MESSAGES>
+    | (Pick<CardanoContentScriptApi, keyof typeof DEBUG_MESSAGES> &
+        Pick<CardanoContentScriptApi, keyof typeof SUPPORTED_EXPERIMENTAL_MESSAGES>)
+}
+
+// BEGIN SOLANA:
 export interface AccountInfo {
   data: string[]
   executable: boolean
@@ -156,5 +279,14 @@ export interface TransactionArgs {
       data: Record<string, unknown>
     }
   }
+}
+
+declare global {
+  /* eslint-disable vars-on-top, no-var */
+
+  // Must be var. let or const variables doesn't show up on globalThis.
+  var cardano: CardanoInjectedNamespaceApi
+
+  /* eslint-enable vars-on-top, no-var */
 }
 export type TransactionType = keyof TransactionArgs

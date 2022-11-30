@@ -3,6 +3,6 @@ export interface ConnectResponse {
 }
 
 export interface Provider {
-  connect: () => Promise<ConnectResponse>
+  connect: () => Promise<void>
   disconnect: () => void
 }
