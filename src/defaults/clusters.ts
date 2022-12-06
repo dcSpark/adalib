@@ -13,6 +13,10 @@ export const mainnetBeta: Cluster = {
   endpoint: `https://api.mainnet-beta.solana.com`
 }
 
+/**
+ * TODO: Figure out how we can get an RPC server deployed under the walletconnect domain to accept request JSONs for cardano chainId
+ */
+
 export function mainnetBetaWalletConnect() {
   return {
     name: 'mainnetBeta',

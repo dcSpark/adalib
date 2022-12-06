@@ -214,6 +214,7 @@ export class WalletConnectConnector extends BaseConnector implements Connector {
         })
         .then(providerResult => {
           if (!providerResult) throw new Error('Failed connection.')
+
           // (TODO update typing for provider)
           // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
           const address = providerResult.namespaces?.solana?.accounts[0]?.split(':')[2]

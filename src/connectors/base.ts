@@ -25,10 +25,10 @@ import { FavouriteDomain, NameRegistry } from '../utils/nameService'
 import type { BlockResult } from '../types/block'
 
 export interface Connector {
-  isAvailable: () => boolean
-  getConnectorName: () => string
-  disconnect: () => Promise<void>
-  connect: () => Promise<string>
+  isEnabled: () => Promise<boolean>
+  // getConnectorName: () => string
+  // disconnect: () => Promise<void> unavailable in cardano dapp / managed by wallet
+  enable: () => Promise<Omit<typeof window.cardano, 'enable' | 'isEnabled'>>
   signMessage: (message: string) => Promise<string>
   signTransaction: <Type extends TransactionType>(
     type: Type,

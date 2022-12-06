@@ -124,6 +124,53 @@ export interface CardanoInjectedNamespaceApi {
         Pick<CardanoContentScriptApi, keyof typeof SUPPORTED_EXPERIMENTAL_MESSAGES>)
 }
 
+/*
+ * Note: it seems the injected connector relies on the default signMessage + signTransaction
+ * methods, but the WalletConnect connector relies on the chain-specific cardano_signMessage / cardano_signTransaction
+ * methods. Probably because the default method names would overlap with ethereum.
+ */
+export interface RequestMethodsCardano {
+  cardano_signMessage: {
+    params: {
+      message: string
+      pubkey: string
+    }
+    returns: {
+      signature: string
+    }
+  }
+  cardano_signTransaction: {
+    params: {
+      feePayer: string
+      instructions: TransactionInstructionRq[]
+      recentBlockhash: string
+      signatures?: { pubkey: string; signature: string }[]
+    }
+    returns: {
+      signature: string
+    }
+  }
+  signMessage: {
+    params: {
+      message: Uint8Array
+      format: string
+    }
+    returns: {
+      signature: string
+    } | null
+  }
+
+  signTransaction: {
+    params: {
+      // Serialized transaction
+      message: string
+    }
+    returns: {
+      serialize: () => string
+    } | null
+  }
+}
+
 // BEGIN SOLANA:
 export interface AccountInfo {
   data: string[]
