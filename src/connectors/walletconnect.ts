@@ -180,6 +180,8 @@ export class WalletConnectConnector extends BaseConnector implements Connector {
    *
    * If `qrcode = false`, this will return the pairing URI used to generate the
    * QRCode.
+   *
+   * Cardano Note: We'll use cardano_ to prevent overlap in WC Modal product
    */
   public async connect() {
     const chosenCluster = getCluster()
@@ -196,6 +198,7 @@ export class WalletConnectConnector extends BaseConnector implements Connector {
       }
     }
 
+    // WC concept
     const provider = await UniversalProviderFactory.getProvider()
 
     return new Promise<string>((resolve, reject) => {

@@ -59,6 +59,10 @@ export class InjectedConnector extends BaseConnector implements Connector {
   }
 
   public async connect() {
+    /*
+     * Provider is solana specific. Might need to implement a method here to detect which WC-supported wallets
+     * are injected into the namespace)
+     */
     const resp = await (await this.getProvider()).connect()
 
     if (resp?.publicKey) {

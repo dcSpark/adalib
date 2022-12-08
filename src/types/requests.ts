@@ -269,6 +269,8 @@ export interface TransactionInstructionRq {
   keys: { isSigner: boolean; isWritable: boolean; pubkey: string }[]
 }
 
+// "requests" is solana specific
+// Below is not needed for Cardano
 export interface RequestMethods {
   solana_signMessage: {
     params: {
