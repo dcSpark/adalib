@@ -5,5 +5,5 @@
   "tabWidth": 2,
   "trailingComma": "none",
   "singleAttributePerLine": false,
-  "semi": false
+  "semi": true
 }

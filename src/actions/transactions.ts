@@ -1,25 +1,25 @@
-import type { TransactionArgs, TransactionType } from '../types/requests'
-import { withConnector } from '../utils/connector'
+import type { TransactionArgs, TransactionType } from '../types/CardanoInjected';
+import { withConnector } from '../utils/connector';
 
 export async function signTransaction<Type extends TransactionType>(
   type: Type,
   transactionArgs: TransactionArgs[Type]['params']
 ) {
   return withConnector(async connector => {
-    return connector.signTransaction(type, transactionArgs)
-  })
+    return connector.signTransaction(type, transactionArgs);
+  });
 }
 
 export async function sendTransaction(encodedTransaction: string) {
   return withConnector(async connector => {
-    return connector.sendTransaction(encodedTransaction)
-  })
+    return connector.sendTransaction(encodedTransaction);
+  });
 }
 
 export async function getTransaction(encodedTransaction: string) {
   return withConnector(async connector => {
-    return connector.getTransaction(encodedTransaction)
-  })
+    return connector.getTransaction(encodedTransaction);
+  });
 }
 
 export async function signAndSendTransaction<Type extends TransactionType>(
@@ -27,8 +27,8 @@ export async function signAndSendTransaction<Type extends TransactionType>(
   transactionArgs: TransactionArgs[Type]['params']
 ) {
   return withConnector(async connector => {
-    return connector.signAndSendTransaction(type, transactionArgs)
-  })
+    return connector.signAndSendTransaction(type, transactionArgs);
+  });
 }
 
 export async function watchTransaction(
@@ -36,8 +36,8 @@ export async function watchTransaction(
   callback: (params: unknown) => void
 ) {
   return withConnector(async connector => {
-    return connector.watchTransaction(transactionSignature, callback)
-  })
+    return connector.watchTransaction(transactionSignature, callback);
+  });
 }
 
 export async function getFeeForMessage<Type extends TransactionType>(
@@ -45,12 +45,12 @@ export async function getFeeForMessage<Type extends TransactionType>(
   transactionArgs: TransactionArgs[Type]['params']
 ) {
   return withConnector(async connector => {
-    return connector.getFeeForMessage(type, transactionArgs)
-  })
+    return connector.getFeeForMessage(type, transactionArgs);
+  });
 }
 
 export async function getBlock(blockSlot: number) {
   return withConnector(async connector => {
-    return connector.getBlock(blockSlot)
-  })
+    return connector.getBlock(blockSlot);
+  });
 }

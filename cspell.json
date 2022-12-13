@@ -1,0 +1,18 @@
+{
+    "version": "0.2",
+    "ignorePaths": [],
+    "dictionaryDefinitions": [],
+    "dictionaries": [],
+    "words": [
+        "bech",
+        "bech32",
+        "ccvault",
+        "gerowallet",
+        "nami",
+        "typhon",
+        "typhoncip",
+        "yoroi"
+    ],
+    "ignoreWords": [],
+    "import": []
+}
