@@ -1,3 +1,4 @@
+/* eslint-disable capitalized-comments */
 import type { Transaction } from '@solana/web3.js';
 import type { BlockResult } from './block';
 import type { TransactionResult } from './transaction';
@@ -74,10 +75,10 @@ export type CardanoContentScriptApi = CardanoInjectorEventMethods & {
   submitTx: (tx: Cbor<'transaction'>) => Promise<Hash32>;
 
   // Should be protected, but we call it from the website part of content script, so it's external
-  getInjectAs: () => Promise<InjectAsWallet>;
+  getInjectAs?: () => Promise<InjectAsWallet>;
 
   // Debug messages
-  openDebug: () => Promise<undefined>;
+  openDebug?: () => Promise<undefined>;
 
   // Experimental
   getCollateral: () => Promise<Cbor<'TransactionUnspentOutput'>[]>;
@@ -110,11 +111,11 @@ export const NetworkMagic = {
   PREPROD: 1
 };
 
-export type EnabledAPI = Omit<typeof window.cardano, 'enable' | 'isEnabled'>;
+export type EnabledAPI = Omit<CardanoInjectedNamespaceApi, 'enable' | 'isEnabled'>;
 
 // CIP-30 Compliant
 export interface CardanoInjectedNamespaceApi {
-  isConnected: () => Promise<boolean>;
+  // isConnected: () => Promise<boolean>;
   getNetworkId: () => Promise<number>;
   getUtxos: (
     amount?: Cbor<'Value'>,
@@ -147,7 +148,7 @@ export interface CardanoInjectedNamespaceApi {
   typhoncip30?: PerWalletNamespace | undefined;
   gerowallet?: PerWalletNamespace | undefined;
   yoroi?: PerWalletNamespace | undefined;
-  experimental:
+  experimental?:
     | Pick<CardanoContentScriptApi, keyof typeof SUPPORTED_EXPERIMENTAL_MESSAGES>
     | (Pick<CardanoContentScriptApi, keyof typeof DEBUG_MESSAGES> &
         Pick<CardanoContentScriptApi, keyof typeof SUPPORTED_EXPERIMENTAL_MESSAGES>);

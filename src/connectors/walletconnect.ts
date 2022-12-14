@@ -1,3 +1,4 @@
+/* eslint-disable capitalized-comments */
 import type UniversalProvider from '@walletconnect/universal-provider';
 import type { Connector } from './base';
 import { BaseConnector } from './base';
@@ -125,7 +126,8 @@ export class WalletConnectConnector extends BaseConnector implements Connector {
     // step 1: pair
 
     // step 2: initialize enabled Api
-    this.connectedWalletAPI = new EnabledWalletEmulator();
+    if (!this.provider) throw new Error('Provider not initialized');
+    this.connectedWalletAPI = new EnabledWalletEmulator(this.provider);
   }
 
   public async signMessage(message: string) {
