@@ -2,12 +2,7 @@
 /* eslint-disable multiline-comment-style */
 /* eslint-disable capitalized-comments */
 import type UniversalProvider from '@walletconnect/universal-provider/dist/types/UniversalProvider';
-import type {
-  Cbor,
-  DataSignature,
-  EnabledAPI,
-  Paginate
-} from '../types/CardanoInjected';
+import type { Cbor, DataSignature, EnabledAPI, Paginate } from '../types/CardanoInjected';
 
 /**
  * This class is used to emulate the Cardano Wallet API's content script.
@@ -94,7 +89,7 @@ export class EnabledWalletEmulator implements EnabledAPI {
       }
     });
   }
-  public async onNetworkChange (callback: (network: number) ){
+  public async onNetworkChange(callback: (network: number) => Promise<undefined>) {
     return new Promise<undefined>((resolve, reject) => {
       try {
         this.provider.on('cardano_onNetworkChange', callback);
