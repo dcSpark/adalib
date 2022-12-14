@@ -112,13 +112,13 @@ export class InjectedConnector extends BaseConnector implements Connector {
     return Boolean(this.getProvider());
   }
 
-  public async enable(): Promise<EnabledAPI | undefined> {
+  public async enable(): Promise<EnabledAPI> {
     const targetWalletName = this.injectedWalletPath.split('.').pop() as WalletNames;
     this.enabledWallet = targetWalletName;
 
     const cardano = (window as any).cardano;
 
-    if (typeof cardano === 'undefined') return;
+    if (typeof cardano === 'undefined') throw new Error('Cardano object not found on window');
 
     if (typeof cardano[targetWalletName].isEnabled === 'function') {
       const api = (await cardano[targetWalletName].enable()) as Omit<
@@ -158,7 +158,7 @@ export class InjectedConnector extends BaseConnector implements Connector {
 
       return api;
     } else {
-      return;
+      throw new Error('Wallet does not support CIP-30');
     }
   }
 

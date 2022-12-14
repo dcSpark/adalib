@@ -39,7 +39,7 @@ export interface Connector {
   getConnectorAPI: () => EnabledAPI | undefined;
   // Tx construction is dapp responsibility
 
-  enable: () => Promise<EnabledAPI | undefined>;
+  enable: () => Promise<EnabledAPI>;
 
   isEnabled: () => Promise<boolean>;
 }

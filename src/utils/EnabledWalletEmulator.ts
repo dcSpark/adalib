@@ -3,14 +3,11 @@
 /* eslint-disable capitalized-comments */
 import type UniversalProvider from '@walletconnect/universal-provider/dist/types/UniversalProvider';
 import type {
-  CardanoContentScriptApi,
   Cbor,
   DataSignature,
   EnabledAPI,
-  InjectAsWallet,
   Paginate
 } from '../types/CardanoInjected';
-import type { PerWalletNamespace } from '../types/CardanoInjected';
 
 /**
  * This class is used to emulate the Cardano Wallet API's content script.

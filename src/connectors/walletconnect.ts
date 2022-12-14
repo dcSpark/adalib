@@ -2,17 +2,12 @@
 import type UniversalProvider from '@walletconnect/universal-provider';
 import type { Connector } from './base';
 import { BaseConnector } from './base';
-import type {
-  EnabledAPI,
-  TransactionArgs,
-  TransactionType,
-  WalletNames
-} from '../types/CardanoInjected';
-import base58 from 'bs58';
-import { PublicKey } from '@solana/web3.js';
+import type { EnabledAPI, WalletNames } from '../types/CardanoInjected';
+import { ProtocolMagic } from '../types/CardanoInjected';
+
 import { UniversalProviderFactory } from '../utils/universalProvider';
-import { getAddress, getCluster, getProjectId, setAddress } from '../store';
-import { Buffer } from 'buffer';
+import { getProjectId, setAddress } from '../store';
+
 import { EnabledWalletEmulator } from '../utils/EnabledWalletEmulator';
 
 export interface WalletConnectAppMetadata {
@@ -89,8 +84,8 @@ export class WalletConnectConnector extends BaseConnector implements Connector {
         }
       });
   }
-  enabledWallet: WalletNames | undefined;
-  connectedWalletAPI: EnabledAPI | undefined;
+  public enabledWallet: WalletNames | undefined;
+  private connectedWalletAPI: EnabledAPI | undefined;
 
   public static readonly connectorName = 'walletconnect';
 
@@ -122,70 +117,19 @@ export class WalletConnectConnector extends BaseConnector implements Connector {
     return provider;
   }
 
-  public enable(): void {
+  public async enable() {
     // step 1: pair
-
+    await this.connect();
     // step 2: initialize enabled Api
     if (!this.provider) throw new Error('Provider not initialized');
-    this.connectedWalletAPI = new EnabledWalletEmulator(this.provider);
+    const emulatedAPI = new EnabledWalletEmulator(this.provider);
+    this.connectedWalletAPI = emulatedAPI;
+
+    return emulatedAPI;
   }
 
-  public async signMessage(message: string) {
-    const address = getAddress();
-    if (!address) throw new Error('No signer connected');
-
-    const signedMessage = await this.request('solana_signMessage', {
-      message: base58.encode(new TextEncoder().encode(message)),
-      pubkey: address
-    });
-    const { signature } = signedMessage;
-
-    return signature;
-  }
-
-  public async signTransaction<Type extends keyof TransactionArgs>(
-    type: Type,
-    params: TransactionArgs[Type]['params']
-  ) {
-    const transaction = await this.constructTransaction(type, params);
-    console.log('Made transaction', transaction);
-
-    const transactionParams = {
-      feePayer: transaction.feePayer?.toBase58() ?? '',
-      instructions: transaction.instructions.map(instruction => ({
-        data: base58.encode(instruction.data),
-        keys: instruction.keys.map(key => ({
-          isWritable: key.isWritable,
-          isSigner: key.isSigner,
-          pubkey: key.pubkey.toBase58()
-        })),
-        programId: instruction.programId.toBase58()
-      })),
-      recentBlockhash: transaction.recentBlockhash ?? ''
-    };
-
-    console.log('Formatted transaction', transactionParams);
-
-    const res = await this.request('solana_signTransaction', transactionParams);
-    transaction.addSignature(
-      new PublicKey(getAddress() ?? ''),
-      Buffer.from(base58.decode(res.signature))
-    );
-
-    const validSig = transaction.verifySignatures();
-
-    if (!validSig) throw new Error('Signature invalid.');
-
-    console.log({ res, validSig });
-
-    return base58.encode(transaction.serialize());
-  }
-
-  public async signAndSendTransaction<Type extends TransactionType>(
-    type: Type,
-    params: TransactionArgs[Type]['params']
-  ) {
-    return this.sendTransaction(await this.signTransaction(type, params));
+  public getConnectorAPI(): EnabledAPI | undefined {
+    return this.connectedWalletAPI;
   }
 
   /**
@@ -202,17 +146,27 @@ export class WalletConnectConnector extends BaseConnector implements Connector {
    * We should rename this to `enable`
    */
   public async connect() {
-    const chosenCluster = getCluster();
-    const clusterId = `solana:${chosenCluster.id}`;
+    // const chosenCluster = getCluster();
+    const chainID = `cardano:${ProtocolMagic.MAINNET}`;
 
     const solanaNamespace = {
       solana: {
-        chains: [clusterId],
-        methods: ['solana_signMessage', 'solana_signTransaction'],
-        events: [],
-        rpcMap: {
-          [clusterId]: chosenCluster.endpoint
-        }
+        chains: [chainID],
+        methods: [
+          'cardano_signTx',
+          'cardano_signData',
+          'cardano_submitTx',
+          'cardano_getBalance',
+          'cardano_getCollateral',
+          'cardano_getUtxos',
+          'cardano_getNetworkId',
+          'cardano_getUsedAddresses',
+          'cardano_getUnusedAddress',
+          'cardano_getChangeAddress',
+          'cardano_getRewardAddress',
+          'cardano_getRewardAddresses'
+        ],
+        events: ['cardano_onNetworkChange', 'cardano_onAccountChange']
       }
     };
 
@@ -223,7 +177,7 @@ export class WalletConnectConnector extends BaseConnector implements Connector {
       provider.on('display_uri', (uri: string) => {
         if (this.qrcode)
           importW3mModalCtrl().then(ModalCtrl => {
-            ModalCtrl.open({ uri, standaloneChains: [clusterId] });
+            ModalCtrl.open({ uri, standaloneChains: [chainID] });
           });
         else resolve(uri);
       });
