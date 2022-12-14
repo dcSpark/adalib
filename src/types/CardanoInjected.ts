@@ -6,7 +6,7 @@ import type { TransactionResult } from './transaction';
 
 // Fake types just to make the API more readable
 type HexString = string;
-type Cbor<_T> = string;
+export type Cbor<_T> = string;
 type Hash32 = string;
 
 export interface Paginate {
@@ -91,6 +91,26 @@ export type WalletNames =
   | 'nami'
   | 'typhoncip30'
   | 'yoroi';
+
+/**
+ * Byron genesis file protocol configs
+ */
+export const ProtocolMagic = {
+  MAINNET: 764824073,
+  PREVIEW: 2,
+  PREPROD: 1
+};
+
+/**
+ * Shelley genesis file protocol configs
+ */
+export const NetworkMagic = {
+  MAINNET: 764824073,
+  PREVIEW: 2,
+  PREPROD: 1
+};
+
+export type EnabledAPI = Omit<typeof window.cardano, 'enable' | 'isEnabled'>;
 
 // CIP-30 Compliant
 export interface CardanoInjectedNamespaceApi {

@@ -1,3 +1,4 @@
+/* eslint-disable capitalized-comments */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable eqeqeq */
 /* eslint-disable no-eq-null */
@@ -18,7 +19,10 @@ import { setAddress } from '../store';
 import type {
   CardanoContentScriptApi,
   CardanoInjectedNamespaceApi,
+  CardanoInjectorEventMethods,
   DataSignature,
+  EnabledAPI,
+  InjectAsWallet,
   Paginate,
   PerWalletNamespace,
   TransactionArgs,
@@ -41,7 +45,7 @@ export interface PhantomPublicKey {
  * For the wallet connect connector, it creates a custom instance of the
  * enabled CIP-30 API that relays everything through the wallet connect relay.
  */
-export class InjectedConnector extends BaseConnector implements CardanoInjectedNamespaceApi {
+export class InjectedConnector extends BaseConnector implements Connector {
   private setLastConnectedWallet(walletName: string) {
     this.lastConnectedWallet = walletName;
   }
@@ -52,9 +56,10 @@ export class InjectedConnector extends BaseConnector implements CardanoInjectedN
    * The enabled wallet's name
    */
   public enabledWallet: WalletNames | undefined;
-  public connectedWalletAPI: Omit<typeof window.cardano, 'enable' | 'isEnabled'> | undefined;
+  public connectedWalletAPI: EnabledAPI | undefined;
   public lastConnectedWallet: string | undefined;
 
+  // Borrowed from cardano-connect-with-wallet library
   public enabledObserver = new Observable<boolean>(false);
   public isConnectingObserver = new Observable<boolean>(false);
   public enabledWalletObserver = new Observable<string | null>(null);
@@ -69,52 +74,6 @@ export class InjectedConnector extends BaseConnector implements CardanoInjectedN
       throw new Error('Injected wallet path must start at window');
     this.injectedWalletPath = injectedWallet;
   }
-  getNetworkId: () => Promise<number>;
-  getUtxos: (
-    amount?: string | undefined,
-    paginate?:
-      | Paginate
-      /* eslint-disable eqeqeq */
-      /* eslint-disable no-eq-null */
-      /* eslint-disable no-else-return */
-      /* eslint-disable consistent-return */
-      /* eslint-disable no-useless-return */
-      /* eslint-disable curly */
-      /* eslint-disable no-useless-catch */
-      | undefined
-  ) => Promise<string /* eslint-disable no-eq-null */[] | undefined>;
-  public async getBalance(): Promise<string> {
-    if (!(await this.isConnected())) {
-      throw new Error('Wallet is not connected');
-    }
-
-    return this.connectedWalletAPI!.getBalance();
-  }
-  getUsedAddresses: (
-    paginate?: Paginate | undefined
-  ) => Promise/* eslint-disable eqeqeq */ <string[]>;
-  getUnusedAddresses: (paginate?: Paginate | undefined) => Promise<string[]>;
-  getChangeAddress: () => Promise<string>;
-  getRewardAddress: () => Promise<string>;
-  getRewardAddresses: () => Promise<string[]>;
-  submitTx: (tx: string) => Promise<string>;
-  onAccountChange: (
-    callback: (addresses: string[]) => Promise</* eslint-disable eqeqeq */
-    /* eslint-disable no-eq-null */
-    /* eslint-disable no-else-return */
-    /* eslint-disable consistent-return */
-    /* eslint-disable no-useless-return */
-    /* eslint-disable curly */
-    /* eslint-disable no-useless-catch */
-    undefined>
-  ) => Promise<undefined>;
-  onNetworkChange: (callback: (network: number) => Promise<undefined>) => Promise<undefined>;
-  /* eslint-disable no-eq-null */
-  /* eslint-disable no-else-return */
-  /* eslint-disable consistent-return */
-  /* eslint-disable no-useless-return */
-  /* eslint-disable curly */
-  /* eslint-disable no-useless-catch */
 
   public static connectorName(walletName: string) {
     return `injected-${walletName}`;
@@ -125,9 +84,11 @@ export class InjectedConnector extends BaseConnector implements CardanoInjectedN
   }
 
   public async disconnect() {
-    const provider = await this.getProvider();
-    setAddress('');
-    provider.disconnect();
+    /*
+     * const provider = await this.getProvider();
+     * setAddress('');
+     * provider.disconnect();
+     */
   }
 
   protected async getProvider() {
@@ -151,7 +112,7 @@ export class InjectedConnector extends BaseConnector implements CardanoInjectedN
     return Boolean(this.getProvider());
   }
 
-  public async enable(): Promise<Omit<typeof window.cardano, 'enable' | 'isEnabled'> | undefined> {
+  public async enable(): Promise<EnabledAPI | undefined> {
     const targetWalletName = this.injectedWalletPath.split('.').pop() as WalletNames;
     this.enabledWallet = targetWalletName;
 
@@ -201,32 +162,27 @@ export class InjectedConnector extends BaseConnector implements CardanoInjectedN
     }
   }
 
-  public async connect() {
-    /*
-     * Provider is solana specific. Might need to implement a method here to detect which WC-supported wallets
-     * are injected into the namespace)
-     */
-    const resp = await (await this.getProvider()).connect();
-
-    if (resp?.publicKey) {
-      setAddress(resp.publicKey.toString());
-
-      return resp.publicKey.toString();
-    } else if (resp?.publickey) {
-      setAddress(resp.publickey.toString());
-
-      return resp.publickey.toString();
-    } else if (resp === true) {
-      const provider = await this.getProvider();
-      const pubkey = provider.pubkey || provider.publicKey;
-      setAddress(pubkey.toString());
-
-      return pubkey;
-    }
-
-    throw new Error('Failed to connect');
+  public async isEnabled(): Promise<boolean> {
+    return (
+      (this.enabledWallet != null &&
+        window.cardano[this.enabledWallet] != null &&
+        (await window.cardano[this.enabledWallet]?.isEnabled())) ??
+      false
+    );
   }
 
+  /**
+   * This is used for retrieving the enabled wallet's injected methods
+   * @returns an object of enabled CIP-30 methods to call on the connected wallet
+   * or undefined if the wallet is not connected.
+   */
+  public getConnectorAPI(): EnabledAPI | undefined {
+    return this.connectedWalletAPI;
+  }
+
+  /**
+   * @deprecated
+   */
   public async signData(addr: string, payload: string): Promise<DataSignature> {
     if (!(await this.isConnected())) {
       throw new Error('Wallet is not connected');
@@ -235,6 +191,9 @@ export class InjectedConnector extends BaseConnector implements CardanoInjectedN
     return this.connectedWalletAPI!.signData(addr, payload);
   }
 
+  /**
+   * @deprecated for example purposes only
+   */
   public async signTx(tx: string, partialSign?: boolean | undefined): Promise<string> {
     if (!(await this.isConnected())) {
       throw new Error('Wallet is not connected');
@@ -243,13 +202,15 @@ export class InjectedConnector extends BaseConnector implements CardanoInjectedN
     return this.connectedWalletAPI!.signTx(tx, partialSign);
   }
 
-  public async getCollateral(): Promise<string[]> {
-    if (!(await this.isConnected())) {
-      throw new Error('Wallet is not connected');
-    }
-
-    return this.connectedWalletAPI!.getCollateral();
-  }
+  // eslint-disable-next-line capitalized-comments
+  /*
+   * public async getCollateral(): Promise<string[]> {
+   *   if (!(await this.isConnected())) {
+   *     throw new Error('Wallet is not connected');
+   *   }
+   *   return this.connectedWalletAPI!.getCollateral();
+   * }
+   */
 
   public async isConnected(): Promise<boolean> {
     return (

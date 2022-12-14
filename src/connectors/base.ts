@@ -1,3 +1,5 @@
+/* eslint-disable capitalized-comments */
+/* eslint-disable multiline-comment-style */
 import type { PublicKey } from '@solana/web3.js';
 import { SystemProgram, Transaction, TransactionInstruction } from '@solana/web3.js';
 import type BN from 'bn.js';
@@ -13,6 +15,7 @@ import type {
   AccountInfo,
   ClusterRequestMethods,
   ClusterSubscribeRequestMethods,
+  EnabledAPI,
   FilterObject,
   RequestMethods,
   TransactionArgs,
@@ -28,30 +31,30 @@ import type { BlockResult } from '../types/block';
 
 export interface Connector {
   enabledWallet: WalletNames | undefined;
-  connectedWalletAPI: Omit<typeof window.cardano, 'enable' | 'isEnabled'> | undefined;
+  connectedWalletAPI: EnabledAPI | undefined;
 
   getConnectorName: () => string;
 
   // Solana specific
-  getConnectorAPI: () => Omit<typeof window.cardano, 'enable' | 'isEnabled'>;
+  getConnectorAPI: () => EnabledAPI | undefined;
   // Tx construction is dapp responsibility
 
-  enable: () => Omit<typeof window.cardano, 'enable' | 'isEnabled'>;
+  enable: () => Promise<EnabledAPI | undefined>;
 
-  isEnabled: () => boolean;
+  isEnabled: () => Promise<boolean>;
 }
 
 // Look at the cardano library to adapt it for this implementation
 export class BaseConnector {
-  private enabledWallet: WalletNames | undefined;
-  private connectedWalletAPI: Omit<typeof window.cardano, 'enable' | 'isEnabled'> | undefined;
+  // private enabledWallet: WalletNames | undefined;
+  // private connectedWalletAPI: Omit<typeof window.cardano, 'enable' | 'isEnabled'> | undefined;
 
   public getConnectorName() {
     return 'base';
   }
 
   // Solana specific
-  public getConnectorAPI(): Omit<typeof window.cardano, 'enable' | 'isEnabled'> {
+  public getConnectorAPI(): EnabledAPI | undefined {
     throw new Error('Not allowed on base connector');
   }
 

@@ -1,12 +1,18 @@
 import type UniversalProvider from '@walletconnect/universal-provider';
 import type { Connector } from './base';
 import { BaseConnector } from './base';
-import type { TransactionArgs, TransactionType } from '../types/CardanoInjected';
+import type {
+  EnabledAPI,
+  TransactionArgs,
+  TransactionType,
+  WalletNames
+} from '../types/CardanoInjected';
 import base58 from 'bs58';
 import { PublicKey } from '@solana/web3.js';
 import { UniversalProviderFactory } from '../utils/universalProvider';
 import { getAddress, getCluster, getProjectId, setAddress } from '../store';
 import { Buffer } from 'buffer';
+import { EnabledWalletEmulator } from '../utils/EnabledWalletEmulator';
 
 export interface WalletConnectAppMetadata {
   name: string;
@@ -82,6 +88,8 @@ export class WalletConnectConnector extends BaseConnector implements Connector {
         }
       });
   }
+  enabledWallet: WalletNames | undefined;
+  connectedWalletAPI: EnabledAPI | undefined;
 
   public static readonly connectorName = 'walletconnect';
 
@@ -111,6 +119,13 @@ export class WalletConnectConnector extends BaseConnector implements Connector {
     const provider = await UniversalProviderFactory.getProvider();
 
     return provider;
+  }
+
+  public enable(): void {
+    // step 1: pair
+
+    // step 2: initialize enabled Api
+    this.connectedWalletAPI = new EnabledWalletEmulator();
   }
 
   public async signMessage(message: string) {
@@ -182,6 +197,7 @@ export class WalletConnectConnector extends BaseConnector implements Connector {
    * QRCode.
    *
    * Cardano Note: We'll use cardano_ to prevent overlap in WC Modal product
+   * We should rename this to `enable`
    */
   public async connect() {
     const chosenCluster = getCluster();
