@@ -1,11 +1,16 @@
 /**
  * TODO: Place cardano wallet connect library store schema in here.
  * Update it the same way in injected and wallet-connect connectors.
+ * Actually, managing localstorage wallet connection info should remain
+ * a responsibility of the dapp in this particular instance.
+ * This library is explicitly for connecting a wallet via walletconnect.
+ * While it emulates similar functionality to the cf connect-wallet library,
+ * it is not an all-in-one solution for connecting a wallet.
  */
 
 import { proxy, subscribe } from 'valtio/vanilla';
 import type { Connector } from '../connectors/base';
-import type { Cluster } from '../types/cluster';
+import type { Chain } from '../types/chain';
 
 export interface StoreConfig {
   /**
@@ -24,13 +29,13 @@ export interface StoreConfig {
    * `mainnetBetaWalletConnect` which will communicate with the Solana mainnet
    * using WalletConnect's RPC
    */
-  chosenCluster: Cluster;
+  chosenChain: Chain;
 }
 
 interface State {
   connectors: Connector[];
   connectorName: string;
-  chosenCluster: Cluster;
+  // chosenCluster: Cluster;
   requestId: number;
   walletConnectProjectId: string;
   socket?: WebSocket;
@@ -39,11 +44,11 @@ interface State {
 
 const store: State = proxy<State>({
   connectors: [],
-  chosenCluster: {
-    name: '',
-    id: '',
-    endpoint: ''
-  },
+  // chosenCluster: {
+  //   name: '',
+  //   id: '',
+  //   endpoint: ''
+  // },
   walletConnectProjectId: '',
   requestId: 0,
   connectorName: ''
@@ -108,11 +113,11 @@ export function getConnectorIsAvailable(name: string) {
   return connector.isAvailable();
 }
 
-export function setCluster(cluster: Cluster) {
+export function setCluster(cluster: Chain) {
   set('chosenCluster', cluster);
 }
 
-export function watchCluster(callback: (clusterName: Cluster) => void) {
+export function watchCluster(callback: (clusterName: Chain) => void) {
   console.log('Subscribing to cluster');
   const unsub = subscribe(store, ops => {
     const clusterChangedOp = ops.find(op => op[1].includes('chosenCluster'));
@@ -122,7 +127,7 @@ export function watchCluster(callback: (clusterName: Cluster) => void) {
     if (clusterChangedOp)
       callback({
         id,
-        name,
+        chainType: name,
         endpoint
       });
   });

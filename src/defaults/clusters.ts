@@ -1,44 +1,39 @@
-import { getProjectId } from '../store'
-import type { Cluster } from '../types/cluster'
+/* eslint-disable capitalized-comments */
+/* eslint-disable no-inline-comments */
+/* eslint-disable line-comment-position */
+import { getProjectId } from '../store';
+import { ProtocolMagic } from '../types/CardanoInjected';
+import type { Chain } from '../types/chain';
 
-export const mainnetBetaProjectSerum: Cluster = {
-  name: 'mainnetBeta',
-  id: '4sGjMW1sUnHzSxGspuhpqLDx6wiyjNtZ',
-  endpoint: `https://solana-api.projectserum.com`
-}
-
-export const mainnetBeta: Cluster = {
-  name: 'mainnetBeta',
-  id: '4sGjMW1sUnHzSxGspuhpqLDx6wiyjNtZ',
-  endpoint: `https://api.mainnet-beta.solana.com`
-}
-
-/**
- * TODO: Figure out how we can get an RPC server deployed under the walletconnect domain to accept request JSONs for cardano chainId
- */
-
-export function mainnetBetaWalletConnect() {
-  return {
-    name: 'mainnetBeta',
-    id: '4sGjMW1sUnHzSxGspuhpqLDx6wiyjNtZ',
-    endpoint: `https://rpc.walletconnect.com/v1?chainId=solana:4sGjMW1sUnHzSxGspuhpqLDx6wiyjNtZ&projectId=${getProjectId()}`
-  }
-}
-
-export const testnet: Cluster = {
-  name: 'testnet',
-  id: '8E9rvCKLFQia2Y35HXjjpWzj8weVo44K',
-  endpoint: 'https://api.testnet.solana.com'
-}
-
-export const devnet: Cluster = {
-  name: 'devnet',
-  id: '8E9rvCKLFQia2Y35HXjjpWzj8weVo44K',
-  endpoint: 'https://api.devnet.solana.com'
-}
-
-export const mainnetBetaBlockDaemon: Cluster = {
+export const mainnet: Chain = {
+  chainType: 'cardano', // required
   name: 'mainnet',
-  id: '4sGjMW1sUnHzSxGspuhpqLDx6wiyjNtZ',
-  endpoint: 'https://try-rpc.mainnet.solana.blockdaemon.tech/'
+  networkId: '1',
+  protocolMagic: `${ProtocolMagic.MAINNET}` // required
+};
+
+export const preprod: Chain = {
+  chainType: 'cardano',
+  name: 'testnet',
+  networkId: '0',
+  protocolMagic: `${ProtocolMagic.PREPROD}`
+};
+
+export const preview: Chain = {
+  chainType: 'cardano',
+  name: 'preview',
+  networkId: '0',
+  protocolMagic: `${ProtocolMagic.PREVIEW}`
+};
+
+export function cardanoMainnetWalletConnect() {
+  return mainnet;
+}
+
+export function cardanoPreprodWalletConnect() {
+  return preprod;
+}
+
+export function cardanoPreviewWalletConnect() {
+  return preview;
 }

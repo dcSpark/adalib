@@ -1,13 +1,13 @@
-import { polyfill } from './utils/polyfill'
+import { polyfill } from './utils/polyfill';
 
-export * from './actions'
-export * from './defaults'
-export * from './connectors'
+export * from './actions';
+export * from './defaults';
+export * from './connectors';
 
-polyfill()
+polyfill();
 
-export type { Cluster } from './types/cluster'
-export type { StoreConfig } from './store/index'
-export type { WalletConnectAppMetadata } from './connectors/walletconnect'
+export type { Chain as Cluster } from './types/chain';
+export type { StoreConfig } from './store/index';
+export type { WalletConnectAppMetadata } from './connectors/walletconnect';
 
-export type { TransactionResult } from './types/transaction'
+export type { TransactionResult } from './types/transaction';

@@ -1,8 +1,8 @@
 export {
   mainnetBetaProjectSerum,
-  mainnetBetaWalletConnect,
+  cardanoMainnetWalletConnect as mainnetBetaWalletConnect,
   mainnetBetaBlockDaemon,
   mainnetBeta,
   devnet,
   testnet
-} from './clusters'
+} from './clusters';

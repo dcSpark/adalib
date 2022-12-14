@@ -53,7 +53,7 @@ init(
     // The name of the cluster and network to use.
     // Here, `mainnetBeta` refers to the mainnetBeta Solana network, while
     // `WalletConnect` is the RPC server thhat will be used to do the communication
-    chosenCluster: mainnetBetaWalletConnect()
+    chosenCluster: cardanoMainnetWalletConnect()
   },
   WALLETCONNECT_PROJECT_ID
 )

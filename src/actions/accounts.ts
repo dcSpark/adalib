@@ -1,59 +1,59 @@
-import type { Cluster } from '../types/cluster'
+import type { Chain } from '../types/chain';
 import {
   getAddress as storeGetAddress,
   getCluster,
   setCluster,
   watchAddress as storeWatchAddress,
   watchCluster
-} from '../store'
-import { withConnector } from '../utils/connector'
+} from '../store';
+import { withConnector } from '../utils/connector';
 
 export async function connect() {
   return withConnector(async connector => {
-    return connector.connect()
-  })
+    return connector.connect();
+  });
 }
 
 export async function signMessage(message: string) {
   return withConnector(async connector => {
-    return connector.signMessage(message)
-  })
+    return connector.signMessage(message);
+  });
 }
 
 export async function getAccount(requestedAddress?: string) {
   return withConnector(async connector => {
-    return connector.getAccount(requestedAddress, 'jsonParsed')
-  })
+    return connector.getAccount(requestedAddress, 'jsonParsed');
+  });
 }
 
 export async function getBalance(requestedAddress?: string) {
   return withConnector(async connector => {
-    return connector.getBalance(requestedAddress)
-  })
+    return connector.getBalance(requestedAddress);
+  });
 }
 
 export function getAddress() {
-  return storeGetAddress()
+  return storeGetAddress();
 }
 
 export function watchAddress(callback: (address?: string) => void) {
-  return storeWatchAddress(callback)
+  return storeWatchAddress(callback);
 }
 
-export function switchNetwork(cluster: Cluster) {
-  setCluster(cluster)
+export function switchNetwork(cluster: Chain) {
+  setCluster(cluster);
 }
 
 export function getNetwork() {
-  return getCluster()
+  return getCluster();
 }
 
-export function watchNetwork(callback: (cluster: Cluster) => void) {
-  return watchCluster(callback)
+export function watchNetwork(callback: (cluster: Chain) => void) {
+  return watchCluster(callback);
 }
 
 export async function disconnect() {
   return withConnector(async connector => {
-    return connector.disconnect()
-  })
+    return connector.disconnect();
+  });
 }
