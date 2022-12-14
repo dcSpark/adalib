@@ -1,3 +1,4 @@
+/* eslint-disable no-warning-comments */
 /* eslint-disable multiline-comment-style */
 /* eslint-disable capitalized-comments */
 import type UniversalProvider from '@walletconnect/universal-provider/dist/types/UniversalProvider';
@@ -78,10 +79,26 @@ export class EnabledWalletEmulator implements EnabledAPI {
   //   public isConnected: () => Promise<boolean>;
 
   // TODO: Implement provider listeners to listen for these events and trigger callback
-  public onAccountChange: (
-    callback: (addresses: string[]) => Promise<undefined>
-  ) => Promise<undefined>;
-  public onNetworkChange: (callback: (network: number) => Promise<undefined>) => Promise<undefined>;
+  public async onAccountChange(callback: (addresses: Cbor<'address'>[]) => Promise<undefined>) {
+    return new Promise<undefined>((resolve, reject) => {
+      try {
+        this.provider.on('cardano_onAccountChange', callback);
+        resolve(undefined);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+  public async onNetworkChange (callback: (network: number) ){
+    return new Promise<undefined>((resolve, reject) => {
+      try {
+        this.provider.on('cardano_onNetworkChange', callback);
+        resolve(undefined);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
 
   public constructor(provider: UniversalProvider) {
     this.provider = provider;
