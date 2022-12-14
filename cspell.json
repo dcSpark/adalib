@@ -4,12 +4,14 @@
     "dictionaryDefinitions": [],
     "dictionaries": [],
     "words": [
+        "autoconnect",
         "bech",
         "bech32",
         "ccvault",
         "gerowallet",
         "nami",
         "PREPROD",
+        "qrcode",
         "typhon",
         "typhoncip",
         "yoroi"
