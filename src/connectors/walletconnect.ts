@@ -43,6 +43,7 @@ async function loadW3mModal() {
 export class WalletConnectConnector extends BaseConnector implements Connector {
   protected provider: UniversalProvider | undefined;
   protected qrcode: boolean;
+  private enabled = false;
 
   public constructor({
     relayerRegion,
@@ -85,7 +86,7 @@ export class WalletConnectConnector extends BaseConnector implements Connector {
       });
   }
   public enabledWallet: WalletNames | undefined;
-  private connectedWalletAPI: EnabledAPI | undefined;
+  public connectedWalletAPI: EnabledAPI | undefined;
 
   public static readonly connectorName = 'walletconnect';
 
@@ -111,6 +112,10 @@ export class WalletConnectConnector extends BaseConnector implements Connector {
     return true;
   }
 
+  public async isEnabled(): Promise<boolean> {
+    return Promise.resolve(this.enabled);
+  }
+
   protected async getProvider() {
     const provider = await UniversalProviderFactory.getProvider();
 
@@ -120,6 +125,7 @@ export class WalletConnectConnector extends BaseConnector implements Connector {
   public async enable() {
     // step 1: pair
     await this.connect();
+    this.enabled = true;
     // step 2: initialize enabled Api
     if (!this.provider) throw new Error('Provider not initialized');
     const emulatedAPI = new EnabledWalletEmulator(this.provider);
@@ -149,7 +155,7 @@ export class WalletConnectConnector extends BaseConnector implements Connector {
     // const chosenCluster = getCluster();
     const chainID = `cardano:${ProtocolMagic.MAINNET}`;
 
-    const solanaNamespace = {
+    const cardanoNamespace = {
       solana: {
         chains: [chainID],
         methods: [
@@ -185,7 +191,7 @@ export class WalletConnectConnector extends BaseConnector implements Connector {
       provider
         .connect({
           pairingTopic: undefined,
-          namespaces: solanaNamespace
+          namespaces: cardanoNamespace
         })
         .then(providerResult => {
           if (!providerResult) throw new Error('Failed connection.');
@@ -193,7 +199,6 @@ export class WalletConnectConnector extends BaseConnector implements Connector {
           // (TODO update typing for provider)
           // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
           const address = providerResult.namespaces?.solana?.accounts[0]?.split(':')[2];
-
           if (address && this.qrcode) {
             setAddress(address);
             resolve(address);
