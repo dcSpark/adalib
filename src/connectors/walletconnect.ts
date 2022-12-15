@@ -66,7 +66,7 @@ export class WalletConnectConnector extends BaseConnector implements Connector {
     });
     UniversalProviderFactory.getProvider().then(provider => {
       provider.on('session_delete', () => {
-        delete provider.session.namespaces.solana;
+        delete provider.session.namespaces.cardano;
         setAddress('');
       });
     });
@@ -77,8 +77,8 @@ export class WalletConnectConnector extends BaseConnector implements Connector {
         console.log('Provider state', { provider });
         // (TODO update typing for provider)
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-        if (provider.session?.namespaces?.solana?.accounts?.length) {
-          const [defaultAccount] = provider.session.namespaces.solana.accounts;
+        if (provider.session?.namespaces?.cardano?.accounts?.length) {
+          const [defaultAccount] = provider.session.namespaces.cardano.accounts;
           console.log('Found accounts', defaultAccount);
           const address = defaultAccount.split(':')[2];
           setAddress(address);
@@ -198,7 +198,7 @@ export class WalletConnectConnector extends BaseConnector implements Connector {
 
           // (TODO update typing for provider)
           // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-          const address = providerResult.namespaces?.solana?.accounts[0]?.split(':')[2];
+          const address = providerResult.namespaces?.cardano?.accounts[0]?.split(':')[2];
           if (address && this.qrcode) {
             setAddress(address);
             resolve(address);
