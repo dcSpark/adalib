@@ -10,25 +10,55 @@ import { withConnector } from '../utils/connector';
 
 export async function connect() {
   return withConnector(async connector => {
-    return connector.connect();
+    return connector.enable();
   });
 }
 
-export async function signMessage(message: string) {
+export async function getCardanoAPI() {
   return withConnector(async connector => {
-    return connector.signMessage(message);
+    return Promise.resolve(connector.getConnectorAPI());
   });
 }
 
-export async function getAccount(requestedAddress?: string) {
+export async function signMessage(addr: string, payload: string) {
   return withConnector(async connector => {
-    return connector.getAccount(requestedAddress, 'jsonParsed');
+    return connector.getConnectorAPI()?.signData(addr, payload);
   });
 }
 
-export async function getBalance(requestedAddress?: string) {
+export async function getChangeAddress() {
   return withConnector(async connector => {
-    return connector.getBalance(requestedAddress);
+    return connector.getConnectorAPI()?.getChangeAddress();
+  });
+}
+
+export async function getRewardAddress() {
+  return withConnector(async connector => {
+    return connector.getConnectorAPI()?.getRewardAddress();
+  });
+}
+
+export async function getRewardAddresses() {
+  return withConnector(async connector => {
+    return connector.getConnectorAPI()?.getRewardAddresses();
+  });
+}
+
+export async function getBalance() {
+  return withConnector(async connector => {
+    return connector.getConnectorAPI()?.getBalance();
+  });
+}
+
+export async function getCollateral() {
+  return withConnector(async connector => {
+    return connector.getConnectorAPI()?.getCollateral();
+  });
+}
+
+export async function getUsedAddresses() {
+  return withConnector(async connector => {
+    return connector.getConnectorAPI()?.getUsedAddresses();
   });
 }
 

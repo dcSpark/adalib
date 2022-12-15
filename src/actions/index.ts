@@ -1,7 +1,6 @@
-export { init, switchConnector, getProjectId, setProjectId, getConnectorIsAvailable } from './main'
+export { init, switchConnector, getProjectId, setProjectId, getConnectorIsAvailable } from './main';
 export {
   connect,
-  getAccount,
   disconnect,
   getAddress,
   getBalance,
@@ -10,7 +9,7 @@ export {
   getNetwork,
   watchNetwork,
   watchAddress
-} from './accounts'
+} from './accounts';
 
 export {
   signAndSendTransaction,
@@ -19,6 +18,6 @@ export {
   watchTransaction,
   getTransaction,
   getFeeForMessage
-} from './transactions'
+} from './transactions';
 
-export { fetchName, fetchAddressFromDomain, getSolDomainsFromPublicKey } from './nameService'
+export { fetchName, fetchAddressFromDomain, getSolDomainsFromPublicKey } from './nameService';

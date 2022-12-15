@@ -1,3 +1,4 @@
+/* eslint-disable multiline-comment-style */
 /* eslint-disable capitalized-comments */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable eqeqeq */
@@ -117,19 +118,19 @@ export class InjectedConnector extends BaseConnector implements Connector {
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition, curly
         if (hexAddresses && hexAddresses.length > 0) {
           try {
-            const bech32Address = decodeHexAddress(hexAddresses[0]);
+            // const bech32Address = decodeHexAddress(hexAddresses[0]);
 
-            let networkType = NetworkType.MAINNET;
+            // let networkType = NetworkType.MAINNET;
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            if (bech32Address.startsWith('stake_test')) networkType = NetworkType.TESTNET;
+            // if (bech32Address.startsWith('stake_test')) networkType = NetworkType.TESTNET;
 
-            this.stakeAddressObserver.set(bech32Address);
-            this.enabledWalletObserver.set(targetWalletName);
-            this.enabledObserver.set(true);
-            if (targetWalletName === 'typhoncip30') this.setLastConnectedWallet('typhon');
-            else this.setLastConnectedWallet(targetWalletName);
+            // this.stakeAddressObserver.set(bech32Address);
+            // this.enabledWalletObserver.set(targetWalletName);
+            // this.enabledObserver.set(true);
+            // if (targetWalletName === 'typhoncip30') this.setLastConnectedWallet('typhon');
+            // else this.setLastConnectedWallet(targetWalletName);
 
-            window.dispatchEvent(new Event('storage'));
+            // window.dispatchEvent(new Event('storage'));
             this.connectedWalletAPI = api;
             // eslint-disable-next-line consistent-return
 
