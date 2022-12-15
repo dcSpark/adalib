@@ -51,9 +51,8 @@ init(
     // This can be switched later using `switchConnector` function.
     connectorName: WalletConnectConnector.connectorName,
     // The name of the cluster and network to use.
-    // Here, `mainnetBeta` refers to the mainnetBeta Solana network, while
-    // `WalletConnect` is the RPC server thhat will be used to do the communication
-    chosenCluster: cardanoMainnetWalletConnect()
+    // Here, `mainnet` refers to the cardano mainnet network, while
+    chosenChain: cardanoMainnetWalletConnect()
   },
   WALLETCONNECT_PROJECT_ID
 )

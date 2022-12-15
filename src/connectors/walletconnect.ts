@@ -98,7 +98,7 @@ export class WalletConnectConnector extends BaseConnector implements Connector {
     } finally {
       // (TODO update typing for provider)
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      delete provider.session?.namespaces?.solana;
+      delete provider.session?.namespaces?.cardano;
     }
 
     setAddress('');
@@ -156,7 +156,7 @@ export class WalletConnectConnector extends BaseConnector implements Connector {
     const chainID = `cardano:${ProtocolMagic.MAINNET}`;
 
     const cardanoNamespace = {
-      solana: {
+      cardano: {
         chains: [chainID],
         methods: [
           'cardano_signTx',
