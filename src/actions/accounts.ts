@@ -14,6 +14,13 @@ export async function connect() {
   });
 }
 
+/**
+ * This method returns the underlying CIP-30 implementation
+ * for whichever connector is active.
+ * This method may be all we need to allow the WC modal and dapps
+ * to use these connectors.
+ * @returns EnabledAPI
+ */
 export async function getCardanoAPI() {
   return withConnector(async connector => {
     return Promise.resolve(connector.getConnectorAPI());
