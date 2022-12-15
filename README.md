@@ -174,9 +174,9 @@ Example app written in react, for testing
 Actual source code.
 
 - actions: This where most of the developer public will live. Actions are what
-  developers will use to fetch and manipulate data on the solana blockchain
+  developers will use to fetch and manipulate data on the cardano blockchain
 - connectors: This is where connectors will live. Connectors are basically
-  adapters using wallet providers (Eg: Phantom). `base.ts` is a base class that
+  adapters using wallet providers (Eg: Flint). `base.ts` is a base class that
   has functionality for building connectors, as well as non-wallet-specific
   actions (eg: fetching wallet balance from the cluster)
 - defaults: This is where default things will live, like the clusters we have
@@ -186,9 +186,9 @@ Actual source code.
 - utils: Self explanatory.
 
 # Resources:
-
+<!-- 
 - [Web3Solana API Introduction](https://docs.solana.com/developing/clients/javascript-api)
 - [Solana JSONRPC API](https://docs.solana.com/developing/clients/jsonrpc-api)
 - [Solana Faucet for dev](https://solfaucet.com/)
 - [Phantom Docs](https://docs.phantom.app/integrating/extension-and-in-app-browser-web-apps/establishing-a-connection)
-- [solana/web3 API](https://solana-labs.github.io/solana-web3.js/modules.html)
+- [solana/web3 API](https://solana-labs.github.io/solana-web3.js/modules.html) -->
