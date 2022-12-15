@@ -42,6 +42,7 @@ export interface Connector {
   enable: () => Promise<EnabledAPI>;
 
   isEnabled: () => Promise<boolean>;
+  isAvailable: () => boolean;
 }
 
 // Look at the cardano library to adapt it for this implementation

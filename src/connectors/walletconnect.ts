@@ -81,6 +81,7 @@ export class WalletConnectConnector extends BaseConnector implements Connector {
           const [defaultAccount] = provider.session.namespaces.cardano.accounts;
           console.log('Found accounts', defaultAccount);
           const address = defaultAccount.split(':')[2];
+          // is this still necessary? Or only for solana RPC queries?
           setAddress(address);
         }
       });

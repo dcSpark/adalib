@@ -11,24 +11,9 @@ import {
   decodeHexAddress,
   NetworkType,
   Observable,
-  WalletNotCip30CompatibleError,
-  WrongNetworkTypeError
+  WalletNotCip30CompatibleError
 } from '@cardano-foundation/cardano-connect-with-wallet';
-import base58 from 'bs58';
-import { setAddress } from '../store';
-import type {
-  CardanoContentScriptApi,
-  CardanoInjectedNamespaceApi,
-  CardanoInjectorEventMethods,
-  DataSignature,
-  EnabledAPI,
-  InjectAsWallet,
-  Paginate,
-  PerWalletNamespace,
-  TransactionArgs,
-  TransactionType,
-  WalletNames
-} from '../types/CardanoInjected';
+import type { DataSignature, EnabledAPI, WalletNames } from '../types/CardanoInjected';
 import type { Connector } from './base';
 import { BaseConnector } from './base';
 
