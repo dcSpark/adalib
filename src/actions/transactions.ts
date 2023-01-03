@@ -40,15 +40,6 @@ export async function watchTransaction(
   });
 }
 
-export async function getFeeForMessage<Type extends TransactionType>(
-  type: Type,
-  transactionArgs: TransactionArgs[Type]['params']
-) {
-  return withConnector(async connector => {
-    return connector.getFeeForMessage(type, transactionArgs);
-  });
-}
-
 export async function getBlock(blockSlot: number) {
   return withConnector(async connector => {
     return connector.getBlock(blockSlot);

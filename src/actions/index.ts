@@ -15,9 +15,5 @@ export {
   signAndSendTransaction,
   signTransaction,
   sendTransaction,
-  watchTransaction,
-  getTransaction,
-  getFeeForMessage
+  getTransaction
 } from './transactions';
-
-export { fetchName, fetchAddressFromDomain, getSolDomainsFromPublicKey } from './nameService';
