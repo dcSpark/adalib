@@ -9,20 +9,27 @@
 /* eslint-disable curly */
 /* eslint-disable no-useless-catch */
 import {
-  decodeHexAddress,
-  NetworkType,
   Observable,
   WalletNotCip30CompatibleError
 } from '@cardano-foundation/cardano-connect-with-wallet';
-import type { DataSignature, EnabledAPI, WalletNames } from '../types/CardanoInjected';
+import type {
+  CardanoInjectedNamespaceApi,
+  DataSignature,
+  EnabledAPI,
+  WalletNames
+} from '../types/CardanoInjected';
 import type { Connector } from './base';
 import { BaseConnector } from './base';
 
-export interface PhantomPublicKey {
-  length: number;
-  negative: number;
-  words: Uint8Array;
-  toString: () => string;
+/**
+ * Cardano methods are injected.
+ * The InjectedConnector utilizes these cip-30 methods to
+ * comply with the Connector abstraction under the hood.
+ */
+declare global {
+  interface Window {
+    cardano?: CardanoInjectedNamespaceApi;
+  }
 }
 
 /**
@@ -32,9 +39,9 @@ export interface PhantomPublicKey {
  * enabled CIP-30 API that relays everything through the wallet connect relay.
  */
 export class InjectedConnector extends BaseConnector implements Connector {
-  private setLastConnectedWallet(walletName: string) {
-    this.lastConnectedWallet = walletName;
-  }
+  // private setLastConnectedWallet(walletName: string) {
+  //   this.lastConnectedWallet = walletName;
+  // }
 
   public injectedWalletPath: string;
 
@@ -70,47 +77,23 @@ export class InjectedConnector extends BaseConnector implements Connector {
   }
 
   public async disconnect() {
-    /*
-     * const provider = await this.getProvider();
-     * setAddress('');
-     * provider.disconnect();
-     */
-  }
+    this.connectedWalletAPI = undefined;
+    this.enabledWallet = undefined;
+    this.enabledObserver.set(false);
 
-  protected async getProvider() {
-    const providerPath = this.injectedWalletPath.split('.').slice(1);
-
-    if (typeof window !== 'undefined') {
-      /* eslint-disable @typescript-eslint/no-explicit-any */
-      const injectedWalletProvider = providerPath.reduce<any>((provider, accessor) => {
-        if (provider) return provider[accessor];
-
-        return null;
-      }, window);
-
-      if (injectedWalletProvider) return Promise.resolve(injectedWalletProvider);
-    }
-
-    return Promise.resolve(null);
-  }
-
-  public isAvailable(): boolean {
-    return Boolean(this.getProvider());
+    return Promise.resolve();
   }
 
   public async enable(): Promise<EnabledAPI> {
     const targetWalletName = this.injectedWalletPath.split('.').pop() as WalletNames;
     this.enabledWallet = targetWalletName;
 
-    const cardano = (window as any).cardano;
+    const cardano = window.cardano;
 
     if (typeof cardano === 'undefined') throw new Error('Cardano object not found on window');
-
-    if (typeof cardano[targetWalletName].isEnabled === 'function') {
-      const api = (await cardano[targetWalletName].enable()) as Omit<
-        typeof window.cardano,
-        'enable' | 'isEnabled'
-      >;
+    const injectedWalletObject = cardano[targetWalletName];
+    if (injectedWalletObject != null && typeof injectedWalletObject.isEnabled === 'function') {
+      const api = await injectedWalletObject.enable();
 
       if (typeof api.getRewardAddresses === 'function') {
         const hexAddresses = await api.getRewardAddresses();
@@ -187,16 +170,6 @@ export class InjectedConnector extends BaseConnector implements Connector {
 
     return this.connectedWalletAPI!.signTx(tx, partialSign);
   }
-
-  // eslint-disable-next-line capitalized-comments
-  /*
-   * public async getCollateral(): Promise<string[]> {
-   *   if (!(await this.isConnected())) {
-   *     throw new Error('Wallet is not connected');
-   *   }
-   *   return this.connectedWalletAPI!.getCollateral();
-   * }
-   */
 
   public async isConnected(): Promise<boolean> {
     return (

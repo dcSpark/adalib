@@ -44,6 +44,10 @@ export class WalletConnectConnector extends BaseConnector implements Connector {
   protected provider: UniversalProvider | undefined;
   protected qrcode: boolean;
   private enabled = false;
+  public enabledWallet: WalletNames | undefined;
+  public connectedWalletAPI: EnabledAPI | undefined;
+
+  public static readonly connectorName = 'walletconnect';
 
   public constructor({
     relayerRegion,
@@ -86,20 +90,19 @@ export class WalletConnectConnector extends BaseConnector implements Connector {
         }
       });
   }
-  public enabledWallet: WalletNames | undefined;
-  public connectedWalletAPI: EnabledAPI | undefined;
-
-  public static readonly connectorName = 'walletconnect';
 
   public async disconnect() {
-    const provider = await UniversalProviderFactory.getProvider();
+    const provider = this.provider ? this.provider : await UniversalProviderFactory.getProvider();
 
     try {
       await provider.disconnect();
     } finally {
-      // (TODO update typing for provider)
+      // TODO: check if solib also deletes the session
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       delete provider.session?.namespaces?.cardano;
+      this.provider = undefined;
+      this.enabled = false;
+      this.connectedWalletAPI = undefined;
     }
 
     setAddress('');
@@ -153,7 +156,6 @@ export class WalletConnectConnector extends BaseConnector implements Connector {
    * We should rename this to `enable`
    */
   public async connect() {
-    // const chosenCluster = getCluster();
     const chainID = `cardano:${ProtocolMagic.MAINNET}`;
 
     const cardanoNamespace = {

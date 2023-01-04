@@ -6,7 +6,7 @@ import type { Cbor, DataSignature, EnabledAPI, Paginate } from '../types/Cardano
 
 /**
  * This class is used to emulate the Cardano Wallet API's content script.
- * It serves as an interface between the dapp and the WalleConnect provider relay.
+ * It serves as an interface between the dapp and the WalletConnect provider relay.
  * It simulates the API that the content script would provide to the dapp, and passes
  * each method's name and arguments to the provider relay when called.
  */

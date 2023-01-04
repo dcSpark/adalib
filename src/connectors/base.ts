@@ -15,7 +15,8 @@ export interface Connector {
   enable: () => Promise<EnabledAPI>;
 
   isEnabled: () => Promise<boolean>;
-  isAvailable: () => boolean;
+  // isAvailable: () => boolean;
+  disconnect: () => Promise<void>;
 }
 
 // Look at the cardano library to adapt it for this implementation
