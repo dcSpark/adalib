@@ -1,7 +1,7 @@
 import type { Chain } from '../types/chain';
 import {
   getAddress as storeGetAddress,
-  setCluster,
+  setChain,
   watchAddress as storeWatchAddress,
   watchCluster
 } from '../store';
@@ -76,8 +76,8 @@ export function watchAddress(callback: (address?: string) => void) {
   return storeWatchAddress(callback);
 }
 
-export function switchNetwork(cluster: Chain) {
-  setCluster(cluster);
+export function switchNetwork(chain: Chain) {
+  setChain(chain);
 }
 
 export async function getNetworkId() {

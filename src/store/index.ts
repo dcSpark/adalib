@@ -110,23 +110,26 @@ export function getActiveConnector() {
   return getConnector(id);
 }
 
+// probably unnecessary
 export function getConnectorIsAvailable(name: string) {
   const connector = getConnector(name);
 
   return connector.isAvailable();
 }
 
-export function setCluster(cluster: Chain) {
-  set('chosenCluster', cluster);
+export function setChain(cluster: Chain) {
+  set('chosenChain', cluster);
 }
 
+// todo: check if we need to use this to watch network changes
+// or can leave that responsibility to the dapp
 export function watchCluster(callback: (clusterName: Chain) => void) {
   console.log('Subscribing to cluster');
   const unsub = subscribe(store, ops => {
     const clusterChangedOp = ops.find(op => op[1].includes('chosenCluster'));
 
     // Making a copy to avoid sending the proxy object
-    const { id, name, endpoint } = store.chosenCluster;
+    const { id, name, endpoint } = store.chosenChain;
     if (clusterChangedOp)
       callback({
         id,
@@ -149,7 +152,7 @@ export function watchAddress(callback: (address?: string) => void) {
   return unsub;
 }
 
-export function getCluster() {
+export function getChain() {
   return get('chosenChain');
 }
 
