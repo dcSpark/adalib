@@ -6,7 +6,7 @@ export {
   getBalance,
   signMessage,
   switchNetwork,
-  getNetwork,
+  getNetworkId,
   watchNetwork,
   watchAddress
 } from './accounts';

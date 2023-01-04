@@ -4,11 +4,13 @@
     "dictionaryDefinitions": [],
     "dictionaries": [],
     "words": [
+        "adalib",
         "autoconnect",
         "bech",
         "bech32",
         "Cbor",
         "ccvault",
+        "dcspark",
         "gerowallet",
         "nami",
         "PREPROD",

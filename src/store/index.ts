@@ -1,3 +1,5 @@
+/* eslint-disable multiline-comment-style */
+/* eslint-disable capitalized-comments */
 /**
  * TODO: Place cardano wallet connect library store schema in here.
  * Update it the same way in injected and wallet-connect connectors.
@@ -25,9 +27,9 @@ export interface StoreConfig {
    */
   connectorName: string;
   /**
-   * Chosen cluster/network to communicate with. Options are exported. Eg:
-   * `mainnetBetaWalletConnect` which will communicate with the Solana mainnet
-   * using WalletConnect's RPC
+   * Chosen network to communicate with. Options are exported. Eg:
+   * `cardanoMainnetWalletConnect` which will communicate with the Cardano mainnet
+   * using the connected wallet.
    */
   chosenChain: Chain;
 }
@@ -35,7 +37,7 @@ export interface StoreConfig {
 interface State {
   connectors: Connector[];
   connectorName: string;
-  // chosenCluster: Cluster;
+  chosenChain: Chain;
   requestId: number;
   walletConnectProjectId: string;
   socket?: WebSocket;
@@ -44,11 +46,12 @@ interface State {
 
 const store: State = proxy<State>({
   connectors: [],
-  // chosenCluster: {
-  //   name: '',
-  //   id: '',
-  //   endpoint: ''
-  // },
+  chosenChain: {
+    chainType: '',
+    name: '',
+    networkId: '',
+    protocolMagic: ''
+  },
   walletConnectProjectId: '',
   requestId: 0,
   connectorName: ''
@@ -147,15 +150,7 @@ export function watchAddress(callback: (address?: string) => void) {
 }
 
 export function getCluster() {
-  return get('chosenCluster');
-}
-
-export function getSocket() {
-  return get('socket');
-}
-
-export function setSocket(socket: WebSocket) {
-  set('socket', socket);
+  return get('chosenChain');
 }
 
 export function setProjectId(projectId: string) {

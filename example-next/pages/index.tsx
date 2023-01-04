@@ -13,8 +13,8 @@ import {
   fetchName,
   fetchAddressFromDomain,
   getAccount
-} from '@dcspark/adalib'
-import { useCallback, useEffect, useState } from 'react'
+} from '@dcspark/adalib';
+import { useCallback, useEffect, useState } from 'react';
 import {
   Badge,
   Button,
@@ -27,62 +27,62 @@ import {
   NumberInputField,
   NumberInputStepper,
   useToast
-} from '@chakra-ui/react'
+} from '@chakra-ui/react';
 
 function Home() {
-  const toast = useToast()
-  console.log('Phantom is ready', getConnectorIsAvailable(PhantomConnector.connectorName()))
-  const [address, setAddress] = useState<string | undefined>('')
-  const [name, setName] = useState<string | undefined>('')
-  const [balance, setBalance] = useState<string | undefined>('')
-  const [signature, setSignature] = useState<string | undefined>('')
-  const [message, setMessage] = useState<string | undefined>('')
-  const [toAddress, setToAddress] = useState<string | undefined>('')
-  const [amount, setAmount] = useState<number>(0)
+  const toast = useToast();
+  console.log('Phantom is ready', getConnectorIsAvailable(PhantomConnector.connectorName()));
+  const [address, setAddress] = useState<string | undefined>('');
+  const [name, setName] = useState<string | undefined>('');
+  const [balance, setBalance] = useState<string | undefined>('');
+  const [signature, setSignature] = useState<string | undefined>('');
+  const [message, setMessage] = useState<string | undefined>('');
+  const [toAddress, setToAddress] = useState<string | undefined>('');
+  const [amount, setAmount] = useState<number>(0);
 
   useEffect(() => {
-    console.log('ya hey')
+    console.log('ya hey');
     watchAddress(address2 => {
-      console.log('Got address', address2)
-      setAddress(address2)
-    })
-  }, [setAddress])
+      console.log('Got address', address2);
+      setAddress(address2);
+    });
+  }, [setAddress]);
 
   useEffect(() => {
     if (address) {
-      getBalance().then(value => setBalance(value?.decimals.toString() ?? '0'))
+      getBalance().then(value => setBalance(value?.decimals.toString() ?? '0'));
       fetchName('FidaeBkZkvDqi1GXNEwB8uWmj9Ngx2HXSS5nyGRuVFcZ').then(name2 => {
-        setName(name2?.reverse ?? address)
-      })
+        setName(name2?.reverse ?? address);
+      });
       fetchAddressFromDomain('bonfida.sol').then(addr => {
-        console.log({ addressFromDomain: addr })
-      })
-      getAccount().then(acc => console.log({ accthing: acc?.rentEpoch }))
+        console.log({ addressFromDomain: addr });
+      });
+      getAccount().then(acc => console.log({ accthing: acc?.rentEpoch }));
     }
-  }, [address])
+  }, [address]);
 
   const onClick = useCallback(() => {
     connect().then(publicKey => {
-      console.log({ publicKey })
-    })
-  }, [])
+      console.log({ publicKey });
+    });
+  }, []);
 
   const onSign = useCallback((message2: string | undefined) => {
     if (message2)
       signMessage(message2).then(signature2 => {
-        setSignature(signature2 ?? '')
-      })
-  }, [])
+        setSignature(signature2 ?? '');
+      });
+  }, []);
 
   const onSendTransaction = useCallback(
     (to: string, amountInLamports: number) => {
-      console.log({ to, amountInLamports })
+      console.log({ to, amountInLamports });
 
       getFeeForMessage('transfer', {
         to,
         amountInLamports,
         feePayer: 'from'
-      }).then(fee => console.log({ fee }))
+      }).then(fee => console.log({ fee }));
 
       if (to && amountInLamports)
         signAndSendTransaction('transfer', {
@@ -90,19 +90,19 @@ function Home() {
           amountInLamports,
           feePayer: 'from'
         }).then(async result => {
-          console.log({ result })
+          console.log({ result });
           if (result)
             await watchTransaction(result, () => {
-              getTransaction(result).then(tra => console.log({ tra }))
+              getTransaction(result).then(tra => console.log({ tra }));
               toast({
                 status: 'success',
                 title: 'Transaction successful'
-              })
-            })
-        })
+              });
+            });
+        });
     },
     [toast]
-  )
+  );
 
   return (
     <div className="App">
@@ -128,13 +128,13 @@ function Home() {
                   type="text"
                   placeholder="Send to.."
                   onChange={({ target }) => {
-                    setToAddress(target.value)
+                    setToAddress(target.value);
                   }}
                 ></Input>
                 <NumberInput
                   placeholder="Amount to send"
                   onChange={(_, value) => {
-                    setAmount(value)
+                    setAmount(value);
                   }}
                 >
                   <NumberInputField />
@@ -166,7 +166,7 @@ function Home() {
         {name && <Flex>SNS Name: {name}</Flex>}
       </Flex>
     </div>
-  )
+  );
 }
 
-export default Home
+export default Home;

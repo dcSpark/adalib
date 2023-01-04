@@ -1,7 +1,6 @@
 import type { Chain } from '../types/chain';
 import {
   getAddress as storeGetAddress,
-  getCluster,
   setCluster,
   watchAddress as storeWatchAddress,
   watchCluster
@@ -81,8 +80,10 @@ export function switchNetwork(cluster: Chain) {
   setCluster(cluster);
 }
 
-export function getNetwork() {
-  return getCluster();
+export async function getNetworkId() {
+  return withConnector(async connector => {
+    return connector.getConnectorAPI()?.getNetworkId();
+  });
 }
 
 export function watchNetwork(callback: (cluster: Chain) => void) {

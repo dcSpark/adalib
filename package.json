@@ -2,7 +2,7 @@
   "name": "@dcspark/adalib",
   "description": "Cardano development utilities and wrappers",
   "version": "0.1",
-  "author": "WalletConnect, Inc. <walletconnect.com>",
+  "author": "dcSpark <dcspark.io>",
   "homepage": "https://github.com/dcspark/adalib/",
   "repository": {
     "type": "git",
