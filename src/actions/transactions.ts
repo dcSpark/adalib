@@ -1,47 +1,39 @@
-import type { TransactionArgs, TransactionType } from '../types/CardanoInjected';
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+import type { Cbor } from '../types/CardanoInjected';
 import { withConnector } from '../utils/connector';
 
-export async function signTransaction<Type extends TransactionType>(
-  type: Type,
-  transactionArgs: TransactionArgs[Type]['params']
-) {
+export async function signTx(
+  tx: Cbor<'transaction'>,
+  partialSign: boolean
+): Promise<Cbor<'transaction_witness_set'> | null | undefined> {
   return withConnector(async connector => {
-    return connector.signTransaction(type, transactionArgs);
+    const api = connector.getConnectorAPI();
+    if (!api) {
+      throw new Error(`API for connector is not enabled.`);
+    }
+
+    return api.signTx(tx, partialSign);
   });
 }
 
-export async function sendTransaction(encodedTransaction: string) {
+export async function submitTx(tx: string) {
   return withConnector(async connector => {
-    return connector.sendTransaction(encodedTransaction);
+    const api = connector.getConnectorAPI();
+    if (!api) {
+      throw new Error(`API for connector is not enabled.`);
+    }
+
+    return api.submitTx(tx);
   });
 }
 
-export async function getTransaction(encodedTransaction: string) {
+export async function signData(addr: string, payload: string) {
   return withConnector(async connector => {
-    return connector.getTransaction(encodedTransaction);
-  });
-}
+    const api = connector.getConnectorAPI();
+    if (!api) {
+      throw new Error(`API for connector is not enabled.`);
+    }
 
-export async function signAndSendTransaction<Type extends TransactionType>(
-  type: Type,
-  transactionArgs: TransactionArgs[Type]['params']
-) {
-  return withConnector(async connector => {
-    return connector.signAndSendTransaction(type, transactionArgs);
-  });
-}
-
-export async function watchTransaction(
-  transactionSignature: string,
-  callback: (params: unknown) => void
-) {
-  return withConnector(async connector => {
-    return connector.watchTransaction(transactionSignature, callback);
-  });
-}
-
-export async function getBlock(blockSlot: number) {
-  return withConnector(async connector => {
-    return connector.getBlock(blockSlot);
+    return api.signData(addr, payload);
   });
 }

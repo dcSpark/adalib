@@ -1,7 +1,4 @@
 /* eslint-disable capitalized-comments */
-import type { Transaction } from '@solana/web3.js';
-import type { BlockResult } from './block';
-import type { TransactionResult } from './transaction';
 
 // BEGIN CARDANO
 
@@ -298,74 +295,3 @@ export interface TransactionInstructionRq {
   data: string;
   keys: { isSigner: boolean; isWritable: boolean; pubkey: string }[];
 }
-
-// "requests" is solana specific
-// Below is not needed for Cardano
-export interface RequestMethods {
-  solana_signMessage: {
-    params: {
-      message: string;
-      pubkey: string;
-    };
-    returns: {
-      signature: string;
-    };
-  };
-  solana_signTransaction: {
-    params: {
-      feePayer: string;
-      instructions: TransactionInstructionRq[];
-      recentBlockhash: string;
-      signatures?: { pubkey: string; signature: string }[];
-    };
-    returns: {
-      signature: string;
-    };
-  };
-  signMessage: {
-    params: {
-      message: Uint8Array;
-      format: string;
-    };
-    returns: {
-      signature: string;
-    } | null;
-  };
-
-  signTransaction: {
-    params: {
-      // Serialized transaction
-      message: string;
-    };
-    returns: {
-      serialize: () => string;
-    } | null;
-  };
-}
-
-export interface TransactionArgs {
-  transfer: {
-    params: {
-      to: string;
-      amountInLamports: number;
-      feePayer: 'from' | 'to';
-    };
-  };
-  program: {
-    params: {
-      programId: string;
-      isWritableSender: boolean;
-      data: Record<string, unknown>;
-    };
-  };
-}
-
-declare global {
-  /* eslint-disable vars-on-top, no-var */
-
-  // Must be var. let or const variables doesn't show up on globalThis.
-  var cardano: CardanoInjectedNamespaceApi;
-
-  /* eslint-enable vars-on-top, no-var */
-}
-export type TransactionType = keyof TransactionArgs;

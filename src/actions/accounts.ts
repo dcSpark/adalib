@@ -1,10 +1,6 @@
+/* eslint-disable capitalized-comments */
 import type { Chain } from '../types/chain';
-import {
-  getAddress as storeGetAddress,
-  setChain,
-  watchAddress as storeWatchAddress,
-  watchCluster
-} from '../store';
+import { setChain } from '../store';
 import { withConnector } from '../utils/connector';
 
 export async function connect() {
@@ -26,55 +22,73 @@ export async function getCardanoAPI() {
   });
 }
 
-export async function signMessage(addr: string, payload: string) {
-  return withConnector(async connector => {
-    return connector.getConnectorAPI()?.signData(addr, payload);
-  });
-}
-
 export async function getChangeAddress() {
   return withConnector(async connector => {
-    return connector.getConnectorAPI()?.getChangeAddress();
+    const api = connector.getConnectorAPI();
+    if (!api) {
+      throw new Error(`API for connector is not enabled.`);
+    }
+
+    return api.getChangeAddress();
   });
 }
 
 export async function getRewardAddress() {
   return withConnector(async connector => {
-    return connector.getConnectorAPI()?.getRewardAddress();
+    const api = connector.getConnectorAPI();
+    if (!api) {
+      throw new Error(`API for connector is not enabled.`);
+    }
+
+    return api.getRewardAddress();
   });
 }
 
 export async function getRewardAddresses() {
   return withConnector(async connector => {
-    return connector.getConnectorAPI()?.getRewardAddresses();
+    const api = connector.getConnectorAPI();
+    if (!api) {
+      throw new Error(`API for connector is not enabled.`);
+    }
+
+    return api.getRewardAddresses();
   });
 }
 
 export async function getBalance() {
   return withConnector(async connector => {
-    return connector.getConnectorAPI()?.getBalance();
+    const api = connector.getConnectorAPI();
+    if (!api) {
+      throw new Error(`API for connector is not enabled.`);
+    }
+
+    return api.getBalance();
   });
 }
 
 export async function getCollateral() {
   return withConnector(async connector => {
-    return connector.getConnectorAPI()?.getCollateral();
+    const api = connector.getConnectorAPI();
+    if (!api) {
+      throw new Error(`API for connector is not enabled.`);
+    }
+
+    return api.getCollateral();
   });
 }
 
 export async function getUsedAddresses() {
   return withConnector(async connector => {
-    return connector.getConnectorAPI()?.getUsedAddresses();
+    const api = connector.getConnectorAPI();
+    if (!api) {
+      throw new Error(`API for connector is not enabled.`);
+    }
+
+    return api.getUsedAddresses();
   });
 }
 
-export function getAddress() {
-  return storeGetAddress();
-}
-
-export function watchAddress(callback: (address?: string) => void) {
-  return storeWatchAddress(callback);
-}
+// Local storage / subscription / callback methods
 
 export function switchNetwork(chain: Chain) {
   setChain(chain);
@@ -82,12 +96,13 @@ export function switchNetwork(chain: Chain) {
 
 export async function getNetworkId() {
   return withConnector(async connector => {
-    return connector.getConnectorAPI()?.getNetworkId();
-  });
-}
+    const api = connector.getConnectorAPI();
+    if (!api) {
+      throw new Error(`API for connector is not enabled.`);
+    }
 
-export function watchNetwork(callback: (cluster: Chain) => void) {
-  return watchCluster(callback);
+    return api.getNetworkId();
+  });
 }
 
 export async function disconnect() {

@@ -81,9 +81,13 @@ export function getAddress() {
 }
 
 export function setConnectorName(connectorId: string) {
+  // Get the names of all connectors from the store
   const connectorNames = store.connectors.map(connector => connector.getConnectorName());
+  // If the provided connectorId is a valid connector name
   if (connectorNames.some(connectorName => connectorName === connectorId))
+    // Set the connectorId as the connectorName in the store
     set('connectorName', connectorId);
+  // Throw an error with a helpful message
   else
     throw new Error(`No connector with name ${connectorId} exists,
      available options are: ${connectorNames.join(',')} `);
@@ -110,15 +114,8 @@ export function getActiveConnector() {
   return getConnector(id);
 }
 
-// probably unnecessary
-export function getConnectorIsAvailable(name: string) {
-  const connector = getConnector(name);
-
-  return connector.isAvailable();
-}
-
-export function setChain(cluster: Chain) {
-  set('chosenChain', cluster);
+export function setChain(chain: Chain) {
+  set('chosenChain', chain);
 }
 
 // todo: check if we need to use this to watch network changes
@@ -129,7 +126,7 @@ export function watchCluster(callback: (clusterName: Chain) => void) {
     const clusterChangedOp = ops.find(op => op[1].includes('chosenCluster'));
 
     // Making a copy to avoid sending the proxy object
-    const { id, name, endpoint } = store.chosenChain;
+    const { chainType, name, networkId, protocolMagic } = store.chosenChain;
     if (clusterChangedOp)
       callback({
         id,
