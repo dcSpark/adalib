@@ -9,5 +9,3 @@ polyfill();
 export type { Chain as Cluster } from './types/chain';
 export type { StoreConfig } from './store/index';
 export type { WalletConnectAppMetadata } from './connectors/walletconnect';
-
-export type { TransactionResult } from './types/transaction';

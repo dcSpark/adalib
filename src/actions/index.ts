@@ -2,18 +2,15 @@ export { init, switchConnector, getProjectId, setProjectId, getConnectorIsAvaila
 export {
   connect,
   disconnect,
-  getAddress,
   getBalance,
-  signMessage,
   switchNetwork,
   getNetworkId,
-  watchNetwork,
-  watchAddress
+  getCardanoAPI,
+  getRewardAddresses,
+  getUsedAddresses,
+  getChangeAddress,
+  getRewardAddress,
+  getCollateral
 } from './accounts';
 
-export {
-  signAndSendTransaction,
-  signTransaction,
-  sendTransaction,
-  getTransaction
-} from './transactions';
+export { signTx, signData, submitTx } from './transactions';

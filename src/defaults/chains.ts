@@ -1,7 +1,7 @@
 /* eslint-disable capitalized-comments */
 /* eslint-disable no-inline-comments */
 /* eslint-disable line-comment-position */
-import { getProjectId } from '../store';
+
 import { ProtocolMagic } from '../types/CardanoInjected';
 import type { Chain } from '../types/chain';
 

@@ -118,26 +118,6 @@ export function setChain(chain: Chain) {
   set('chosenChain', chain);
 }
 
-// todo: check if we need to use this to watch network changes
-// or can leave that responsibility to the dapp
-export function watchCluster(callback: (clusterName: Chain) => void) {
-  console.log('Subscribing to cluster');
-  const unsub = subscribe(store, ops => {
-    const clusterChangedOp = ops.find(op => op[1].includes('chosenCluster'));
-
-    // Making a copy to avoid sending the proxy object
-    const { chainType, name, networkId, protocolMagic } = store.chosenChain;
-    if (clusterChangedOp)
-      callback({
-        id,
-        chainType: name,
-        endpoint
-      });
-  });
-
-  return unsub;
-}
-
 export function watchAddress(callback: (address?: string) => void) {
   console.log('Subscribing to address');
   const unsub = subscribe(store, ops => {
