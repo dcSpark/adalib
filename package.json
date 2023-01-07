@@ -15,8 +15,8 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/solib.js",
-  "module": "./dist/solib.js",
+  "main": "./dist/adalib.js",
+  "module": "./dist/adalib.js",
   "types": "./dist/index.d.ts",
   "type": "module",
   "scripts": {
@@ -30,7 +30,7 @@
   },
   "keywords": [
     "wallet",
-    "solana",
+    "cardano",
     "web3",
     "crypto",
     "walletconnect"
