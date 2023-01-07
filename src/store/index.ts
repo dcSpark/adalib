@@ -44,6 +44,12 @@ interface State {
   address?: string;
 }
 
+/**
+ * A temporary global store for the connectors.
+ * Useful for setting the current connector and getting the current connector
+ * with exported CIP-30 helper emulated methods to ensure usage of the correct connector.
+ * Does not persist across page refreshes.
+ */
 const store: State = proxy<State>({
   connectors: [],
   chosenChain: {

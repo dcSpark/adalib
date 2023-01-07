@@ -106,7 +106,7 @@ function Home() {
 
   return (
     <div className="App">
-      <Heading mb="5em">Solib Example</Heading>
+      <Heading mb="5em">Adalib Example</Heading>
       <Flex gap="10" flexDirection="column" width={'100%'}>
         {!address && <Button onClick={onClick}>Connect</Button>}
         {address && (

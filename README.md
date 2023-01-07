@@ -2,7 +2,9 @@
 
 **Cardano** friendly API
 
-### TODO: Replace underlying connect logic with [CCWW](https://github.com/cardano-foundation/cardano-connect-with-wallet)
+Adalib implements a `Connector` interface that complies with WalletConnect's standards.
+
+It attempts to closely emulate the CIP-30 standard within the connectors. A dapp developer can use these connectors to retrieve the enabled CIP-30 API, and benefit from the included typings this library provides.
 
 ## WIP Capabilities
 
@@ -16,7 +18,6 @@
 - Send Transaction
 - Sign and send Transaction
 - Sign Message
-- ~~Watch Transactions~~
 
 ### Init
 
@@ -24,7 +25,12 @@ The init function needs to be called to prepare `adalib` to be able to call all
 the functions in its API.
 
 ```ts
-import { init } from 'adalib'
+import { 
+  init, 
+  cardanoMainnetWalletConnect,
+  FlintConnector, 
+  WalletConnectConnector 
+} from 'adalib'
 
 init(
   {
@@ -33,7 +39,7 @@ init(
     // extension, while WalletConnectConnector can be used to interact with all
     // wallets that support the WalletConnect protocol.
     connectors: [
-      new PhantomConnector(),
+      new FlintConnector(),
       new WalletConnectConnector({
         relayerRegion: 'wss://relay.walletconnect.com',
         metadata: {
@@ -50,8 +56,8 @@ init(
     // The connector needs to be registered in the connectors field above.
     // This can be switched later using `switchConnector` function.
     connectorName: WalletConnectConnector.connectorName,
-    // The name of the cluster and network to use.
-    // Here, `mainnet` refers to the cardano mainnet network, while
+    // The name of the chain and network to use.
+    // Here, `mainnet` refers to the cardano mainnet network.
     chosenChain: cardanoMainnetWalletConnect()
   },
   WALLETCONNECT_PROJECT_ID

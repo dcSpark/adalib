@@ -60,7 +60,7 @@ init({
   connectorName: WalletConnectConnector.connectorName,
   // The name of the cluster and network to use.
   // Here, `mainnetBeta` refers to the mainnetBeta Solana network, while
-  // `WalletConnect` is the RPC server thhat will be used to do the communication
+  // `WalletConnect` is the RPC server that will be used to do the communication
   chosenCluster: mainnetBetaWalletConnect(PROJECT_ID)
 }, PROJECT_ID)
 ```

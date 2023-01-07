@@ -1,7 +1,7 @@
 {
   "name": "@dcspark/adalib",
   "description": "Cardano development utilities and wrappers",
-  "version": "0.1",
+  "version": "0.0.1",
   "author": "dcSpark <dcspark.io>",
   "homepage": "https://github.com/dcspark/adalib/",
   "repository": {
@@ -45,14 +45,9 @@
     "buffer": "^6.0.3",
     "valtio": "1.7.0"
   },
-  "peerDependencies": {
-    "@solana/web3.js": "1.63.0",
-    "@web3modal/core": "^2.0.0-beta.5",
-    "@web3modal/ui": "^2.0.0-beta.5"
-  },
+  "peerDependencies": {},
   "devDependencies": {
     "@esbuild-plugins/node-globals-polyfill": "^0.1.1",
-    "@solana/web3.js": "1.63.0",
     "@types/bn.js": "5.1.1",
     "@typescript-eslint/eslint-plugin": "5.40.0",
     "@typescript-eslint/parser": "5.40.0",
