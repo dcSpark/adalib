@@ -26,7 +26,8 @@
     "preview": "vite preview",
     "lint": "eslint src/**/*.ts",
     "prettier": "prettier --check .",
-    "format": "prettier --check . -w"
+    "format": "prettier --check . -w",
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "wallet",
