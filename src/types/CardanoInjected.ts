@@ -169,7 +169,8 @@ export interface RequestMethodsCardano {
   cardano_signTransaction: {
     params: {
       feePayer: string;
-      instructions: TransactionInstructionRq[];
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      instructions: any[];
       recentBlockhash: string;
       signatures?: { pubkey: string; signature: string }[];
     };
@@ -196,102 +197,4 @@ export interface RequestMethodsCardano {
       serialize: () => string;
     } | null;
   };
-}
-
-// BEGIN SOLANA:
-export interface AccountInfo {
-  data: string[];
-  executable: boolean;
-  lamports: number;
-  owner: string;
-  rentEpoch: number;
-}
-
-export type FilterObject =
-  | {
-      memcmp: {
-        offset: number;
-        bytes: string;
-        encoding?: string;
-      };
-    }
-  | { dataSize: number };
-
-export interface ClusterSubscribeRequestMethods {
-  signatureSubscribe: {
-    params: string[];
-    returns: Transaction;
-  };
-  signatureUnsubscribe: {
-    params: number[];
-    returns: unknown;
-  };
-}
-export interface ClusterRequestMethods {
-  sendTransaction: {
-    // Signed, serialized transaction
-    params: string[];
-    returns: string;
-  };
-
-  getFeeForMessage: {
-    params: [string];
-    returns: number;
-  };
-
-  getBlock: {
-    params: [number];
-    returns: BlockResult | null;
-  };
-
-  getBalance: {
-    params: [string, { commitment: 'processed' }];
-    returns: {
-      value: number;
-    };
-  };
-
-  getProgramAccounts: {
-    params: [
-      string,
-      {
-        filters?: FilterObject[];
-        encoding: 'base58' | 'base64' | 'jsonParsed';
-        withContext?: boolean;
-      }
-    ];
-    returns: {
-      value: { account: AccountInfo }[];
-    };
-  };
-
-  getAccountInfo: {
-    params: [string, { encoding: 'base58' | 'base64' | 'jsonParsed' }] | [string];
-    returns?: {
-      value: AccountInfo | null;
-    };
-  };
-
-  getTransaction: {
-    params: [
-      string,
-      { encoding: 'base58' | 'base64' | 'jsonParsed'; commitment: 'confirmed' | 'finalized' }
-    ];
-    returns: TransactionResult | null;
-  };
-
-  getLatestBlockhash: {
-    params: [{ commitment?: string }];
-    returns: {
-      value: {
-        blockhash: string;
-      };
-    };
-  };
-}
-
-export interface TransactionInstructionRq {
-  programId: string;
-  data: string;
-  keys: { isSigner: boolean; isWritable: boolean; pubkey: string }[];
 }

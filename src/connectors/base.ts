@@ -8,14 +8,13 @@ export interface Connector {
 
   getConnectorName: () => string;
 
-  // Solana specific
   getConnectorAPI: () => EnabledAPI | undefined;
   // Tx construction is dapp responsibility
 
   enable: () => Promise<EnabledAPI>;
 
   isEnabled: () => Promise<boolean>;
-  // isAvailable: () => boolean;
+  isAvailable: () => boolean;
   disconnect: () => Promise<void>;
 }
 
@@ -39,6 +38,10 @@ export class BaseConnector {
   }
 
   public isEnabled() {
+    throw new Error('Not allowed on base connector');
+  }
+
+  public isAvailable() {
     throw new Error('Not allowed on base connector');
   }
 }

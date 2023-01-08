@@ -28,7 +28,7 @@ import { BaseConnector } from './base';
  */
 declare global {
   interface Window {
-    cardano?: CardanoInjectedNamespaceApi;
+    cardano: CardanoInjectedNamespaceApi;
   }
 }
 
@@ -66,6 +66,15 @@ export class InjectedConnector extends BaseConnector implements Connector {
     if (walletPathSplit[0] !== 'window')
       throw new Error('Injected wallet path must start at window');
     this.injectedWalletPath = injectedWallet;
+  }
+
+  public isAvailable(): boolean {
+    if (typeof window === 'undefined') return false;
+    if (typeof window.cardano === 'undefined') return false;
+    const targetWalletName = this.injectedWalletPath.split('.').pop() as WalletNames;
+    if (typeof window.cardano[targetWalletName] === 'undefined') return false;
+
+    return true;
   }
 
   public static connectorName(walletName: string) {

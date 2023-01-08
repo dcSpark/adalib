@@ -1,4 +1,4 @@
-export { init, switchConnector, getProjectId, setProjectId, getConnectorIsAvailable } from './main';
+export { init, switchConnector, getProjectId, setProjectId } from './main';
 export {
   connect,
   disconnect,

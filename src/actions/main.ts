@@ -1,19 +1,19 @@
-import type { StoreConfig } from '../store'
-import { setProjectId } from '../store'
-import { setConnectorName } from '../store'
-import { initStore } from '../store'
+import type { StoreConfig } from '../store';
+import { setProjectId } from '../store';
+import { setConnectorName } from '../store';
+import { initStore } from '../store';
 
 /**
  * @param {() => StoreConfig} config Builder to produce configuration
  * @param {string} walletConnectProjectId WalletConnect Project ID.This will be used for WalletConnect services like `WalletConnectConnector`
  */
 export function init(config: () => StoreConfig, walletConnectProjectId?: string) {
-  if (walletConnectProjectId) setProjectId(walletConnectProjectId)
-  initStore(config())
+  if (walletConnectProjectId) setProjectId(walletConnectProjectId);
+  initStore(config());
 }
 
 export function switchConnector(connectorName: string) {
-  setConnectorName(connectorName)
+  setConnectorName(connectorName);
 }
 
-export { setProjectId, getProjectId, getConnectorIsAvailable } from '../store/index'
+export { setProjectId, getProjectId } from '../store/index';

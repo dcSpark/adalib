@@ -1968,9 +1968,9 @@
   integrity sha512-ej5oVy6lykXsvieQtqZxCOaLT+xD4+QNarq78cIYISHmZXshCvROLudpQN3lfL8G0NL7plMSSK+zlyvCaIJ4Iw==
 
 "@dcspark/adalib@^0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@dcspark/adalib/-/adalib-0.0.1.tgz#d5cda19de8f0d953e437f5ddc606f4666001a99c"
-  integrity sha512-X5Qxk/FU2NtyP0k77jRQOjmQkiJV78V647crZ7doXoSBnofd9kTYq9B0YO07b8c6NZHANFJ/tHPS+UOtMGONjA==
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@dcspark/adalib/-/adalib-0.0.3.tgz#0ccd83a591594f21bd5d4b2f57de14d3f267a7b0"
+  integrity sha512-zhdfEPJTSN+OWXja8tiAnh9AFii7ny2r4Ewtl/BAptRGe1cGXdMnnCFx9HGbaXyL0wgOny/6LEdSwav+xY0nEw==
   dependencies:
     "@cardano-foundation/cardano-connect-with-wallet" "^0.1.45"
     "@ethersproject/sha2" "^5.7.0"
