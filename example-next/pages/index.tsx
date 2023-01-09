@@ -1,18 +1,20 @@
 import {
   connect,
-  signMessage,
+  signTx,
   disconnect,
   getBalance,
-  signAndSendTransaction,
-  getConnectorIsAvailable,
-  PhantomConnector,
-  watchAddress,
-  getFeeForMessage,
-  getTransaction,
-  watchTransaction,
-  fetchName,
-  fetchAddressFromDomain,
-  getAccount
+  submitTx,
+  // getConnectorIsAvailable,
+  FlintConnector,
+  // watchAddress,
+  // getFeeForMessage,
+  getCollateral,
+  getCardanoAPI,
+  getNetworkId,
+  getUsedAddresses,
+  getChangeAddress,
+  getRewardAddress,
+  signData
 } from '@dcspark/adalib';
 import { useCallback, useEffect, useState } from 'react';
 import {
@@ -28,36 +30,37 @@ import {
   NumberInputStepper,
   useToast
 } from '@chakra-ui/react';
+import { DataSignature } from '@dcspark/adalib/dist/types/CardanoInjected';
 
 function Home() {
   const toast = useToast();
-  console.log('Phantom is ready', getConnectorIsAvailable(PhantomConnector.connectorName()));
+  console.log('Flint is ready', getConnectorIsAvailable(FlintConnector.connectorName()));
   const [address, setAddress] = useState<string | undefined>('');
   const [name, setName] = useState<string | undefined>('');
   const [balance, setBalance] = useState<string | undefined>('');
   const [signature, setSignature] = useState<string | undefined>('');
-  const [message, setMessage] = useState<string | undefined>('');
+  const [message, setMessage] = useState<DataSignature | undefined>(undefined);
   const [toAddress, setToAddress] = useState<string | undefined>('');
   const [amount, setAmount] = useState<number>(0);
 
-  useEffect(() => {
-    console.log('ya hey');
-    watchAddress(address2 => {
-      console.log('Got address', address2);
-      setAddress(address2);
-    });
-  }, [setAddress]);
+  // useEffect(() => {
+  //   console.log('ya hey');
+  //   watchAddress(address2 => {
+  //     console.log('Got address', address2);
+  //     setAddress(address2);
+  //   });
+  // }, [setAddress]);
 
   useEffect(() => {
     if (address) {
-      getBalance().then(value => setBalance(value?.decimals.toString() ?? '0'));
+      getBalance().then(value => setBalance(value ?? '0'));
       fetchName('FidaeBkZkvDqi1GXNEwB8uWmj9Ngx2HXSS5nyGRuVFcZ').then(name2 => {
         setName(name2?.reverse ?? address);
       });
       fetchAddressFromDomain('bonfida.sol').then(addr => {
         console.log({ addressFromDomain: addr });
       });
-      getAccount().then(acc => console.log({ accthing: acc?.rentEpoch }));
+      getRewardAddress().then(acc => console.log('Reward Address:', acc));
     }
   }, [address]);
 
@@ -68,9 +71,9 @@ function Home() {
   }, []);
 
   const onSign = useCallback((message2: string | undefined) => {
-    if (message2)
-      signMessage(message2).then(signature2 => {
-        setSignature(signature2 ?? '');
+    if (message2 && address)
+      signData(address, message2).then(signature2 => {
+        setSignature(signature2 ?? undefined);
       });
   }, []);
 

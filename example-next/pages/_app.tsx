@@ -1,28 +1,25 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import '../styles/globals.css';
+import type { AppProps } from 'next/app';
 import {
   init,
-  mainnetBetaBlockDaemon,
-  PhantomConnector,
+  cardanoMainnetWalletConnect,
   WalletConnectConnector,
-  InjectedConnector
-} from '@dcspark/adalib'
-import { ColorModeProvider, ChakraProvider } from '@chakra-ui/react'
+  FlintConnector
+} from '@dcspark/adalib';
+import { ColorModeProvider, ChakraProvider } from '@chakra-ui/react';
 
-const PROJECT_ID = process.env.NEXT_PUBLIC_PROJECT_ID
+const PROJECT_ID = process.env.NEXT_PUBLIC_PROJECT_ID;
 
 init(
   () => ({
     connectorName: WalletConnectConnector.connectorName,
     connectors: [
-      new PhantomConnector(),
-      new InjectedConnector('window.solflare'),
-      new InjectedConnector('window.solana'),
+      new FlintConnector(),
       new WalletConnectConnector({
         relayerRegion: 'wss://relay.walletconnect.com',
         metadata: {
-          description: 'Test app for solib',
-          name: 'Test Solib dApp',
+          description: 'Test app for adalib',
+          name: 'Test Adalib dApp',
           icons: ['https://avatars.githubusercontent.com/u/37784886'],
           url: 'http://localhost:3000'
         },
@@ -30,10 +27,10 @@ init(
         qrcode: true
       })
     ],
-    chosenCluster: mainnetBetaBlockDaemon
+    chosenChain: cardanoMainnetWalletConnect()
   }),
   PROJECT_ID
-)
+);
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -42,7 +39,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <Component {...pageProps} />
       </ColorModeProvider>
     </ChakraProvider>
-  )
+  );
 }
 
-export default MyApp
+export default MyApp;
