@@ -13,7 +13,9 @@ import {
   getUsedAddresses,
   getChangeAddress,
   getRewardAddress,
-  signData
+  signData,
+  getRewardAddresses,
+  switchConnector
 } from '@dcspark/adalib';
 import { useCallback, useEffect, useState } from 'react';
 import {

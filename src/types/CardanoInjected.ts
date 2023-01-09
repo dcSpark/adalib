@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable capitalized-comments */
 
 // BEGIN CARDANO
