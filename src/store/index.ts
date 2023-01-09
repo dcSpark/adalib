@@ -120,6 +120,12 @@ export function getActiveConnector() {
   return getConnector(id);
 }
 
+export function getConnectorIsAvailable(name: string) {
+  const connector = getConnector(name);
+
+  return connector.isAvailable();
+}
+
 export function setChain(chain: Chain) {
   set('chosenChain', chain);
 }
