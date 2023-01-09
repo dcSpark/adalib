@@ -4,7 +4,6 @@ import {
   disconnect,
   getBalance,
   submitTx,
-  // getConnectorIsAvailable,
   FlintConnector,
   // watchAddress,
   // getFeeForMessage,
