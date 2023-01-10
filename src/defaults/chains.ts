@@ -6,7 +6,7 @@ import { getProjectId } from '../store';
 import { ProtocolMagic } from '../types/CardanoInjected';
 import type { Chain } from '../types/chain';
 
-export const mainnet: Chain = {
+const mainnet: Chain = {
   chainType: 'cardano', // required
   name: 'mainnet',
   networkId: '1',
@@ -14,7 +14,7 @@ export const mainnet: Chain = {
   endpoint: ''
 };
 
-export const preprod: Chain = {
+const preprod: Chain = {
   chainType: 'cardano',
   name: 'testnet',
   networkId: '0',
@@ -22,7 +22,7 @@ export const preprod: Chain = {
   endpoint: ''
 };
 
-export const preview: Chain = {
+const preview: Chain = {
   chainType: 'cardano',
   name: 'preview',
   networkId: '0',
