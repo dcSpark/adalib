@@ -3,10 +3,9 @@ import type UniversalProvider from '@walletconnect/universal-provider';
 import type { Connector } from './base';
 import { BaseConnector } from './base';
 import type { EnabledAPI, WalletNames } from '../types/CardanoInjected';
-import { ProtocolMagic } from '../types/CardanoInjected';
 
 import { UniversalProviderFactory } from '../utils/universalProvider';
-import { getProjectId, setAddress } from '../store';
+import { getChain, getProjectId, setAddress } from '../store';
 
 import { EnabledWalletEmulator } from '../utils/EnabledWalletEmulator';
 
@@ -156,7 +155,8 @@ export class WalletConnectConnector extends BaseConnector implements Connector {
    * We should rename this to `enable`
    */
   public async connect() {
-    const chainID = `cardano:${ProtocolMagic.MAINNET}`;
+    const chosenChain = getChain();
+    const chainID = `cardano:${chosenChain.networkId}:${chosenChain.protocolMagic}`;
 
     const cardanoNamespace = {
       cardano: {
