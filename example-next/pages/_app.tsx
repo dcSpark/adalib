@@ -12,20 +12,20 @@ const PROJECT_ID = process.env.NEXT_PUBLIC_PROJECT_ID;
 
 init(
   () => ({
-    connectorName: WalletConnectConnector.connectorName,
+    connectorName: FlintConnector.connectorName(),
     connectors: [
-      new FlintConnector(),
-      new WalletConnectConnector({
-        relayerRegion: 'wss://relay.walletconnect.com',
-        metadata: {
-          description: 'Test app for adalib',
-          name: 'Test Adalib dApp',
-          icons: ['https://avatars.githubusercontent.com/u/37784886'],
-          url: 'http://localhost:3000'
-        },
-        autoconnect: true,
-        qrcode: true
-      })
+      new FlintConnector()
+      // new WalletConnectConnector({
+      //   relayerRegion: 'wss://relay.walletconnect.com',
+      //   metadata: {
+      //     description: 'Test app for adalib',
+      //     name: 'Test Adalib dApp',
+      //     icons: ['https://avatars.githubusercontent.com/u/37784886'],
+      //     url: 'http://localhost:3030'
+      //   },
+      //   autoconnect: true,
+      //   qrcode: true
+      // })
     ],
     chosenChain: cardanoMainnetWalletConnect()
   }),

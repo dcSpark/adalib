@@ -3,16 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3030",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 3030",
     "lint": "next lint"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.3.5",
-    "@dcspark/adalib": "0.0.5",
+    "@dcspark/adalib": "0.0.6",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
+    "bignumber.js": "^9.1.1",
     "events": "^3.3.0",
     "framer-motion": "^7.5.2",
     "next": "12.3.1",

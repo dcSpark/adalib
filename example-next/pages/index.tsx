@@ -1,21 +1,21 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   connect,
-  signTx,
+  // signTx,
   disconnect,
   getBalance,
-  submitTx,
+  // submitTx,
   FlintConnector,
-  // watchAddress,
-  // getFeeForMessage,
-  getCollateral,
-  getCardanoAPI,
-  getNetworkId,
-  getUsedAddresses,
-  getChangeAddress,
+  // getCollateral,
+  // getCardanoAPI,
+  // getNetworkId,
+  // getUsedAddresses,
+  // getChangeAddress,
   getRewardAddress,
   signData,
-  getRewardAddresses,
-  switchConnector
+  // getRewardAddresses,
+  // switchConnector,
+  getConnectorIsAvailable
 } from '@dcspark/adalib';
 import { useCallback, useEffect, useState } from 'react';
 import {
@@ -31,81 +31,59 @@ import {
   NumberInputStepper,
   useToast
 } from '@chakra-ui/react';
-import { DataSignature } from '@dcspark/adalib/dist/types/CardanoInjected';
+import type { DataSignature, EnabledAPI } from '@dcspark/adalib/dist/types/CardanoInjected';
+import { decodeHexAddress } from '@cardano-foundation/cardano-connect-with-wallet';
+import BigNumber from 'bignumber.js';
 
 function Home() {
   const toast = useToast();
   console.log('Flint is ready', getConnectorIsAvailable(FlintConnector.connectorName()));
   const [address, setAddress] = useState<string | undefined>('');
-  const [name, setName] = useState<string | undefined>('');
   const [balance, setBalance] = useState<string | undefined>('');
-  const [signature, setSignature] = useState<string | undefined>('');
-  const [message, setMessage] = useState<DataSignature | undefined>(undefined);
+  const [signature, setSignature] = useState<DataSignature | undefined>(undefined);
+  const [message, setMessage] = useState<string | undefined>('');
   const [toAddress, setToAddress] = useState<string | undefined>('');
   const [amount, setAmount] = useState<number>(0);
-
-  // useEffect(() => {
-  //   console.log('ya hey');
-  //   watchAddress(address2 => {
-  //     console.log('Got address', address2);
-  //     setAddress(address2);
-  //   });
-  // }, [setAddress]);
+  const [enabledAPI, setEnabledAPI] = useState<EnabledAPI>();
 
   useEffect(() => {
-    if (address) {
-      getBalance().then(value => setBalance(value ?? '0'));
-      fetchName('FidaeBkZkvDqi1GXNEwB8uWmj9Ngx2HXSS5nyGRuVFcZ').then(name2 => {
-        setName(name2?.reverse ?? address);
+    console.log('ya hey');
+    if (enabledAPI) {
+      enabledAPI.getRewardAddress().then(acc => {
+        console.log('Reward Address:', acc);
+        const decodedAddress = decodeHexAddress(acc);
+        setAddress(decodedAddress ?? '');
       });
-      fetchAddressFromDomain('bonfida.sol').then(addr => {
-        console.log({ addressFromDomain: addr });
-      });
-      getRewardAddress().then(acc => console.log('Reward Address:', acc));
     }
-  }, [address]);
+  }, [enabledAPI, setAddress]);
+
+  // balance is a CML / CSL serialized `Value`
+  useEffect(() => {
+    if (address) {
+      // Get balance of the current wallet
+      getBalance().then(value => {
+        console.log('Balance:', value);
+
+        setBalance(value ?? '');
+      });
+    }
+  }, [address, setAddress]);
 
   const onClick = useCallback(() => {
-    connect().then(publicKey => {
-      console.log({ publicKey });
+    connect().then(api => {
+      console.log({ api });
+      if (api) setEnabledAPI(api);
     });
-  }, []);
+  }, [setEnabledAPI]);
 
-  const onSign = useCallback((message2: string | undefined) => {
-    if (message2 && address)
-      signData(address, message2).then(signature2 => {
-        setSignature(signature2 ?? undefined);
-      });
-  }, []);
-
-  const onSendTransaction = useCallback(
-    (to: string, amountInLamports: number) => {
-      console.log({ to, amountInLamports });
-
-      getFeeForMessage('transfer', {
-        to,
-        amountInLamports,
-        feePayer: 'from'
-      }).then(fee => console.log({ fee }));
-
-      if (to && amountInLamports)
-        signAndSendTransaction('transfer', {
-          to,
-          amountInLamports,
-          feePayer: 'from'
-        }).then(async result => {
-          console.log({ result });
-          if (result)
-            await watchTransaction(result, () => {
-              getTransaction(result).then(tra => console.log({ tra }));
-              toast({
-                status: 'success',
-                title: 'Transaction successful'
-              });
-            });
+  const onSign = useCallback(
+    (message2: string | undefined) => {
+      if (message2 && address)
+        signData(address, message2).then(signature2 => {
+          setSignature(signature2 ?? undefined);
         });
     },
-    [toast]
+    [address, setSignature]
   );
 
   return (
@@ -148,9 +126,9 @@ function Home() {
                   </NumberInputStepper>
                 </NumberInput>
               </Flex>
-              <Button onClick={() => onSendTransaction(toAddress ?? '', amount)}>
+              {/* <Button onClick={() => onSendTransaction(toAddress ?? '', amount)}>
                 Send Transaction
-              </Button>
+              </Button> */}
             </Flex>
             <Flex flexDirection="column" gap="3" width="100%">
               <Flex justifyContent="space-between" width="100%">
@@ -163,11 +141,10 @@ function Home() {
                 </Flex>
                 <Button onClick={() => onSign(message)}>Sign Message</Button>
               </Flex>
-              <address>Signature: {signature}</address>
+              <address>Signature: {signature?.signature}</address>
             </Flex>
           </Flex>
         )}
-        {name && <Flex>SNS Name: {name}</Flex>}
       </Flex>
     </div>
   );
