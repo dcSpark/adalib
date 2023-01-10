@@ -4,7 +4,8 @@ import {
   init,
   cardanoMainnetWalletConnect,
   WalletConnectConnector,
-  FlintConnector
+  FlintConnector,
+  setProjectId
 } from '@dcspark/adalib';
 import { ColorModeProvider, ChakraProvider } from '@chakra-ui/react';
 
@@ -14,18 +15,18 @@ init(
   () => ({
     connectorName: FlintConnector.connectorName(),
     connectors: [
-      new FlintConnector()
-      // new WalletConnectConnector({
-      //   relayerRegion: 'wss://relay.walletconnect.com',
-      //   metadata: {
-      //     description: 'Test app for adalib',
-      //     name: 'Test Adalib dApp',
-      //     icons: ['https://avatars.githubusercontent.com/u/37784886'],
-      //     url: 'http://localhost:3030'
-      //   },
-      //   autoconnect: true,
-      //   qrcode: true
-      // })
+      new FlintConnector(),
+      new WalletConnectConnector({
+        relayerRegion: `wss://relay.walletconnect.com`,
+        metadata: {
+          description: 'Test app for adalib',
+          name: 'Test Adalib dApp',
+          icons: ['https://avatars.githubusercontent.com/u/37784886'],
+          url: 'http://localhost:3030'
+        },
+        autoconnect: true,
+        qrcode: true
+      })
     ],
     chosenChain: cardanoMainnetWalletConnect()
   }),
