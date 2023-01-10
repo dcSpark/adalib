@@ -24,3 +24,7 @@ dist-ssr
 *.sw?
 
 env.local
+example-next/.env.local.example
+.env.*
+*.env.*
+
