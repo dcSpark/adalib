@@ -56,7 +56,8 @@ const store: State = proxy<State>({
     chainType: '',
     name: '',
     networkId: '',
-    protocolMagic: ''
+    protocolMagic: '',
+    endpoint: ''
   },
   walletConnectProjectId: '',
   requestId: 0,
