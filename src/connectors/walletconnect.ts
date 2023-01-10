@@ -3,7 +3,6 @@ import type UniversalProvider from '@walletconnect/universal-provider';
 import type { Connector } from './base';
 import { BaseConnector } from './base';
 import type { EnabledAPI, WalletNames } from '../types/CardanoInjected';
-
 import { UniversalProviderFactory } from '../utils/universalProvider';
 import { getChain, getProjectId, setAddress } from '../store';
 
