@@ -7,6 +7,7 @@ import { UniversalProviderFactory } from '../utils/universalProvider';
 import { getChain, getProjectId, setAddress } from '../store';
 
 import { EnabledWalletEmulator } from '../utils/EnabledWalletEmulator';
+import { chainToId } from '../defaults/chains';
 
 export interface WalletConnectAppMetadata {
   name: string;
@@ -155,7 +156,7 @@ export class WalletConnectConnector extends BaseConnector implements Connector {
    */
   public async connect() {
     const chosenChain = getChain();
-    const chainID = `cardano:${chosenChain.networkId}:${chosenChain.protocolMagic}`;
+    const chainID = chainToId(chosenChain);
 
     const cardanoNamespace = {
       cardano: {
@@ -174,7 +175,10 @@ export class WalletConnectConnector extends BaseConnector implements Connector {
           'cardano_getRewardAddress',
           'cardano_getRewardAddresses'
         ],
-        events: ['cardano_onNetworkChange', 'cardano_onAccountChange']
+        events: ['cardano_onNetworkChange', 'cardano_onAccountChange'],
+        rpcMap: {
+          [chainID]: chosenChain.endpoint
+        }
       }
     };
 

@@ -3,4 +3,5 @@ export interface Chain {
   name: string;
   networkId: string;
   protocolMagic: string;
+  endpoint: string;
 }
