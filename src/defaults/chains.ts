@@ -31,7 +31,8 @@ const preview: Chain = {
 };
 
 export function chainToId(chain: Chain): string {
-  return `${chain.chainType}:${chain.networkId}:${chain.protocolMagic}`;
+  // No colon between networkId and protocolMagic because walletconnect only accepts one colon
+  return `${chain.chainType}:${chain.networkId}${chain.protocolMagic}`;
 }
 
 function chainToEndpoint(chain: Chain): string {
