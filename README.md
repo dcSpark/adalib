@@ -70,7 +70,7 @@ The connect function can be used to connect a wallet to a dApp. The wallet
 chosen needs to be configured in the `init` function above.
 
 ```ts
-import { connect } from 'solib'
+import { connect } from 'adalib'
 
 const address = await connect()
 ```
@@ -81,7 +81,7 @@ Instead of retrieving the address once on the connect function, one can globally
 watch address changes using the `watchAddress` API.
 
 ```ts
-import { watchAddress, connect } from 'solib'
+import { watchAddress, connect } from 'adalib'
 
 watchAddress(address => {
   console.log({ address })
@@ -89,7 +89,7 @@ watchAddress(address => {
 
 connect()
 ```
-
+<!-- 
 ### Get Balance
 
 ```ts
@@ -138,16 +138,16 @@ watchTransaction(transactionHash, update => console.log({ update }))
 import { switchNetwork, mainnetBetaProjectSerum } from 'solib'
 
 switchNetwork(mainnetBetaProjectSerum)
-```
+``` -->
 
 ### Switch Connector
 
 ```ts
-import { switchConnector, PhantomConnector, connect } from 'solib'
+import { switchConnector, FlintConnector, connect } from 'adalib'
 
-switchConnector(PhantomConnector.connectorName)
+switchConnector(FlintConnector.connectorName)
 
-const phantonWalletAddress = await connect()
+const flintWalletAPI = await connect()
 ```
 
 ## Internals
