@@ -1,7 +1,6 @@
 /* eslint-disable capitalized-comments */
 import type UniversalProvider from '@walletconnect/universal-provider';
 import type { Connector } from './base';
-import { BaseConnector } from './base';
 import type { EnabledAPI, WalletNames } from '../types/CardanoInjected';
 import { UniversalProviderFactory } from '../utils/universalProvider';
 import { getChain, getProjectId, setAddress } from '../store';
@@ -40,14 +39,14 @@ async function loadW3mModal() {
   }
 }
 
-export class WalletConnectConnector extends BaseConnector implements Connector {
+export class WalletConnectConnector implements Connector {
   protected provider: UniversalProvider | undefined;
   protected qrcode: boolean;
   private enabled = false;
   public enabledWallet: WalletNames | undefined;
   public connectedWalletAPI: EnabledAPI | undefined;
 
-  public static readonly connectorName = 'walletconnect';
+  public static connectorName = (): string => 'walletconnect';
 
   public constructor({
     relayerRegion,
@@ -60,7 +59,6 @@ export class WalletConnectConnector extends BaseConnector implements Connector {
     qrcode?: boolean;
     autoconnect?: boolean;
   }) {
-    super();
     this.qrcode = Boolean(qrcode);
     UniversalProviderFactory.setSettings({
       projectId: getProjectId(),
@@ -97,7 +95,6 @@ export class WalletConnectConnector extends BaseConnector implements Connector {
     try {
       await provider.disconnect();
     } finally {
-      // TODO: check if solib also deletes the session
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       delete provider.session?.namespaces?.cardano;
       this.provider = undefined;

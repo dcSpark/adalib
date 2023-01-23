@@ -12,6 +12,7 @@ import {
   Observable,
   WalletNotCip30CompatibleError
 } from '@cardano-foundation/cardano-connect-with-wallet';
+import { setAddress } from '../store';
 import type {
   CardanoInjectedNamespaceApi,
   DataSignature,
@@ -19,7 +20,6 @@ import type {
   WalletNames
 } from '../types/CardanoInjected';
 import type { Connector } from './base';
-import { BaseConnector } from './base';
 
 /**
  * Cardano methods are injected.
@@ -38,11 +38,7 @@ declare global {
  * For the wallet connect connector, it creates a custom instance of the
  * enabled CIP-30 API that relays everything through the wallet connect relay.
  */
-export class InjectedConnector extends BaseConnector implements Connector {
-  // private setLastConnectedWallet(walletName: string) {
-  //   this.lastConnectedWallet = walletName;
-  // }
-
+export class InjectedConnector implements Connector {
   public injectedWalletPath: string;
 
   /**
@@ -50,7 +46,6 @@ export class InjectedConnector extends BaseConnector implements Connector {
    */
   public enabledWallet: WalletNames | undefined;
   public connectedWalletAPI: EnabledAPI | undefined;
-  public lastConnectedWallet: string | undefined;
 
   // Borrowed from cardano-connect-with-wallet library
   public enabledObserver = new Observable<boolean>(false);
@@ -60,7 +55,6 @@ export class InjectedConnector extends BaseConnector implements Connector {
   public installedWalletExtensionsObserver = new Observable<string[]>([]);
 
   public constructor(injectedWallet: string) {
-    super();
     if (!injectedWallet) throw new Error('Invalid path provided, should match window..*');
     const walletPathSplit = injectedWallet.split('.');
     if (walletPathSplit[0] !== 'window')
@@ -89,6 +83,7 @@ export class InjectedConnector extends BaseConnector implements Connector {
     this.connectedWalletAPI = undefined;
     this.enabledWallet = undefined;
     this.enabledObserver.set(false);
+    setAddress('');
 
     return Promise.resolve();
   }
@@ -109,27 +104,9 @@ export class InjectedConnector extends BaseConnector implements Connector {
 
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition, curly
         if (hexAddresses && hexAddresses.length > 0) {
-          try {
-            // const bech32Address = decodeHexAddress(hexAddresses[0]);
+          this.connectedWalletAPI = api;
 
-            // let networkType = NetworkType.MAINNET;
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            // if (bech32Address.startsWith('stake_test')) networkType = NetworkType.TESTNET;
-
-            // this.stakeAddressObserver.set(bech32Address);
-            // this.enabledWalletObserver.set(targetWalletName);
-            // this.enabledObserver.set(true);
-            // if (targetWalletName === 'typhoncip30') this.setLastConnectedWallet('typhon');
-            // else this.setLastConnectedWallet(targetWalletName);
-
-            // window.dispatchEvent(new Event('storage'));
-            this.connectedWalletAPI = api;
-            // eslint-disable-next-line consistent-return
-
-            return api;
-          } catch (error) {
-            throw error;
-          }
+          return api;
         }
       } else throw new WalletNotCip30CompatibleError(targetWalletName);
       this.connectedWalletAPI = api;

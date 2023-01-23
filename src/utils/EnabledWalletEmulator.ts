@@ -49,8 +49,6 @@ export class EnabledWalletEmulator implements EnabledAPI {
     });
   }
   public async signTx(tx: string, partialSign?: boolean | undefined) {
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition, no-eq-null, eqeqeq
-
     return this.provider.request<Cbor<'transaction_witness_set'>>({
       method: 'cardano_signTx',
       params: [tx, partialSign]
@@ -74,12 +72,9 @@ export class EnabledWalletEmulator implements EnabledAPI {
       method: 'cardano_getCollateral'
     });
   }
-  //   public isConnected: () => Promise<boolean>;
 
   /** TODO: Implement provider listeners to listen for these events and trigger callback
-   * Note: These listeners may not be necessary because accounts and network changes are
-   * unlikely to occur when the wallet is connected via WalletConnect.
-   * Note: These are not standardized in the Cardano Wallet API, so they may not be necessary.
+   * Note: These are not standardized in the CIP-30 Cardano Wallet API, so their implementation is not complete.
    */
   public async onAccountChange(callback: (addresses: Cbor<'address'>[]) => Promise<undefined>) {
     return new Promise<undefined>((resolve, reject) => {

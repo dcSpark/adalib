@@ -55,7 +55,7 @@ init(
     // Name of the connector to be used.
     // The connector needs to be registered in the connectors field above.
     // This can be switched later using `switchConnector` function.
-    connectorName: WalletConnectConnector.connectorName,
+    connectorName: WalletConnectConnector.connectorName(),
     // The name of the chain and network to use.
     // Here, `mainnet` refers to the cardano mainnet network.
     chosenChain: cardanoMainnetWalletConnect()

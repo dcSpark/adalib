@@ -34,6 +34,7 @@ import {
 import type { DataSignature, EnabledAPI } from '@dcspark/adalib/dist/types/CardanoInjected';
 import { decodeHexAddress } from '@cardano-foundation/cardano-connect-with-wallet';
 import BigNumber from 'bignumber.js';
+import { watchAddress } from '@dcspark/adalib/dist/store';
 
 function Home() {
   const toast = useToast();
@@ -45,7 +46,10 @@ function Home() {
   const [toAddress, setToAddress] = useState<string | undefined>('');
   const [amount, setAmount] = useState<number>(0);
   const [enabledAPI, setEnabledAPI] = useState<EnabledAPI>();
-
+  watchAddress(address => {
+    console.log('watchAddress', address);
+    setAddress(address);
+  });
   useEffect(() => {
     console.log('ya hey');
     if (enabledAPI) {
