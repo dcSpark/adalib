@@ -1990,10 +1990,10 @@
   resolved "https://registry.yarnpkg.com/@csstools/selector-specificity/-/selector-specificity-2.0.2.tgz#1bfafe4b7ed0f3e4105837e056e0a89b108ebe36"
   integrity sha512-IkpVW/ehM1hWKln4fCA3NzJU8KwD+kIOvPZA4cqxoJHtE21CCzjyp+Kxbu0i5I4tBNOlXPL9mjwnWlL0VEG4Fg==
 
-"@dcspark/adalib@0.0.7":
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/@dcspark/adalib/-/adalib-0.0.7.tgz#296140947a952c5470e51540085f97a21d734499"
-  integrity sha512-Khm63fSXzr6WvuOgh/M6copXDgy2aofDHMJWQCOLisxp6UolmsjJ1EZTMseokUIbp1RmL8XXQnnl3xVARGDTgQ==
+"@dcspark/adalib@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@dcspark/adalib/-/adalib-0.1.0.tgz#ec821c5596e61789259f3d5d7aceb59c89823fca"
+  integrity sha512-11aY2PKi4eKyeXTE6C3Y90oI2vR9MtYyrfLoLUJ55CEy2Rj7fk/7OgbiuiiA/ThE0Uk1urovLDcVL3eZnsIGrg==
   dependencies:
     "@cardano-foundation/cardano-connect-with-wallet" "^0.1.45"
     "@ethersproject/sha2" "^5.7.0"
