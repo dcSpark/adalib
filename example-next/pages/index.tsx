@@ -15,7 +15,8 @@ import {
   signData,
   // getRewardAddresses,
   // switchConnector,
-  getConnectorIsAvailable
+  getConnectorIsAvailable,
+  WalletConnectConnector
 } from '@dcspark/adalib';
 import { useCallback, useEffect, useState } from 'react';
 import {
@@ -38,7 +39,7 @@ import { watchAddress } from '@dcspark/adalib';
 
 function Home() {
   const toast = useToast();
-  console.log('Flint is ready', getConnectorIsAvailable(FlintConnector.connectorName()));
+  console.log('Flint is ready', getConnectorIsAvailable(WalletConnectConnector.connectorName()));
   const [address, setAddress] = useState<string | undefined>('');
   const [balance, setBalance] = useState<string | undefined>('');
   const [signature, setSignature] = useState<DataSignature | undefined>(undefined);

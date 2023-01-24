@@ -157,7 +157,7 @@ export class WalletConnectConnector implements Connector {
     const chainID = chainToId(chosenChain);
 
     const cardanoNamespace = {
-      cardano: {
+      cip34: {
         chains: [chainID],
         methods: [
           'cardano_signTx',
