@@ -88,8 +88,9 @@ export async function getUsedAddresses() {
   });
 }
 
-// Local storage / subscription / callback methods
-
+/**
+ * @deprecated Unavailable in current standard
+ */
 export function switchNetwork(chain: Chain) {
   setChain(chain);
 }

@@ -1,7 +1,8 @@
 # Account Actions
 
 The following actions are concerned with connecting and communicating
-information about an account.
+information about an account. They are convenience methods exposed to call
+CIP-30 methods on the currently-active connector.
 
 ## Connection Management
 
@@ -12,22 +13,22 @@ connector that was switched to using `switchConnector`. Retrieving the address
 is done by watching it before the connect call.
 
 ```ts
-import { connect } from '@walletconnect/solib'
+import { connect } from '@dcspark/adalib'
 
 await connect()
 ```
 
 ### Watch Address
 
-`watchAddress` watches Solib's state and updates when an address is either
+`watchAddress` watches Adalib's state and updates when an address is either
 connected *or disconnected*.
 
 ```ts
-import { connect, watchAddress } from '@walletconnect/solib'
+import { connect, watchAddress } from '@dcspark/adalib'
 
 
-watchAddress(pubkey => {
-  if (pubkey) {
+watchAddress(address => {
+  if (address) {
     // update UI to reflect successful connection
   }
   else {
@@ -75,11 +76,18 @@ const message = 'Some message'
 const signature = await signMessage(message);
 ```
 
-## Account Information
+### Get Cip-30 Wallet API
+
+```ts
+import { getCardanoAPI } from '@dcspark/adalib'
+
+// gets injected CIP-30 methods or emulated equivalent from wallet-connect.
+const enabledAPI = await getCardanoAPI();
+```
 
 ### Get Balance
-`getBalance` retrieves the balance communicates with the cluster configured in `init` or chosen
-using `switchNetwork`.
+`getBalance` retrieves the balance by communicating with the connector configured in `init` or chosen
+using `switchConnector`.
 
 ```ts
 import { getBalance } from '@walletconnect/solib'
@@ -88,22 +96,61 @@ import { getBalance } from '@walletconnect/solib'
 const balance = await getBalance()
 ```
 
-### Get Account
-`getAccount` retrieves account information from the cluster.
+### Get Change Address
+`getChangeAddress` retrieves the connected wallet's change address by communicating with the connector configured in `init` or chosen using `switchConnector`.
 
 ```ts
-import { getAccount } from '@walletconnect/solib'
+import { getChangeAddress } from '@dcspark/adalib'
 
-// Operates the same way as `getBalance`.
-const account = await getAccount()
+const changeAddress = await getChangeAddress()
 ```
 
+### Get Reward Address
 
+`getRewardAddress` retrieves the connected wallet's reward address by communicating with the connector configured in `init` or chosen using `switchConnector`.
 
+```ts
+import { getRewardAddress } from '@dcspark/adalib'
 
+const rewardAddress = await getRewardAddress()
+```
 
+### Get Reward Addresses
 
+`getRewardAddresses` retrieves the connected wallet's reward addresses by communicating with the connector configured in `init` or chosen using `switchConnector`.
 
+```ts
+import { getRewardAddresses } from '@dcspark/adalib'
 
+const rewardAddresses = await getRewardAddresses()
+```
 
+### Get Collateral
 
+`getCollateral` retrieves the connected wallet's selected collateral by communicating with the connector configured in `init` or chosen using `switchConnector`.
+
+```ts
+import { getCollateral } from '@dcspark/adalib'
+
+const collateral = await getCollateral()
+```
+
+### Get Used Addresses
+
+`getUsedAddresses` retrieves the connected wallet's used addresses by communicating with the connector configured in `init` or chosen using `switchConnector`.
+
+```ts
+import { getUsedAddresses } from '@dcspark/adalib'
+
+const usedAddresses = await getUsedAddresses()
+```
+
+### Get Network ID
+
+`getNetworkId` retrieves the connected wallet's network ID by communicating with the connector configured in `init` or chosen using `switchConnector`.
+
+```ts
+import { getNetworkId } from '@dcspark/adalib'
+
+const networkId = await getNetworkId()
+```

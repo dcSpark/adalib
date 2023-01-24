@@ -46,7 +46,7 @@ export class WalletConnectConnector implements Connector {
   public enabledWallet: WalletNames | undefined;
   public connectedWalletAPI: EnabledAPI | undefined;
 
-  public static connectorName = (): string => 'walletconnect';
+  public static connectorName = () => 'walletconnect';
 
   public constructor({
     relayerRegion,

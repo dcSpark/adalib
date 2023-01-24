@@ -5,48 +5,47 @@ title: Getting Started
 ---
 
 
-# Solib
+# Adalib
 
-Solib is a friendly, easy to use Solana API. All the functionality needed to interact with Solana is baked into Solib, including connecting wallets, signing messages, sending transactions, interacting with Bonafida's name service  and more.
+Adalib is a friendly, easy to use Cardano API. All the functionality needed to interact with Cardano is baked into Adalib, including connecting wallets, signing messages, sending transactions, interacting with Bonafida's name service  and more.
 
 ## Getting started
 
-Getting started with Solib is as simple as calling a couple of functions. No
+Getting started with Adalib is as simple as calling a couple of functions. No
 need to worry about managing clients or state, all of it is handled in the
 background.
 
 ## Installation
 
-Instal Solib using the following
+Instal Adalib using the following
 
 ```bash npm2yarn
-npm install --save @walletconnect/solib
+npm install --save @dcspark/adalib
 ```
 
-## Initializing Solib
+## Initializing Adalib
 
-The init function needs to be called to prepare solib to be able to call all the functions in its API.
+The init function needs to be called to prepare adalib to be able to call all the functions in its API.
 
 ```ts
 import { 
-  init, PhantomConnector, WalletConnectConnector, 
+  init, FlintConnector, WalletConnectConnector, 
   InjectedConnector, mainnetBetaWalletConnect
-} from '@walletconnect/solib'
+} from '@dcspark/adalib'
 
 init({
   // The different connector methodologies that will be used.
-  // PhantomConnector will interact with injected Phantom Wallet using browser
+  // FlintConnector will interact with injected Flint Wallet using browser
   // extension, while WalletConnectConnector can be used to interact with all
   // wallets that support the WalletConnect protocol.
   connectors: [
-    new PhantomConnector(),
-    new InjectedConnector('window.solib'),
-    new InjectedConnector('window.solflare'),
+    new FlintConnector(),
+    new InjectedConnector('window.cardano.flint'),
     new WalletConnectConnector({
       relayerRegion: 'wss://relay.walletconnect.com',
       metadata: {
-        description: 'Test app for solib',
-        name: 'Test Solib dApp',
+        description: 'Test app for adalib',
+        name: 'Test Adalib dApp',
         icons: ['https://avatars.githubusercontent.com/u/37784886'],
         url: 'http://localhost:3000'
       },
@@ -59,9 +58,9 @@ init({
   // This can be switched later using `switchConnector` function.
   connectorName: WalletConnectConnector.connectorName,
   // The name of the cluster and network to use.
-  // Here, `mainnetBeta` refers to the mainnetBeta Solana network, while
+  // Here, `mainnetBeta` refers to the mainnetBeta Cardano network, while
   // `WalletConnect` is the RPC server that will be used to do the communication
-  chosenCluster: mainnetBetaWalletConnect(PROJECT_ID)
+  chosenCluster: cardanoMainnetWalletConnect()
 }, PROJECT_ID)
 ```
 
@@ -70,11 +69,11 @@ Once the `init` function is called successfully somewhere in the app, the next
 step is establishing a connection with a wallet.
 
 ```ts
-import { connect, watchAddress } from '@walletconnect/solib'
+import { connect, watchAddress } from '@dcspark/adalib'
 
 
-watchAddress(pubkey => {
-  if (pubkey) {
+watchAddress(address => {
+  if (address) {
     // update UI to reflect successful connection
   }
   else {
@@ -90,46 +89,19 @@ After a public key / address is retrieved, all functions are now available for
 usage.
 
 ```ts
-import { getBalance, signMessage } from '@walletconnect/solib'
+import { getBalance, signMessage } from '@dcspark/adalib'
 
-// This communicates with the cluster defined in `init`
-// You can change the chosen cluster using `switchNetwork`
-// No need to supply an address as it will automatically used connected address
+// `getBalance` retrieves the balance by communicating with the connector configured in `init` or chosen
+// using `switchConnector`.
 const balance = await getBalance();
 
-// This communicates with the `Connector` or "Wallet" specified in `init`.
-// For example, if `PhantomConnector` is used, it will call Phantom's
-// `signMessage` under the hood. If `WalletConnectConnector` is used, it will
-// communicate using WalletConnect's sign API.
-const signature = await signMessage('Some message to sign')
-```
+// This communicates with the `Connector` or "Wallet" specified in `init` or `switchConnector` to cryptographically sign a message.
 
-## Initiating a transaction
-Signing and sending a transaction no longer needs fetching recent blockhashes,
-or worrying about the `Transaction` data format. Simple call
-`signAndSendTransaction`.
+import { signData } from '@dcspark/adalib'
 
-```ts
-import { signAndSendTransaction, watchTransaction } from '@walletconnect/solib'
-
-// Signature is signed and sent to the network.
-const transactionSignature = await signAndSendTransaction(
-  'transfer', 
-  { 
-    to: '<PUBKEY_BASE58>' // the wallet address of the reciever,
-    amountInLamports: 200000, 
-    feePayer: 'from' // sender pays for network fees
-  }
-)       
-
-watchTransaction(transactionSignature, ({err}) => {
-  if (!err) {
-    // transaction successful on the network
-  }
-  else {
-    // transaction failed.
-  }
-})
+const address = "exampleAddress"
+const payload = "CBORPayload......"
+const sentTransaction = await signData(address, payload);
 ```
 
 
