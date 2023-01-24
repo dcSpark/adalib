@@ -33,7 +33,7 @@ import {
 } from '@chakra-ui/react';
 import type { DataSignature, EnabledAPI } from '@dcspark/adalib/dist/types/CardanoInjected';
 import { decodeHexAddress } from '@cardano-foundation/cardano-connect-with-wallet';
-// import BigNumber from 'bignumber.js';
+
 import { watchAddress } from '@dcspark/adalib';
 
 function Home() {
