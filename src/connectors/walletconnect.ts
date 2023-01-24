@@ -106,7 +106,7 @@ export class WalletConnectConnector implements Connector {
   }
 
   public getConnectorName(): string {
-    return WalletConnectConnector.connectorName;
+    return WalletConnectConnector.connectorName();
   }
 
   public isAvailable() {
