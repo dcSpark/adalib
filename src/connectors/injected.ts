@@ -105,6 +105,7 @@ export class InjectedConnector implements Connector {
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition, curly
         if (hexAddresses && hexAddresses.length > 0) {
           this.connectedWalletAPI = api;
+          setAddress(hexAddresses[0]);
 
           return api;
         }
