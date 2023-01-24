@@ -89,7 +89,7 @@ export function getAddress() {
 
 export function setConnectorName(connectorId: string) {
   // Get the names of all connectors from the store
-  const connectorNames = store.connectors.map(connector => connector.connectorName);
+  const connectorNames = store.connectors.map(connector => connector.getConnectorName());
   // If the provided connectorId is a valid connector name
   if (connectorNames.some(connectorName => connectorName === connectorId))
     // Set the connectorId as the connectorName in the store
