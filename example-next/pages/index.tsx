@@ -33,8 +33,8 @@ import {
 } from '@chakra-ui/react';
 import type { DataSignature, EnabledAPI } from '@dcspark/adalib/dist/types/CardanoInjected';
 import { decodeHexAddress } from '@cardano-foundation/cardano-connect-with-wallet';
-import BigNumber from 'bignumber.js';
-import { watchAddress } from '@dcspark/adalib/dist/store';
+// import BigNumber from 'bignumber.js';
+import { watchAddress } from '@dcspark/adalib';
 
 function Home() {
   const toast = useToast();
@@ -46,9 +46,9 @@ function Home() {
   const [toAddress, setToAddress] = useState<string | undefined>('');
   const [amount, setAmount] = useState<number>(0);
   const [enabledAPI, setEnabledAPI] = useState<EnabledAPI>();
-  watchAddress(address => {
-    console.log('watchAddress', address);
-    setAddress(address);
+  watchAddress(watchedAddress => {
+    console.log('watchAddress', watchedAddress);
+    setAddress(watchedAddress);
   });
   useEffect(() => {
     console.log('ya hey');
@@ -56,7 +56,7 @@ function Home() {
       enabledAPI.getRewardAddress().then(acc => {
         console.log('Reward Address:', acc);
         const decodedAddress = decodeHexAddress(acc);
-        setAddress(decodedAddress ?? '');
+        setAddress(decodedAddress);
       });
     }
   }, [enabledAPI, setAddress]);

@@ -4,8 +4,8 @@ import {
   init,
   cardanoMainnetWalletConnect,
   WalletConnectConnector,
-  FlintConnector,
-  setProjectId
+  FlintConnector
+  // setProjectId
 } from '@dcspark/adalib';
 import { ColorModeProvider, ChakraProvider } from '@chakra-ui/react';
 
