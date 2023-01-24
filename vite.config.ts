@@ -1,8 +1,8 @@
 // vite.config.js
-import path from 'path'
-import { defineConfig } from 'vite'
+import path from 'path';
+import { defineConfig } from 'vite';
 
-const isExternal = (id: string) => !id.startsWith('.') && !path.isAbsolute(id)
+const isExternal = (id: string) => !id.startsWith('.') && !path.isAbsolute(id);
 
 export default defineConfig(() => ({
   esbuild: {},
@@ -13,7 +13,7 @@ export default defineConfig(() => ({
     lib: {
       entry: path.resolve(__dirname, 'src/index.ts'),
       formats: ['es'],
-      name: 'Solib'
+      name: 'Adalib'
     },
     minify: 'esbuild',
     rollupOptions: {
@@ -21,4 +21,4 @@ export default defineConfig(() => ({
     }
   },
   plugins: []
-}))
+}));

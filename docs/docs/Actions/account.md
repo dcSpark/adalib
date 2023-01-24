@@ -46,7 +46,7 @@ easier. Note, `watchAddress` will now call the callback with `''` for the
 public key.
 
 ```ts
-import { disconnect } from '@walletconnect/solib'
+import { disconnect } from '@dcspark/adalib'
 
 await disconnect()
 ```
@@ -56,16 +56,16 @@ await disconnect()
 `getAddress` returns the address connected in state in a synchronous manner.
 
 ```ts
-import { getAddress } from '@walletconnect/solib'
+import { getAddress } from '@dcspark/adalib'
 
-const address = getAddress() // 3x08...
+const address = getAddress() // addr...
 ```
 
 ## Signatures
 
 ### Sign Message
 With `signMessage`, there is no need to worry about how the user is connected or
-what wallet they are using, `signMessage` will call the appropiate `Connector`
+what wallet they are using, `signMessage` will call the appropriate `Connector`
 configured in `init` or chosen using `switchNetwork`.
 
 ```ts

@@ -1,6 +1,6 @@
 # Connectors
 
-Connectors are what Solib uses to communicate with all the different wallets it
+Connectors are what Adalib uses to communicate with all the different wallets it
 supports.
 
 ## Current Connectors
@@ -14,8 +14,8 @@ that support WalletConnect like Spot, Math Wallet and many others.
 new WalletConnectConnector({
   relayerRegion: 'wss://relay.walletconnect.com', // which relay to use
   metadata: {
-    description: 'Test app for solib',
-    name: 'Test Solib dApp',
+    description: 'Test app for adalib',
+    name: 'Test Adalib dApp',
     icons: ['https://avatars.githubusercontent.com/u/37784886'],
     url: 'http://localhost:3000'
   },
@@ -29,26 +29,24 @@ new WalletConnectConnector({
 
 ### InjectedConnector 
 `InjectedConnector` is used to support wallets that are used as browser
-extensions. Eg: `solflare` or `phantom`.
+extensions. Eg: `flint` or `eternl`.
 
 #### Creation
-To create an InjectedConnector, simply give it a path. The most common path is
-`window.solana`, but there are other wallets with their own path like
-`window.solflare`. 
+To create an InjectedConnector, simply give it a cardano wallet window path. An example would be `window.cardano.flint`. 
 
 ```ts
-import { InjectedConnector }  from '@walletconnect/solib'
+import { InjectedConnector }  from '@dcspark/adalib'
 
-new InjectedConnector('window.solana');
+new InjectedConnector('window.cardano.flint');
 ```
 
-### Phantom Connector
-Phantom Connector is simply an `InjectedConnector` with Phantom's provider's
+### Flint Connector
+Flint Connector is simply an `InjectedConnector` with Flint's window
 path preloaded for convenience.
 
 #### Creation
 
 ```ts
-new PhantomConnector()
+new FlintConnector()
 ```
 

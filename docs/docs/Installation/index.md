@@ -1,15 +1,15 @@
-# Install Solib
+# Install Adalib
 
-Instal Solib using the following
+Install Adalib using the following
 
 ### NPM
 ```bash
-npm install --save @walletconnect/solib
+npm install --save @@dcspark/adalib
 ```
 
 ### Yarn
 ```bash
-yarn add @walletconnect/solib
+yarn add @@dcspark/adalib
 ```
 
 ### Note on QRCodes and Web3Modal's standalone modal
