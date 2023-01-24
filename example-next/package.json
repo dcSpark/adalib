@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@chakra-ui/react": "^2.3.5",
-    "@dcspark/adalib": "0.1.0",
+    "@dcspark/adalib": "0.1.1",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
     "bignumber.js": "^9.1.1",
