@@ -6,33 +6,35 @@ import { getProjectId } from '../store';
 import { ProtocolMagic } from '../types/CardanoInjected';
 import type { Chain } from '../types/chain';
 
+const chainType = 'cip34';
+
 const mainnet: Chain = {
-  chainType: 'cardano', // required
+  chainType, // required
   name: 'mainnet',
   networkId: '1',
-  protocolMagic: `${ProtocolMagic.MAINNET}`, // required
+  networkMagic: `${ProtocolMagic.MAINNET}`, // required
   endpoint: ''
 };
 
 const preprod: Chain = {
-  chainType: 'cardano',
+  chainType,
   name: 'testnet',
   networkId: '0',
-  protocolMagic: `${ProtocolMagic.PREPROD}`,
+  networkMagic: `${ProtocolMagic.PREPROD}`,
   endpoint: ''
 };
 
 const preview: Chain = {
-  chainType: 'cardano',
+  chainType,
   name: 'preview',
   networkId: '0',
-  protocolMagic: `${ProtocolMagic.PREVIEW}`,
+  networkMagic: `${ProtocolMagic.PREVIEW}`,
   endpoint: ''
 };
 
 export function chainToId(chain: Chain): string {
   // No colon between networkId and protocolMagic because walletconnect only accepts one colon
-  return `${chain.chainType}:${chain.networkId}${chain.protocolMagic}`;
+  return `${chain.chainType}:${chain.networkId}-${chain.networkMagic}`;
 }
 
 function chainToEndpoint(chain: Chain): string {
