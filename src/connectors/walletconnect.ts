@@ -68,7 +68,8 @@ export class WalletConnectConnector implements Connector {
     });
     UniversalProviderFactory.getProvider().then(provider => {
       provider.on('session_delete', () => {
-        delete provider.session.namespaces.cardano;
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+        delete provider.session?.namespaces.cardano;
         setAddress('');
       });
     });

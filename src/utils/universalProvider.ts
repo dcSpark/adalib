@@ -64,7 +64,8 @@ export class UniversalProviderFactory {
 
     // Subscribe to session delete
     UniversalProviderFactory.provider.on('session_delete', () => {
-      delete UniversalProviderFactory.provider?.session.namespaces.cardano;
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      delete UniversalProviderFactory.provider?.session?.namespaces.cardano;
       setAddress('');
     });
   }
