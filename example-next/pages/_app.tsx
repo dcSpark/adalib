@@ -13,7 +13,7 @@ const PROJECT_ID = process.env.NEXT_PUBLIC_PROJECT_ID;
 
 init(
   () => ({
-    connectorName: FlintConnector.connectorName(),
+    connectorName: WalletConnectConnector.connectorName(),
     connectors: [
       new FlintConnector(),
       new WalletConnectConnector({
