@@ -67,7 +67,8 @@ export class WalletConnectConnector implements Connector {
       qrcode: this.qrcode
     });
     UniversalProviderFactory.getProvider().then(provider => {
-      provider.on('session_delete', () => {
+      this.provider = provider;
+      this.provider.on('session_delete', () => {
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         delete provider.session?.namespaces.cardano;
         setAddress('');
@@ -77,11 +78,12 @@ export class WalletConnectConnector implements Connector {
 
     if (autoconnect)
       UniversalProviderFactory.getProvider().then(provider => {
+        this.provider = provider;
         console.log('Provider state', { provider });
         // (TODO update typing for provider)
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-        if (provider.session?.namespaces?.cardano?.accounts?.length) {
-          const [defaultAccount] = provider.session.namespaces.cardano.accounts;
+        if (this.provider.session?.namespaces?.cardano?.accounts?.length) {
+          const [defaultAccount] = this.provider.session.namespaces.cardano.accounts;
           console.log('Found accounts', defaultAccount);
           const address = defaultAccount.split(':')[2];
           // is this still necessary? Or only for solana RPC queries?
