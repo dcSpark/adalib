@@ -203,7 +203,7 @@ export class WalletConnectConnector implements Connector {
 
           // (TODO update typing for provider)
           // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-          const address = providerResult.namespaces?.cardano?.accounts[0]?.split(':')[2];
+          const address = providerResult.namespaces?.cip34?.accounts[0]?.split(':')[2];
           if (address && this.qrcode) {
             setAddress(address);
             resolve(address);
