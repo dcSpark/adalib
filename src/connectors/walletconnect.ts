@@ -185,6 +185,7 @@ export class WalletConnectConnector implements Connector {
 
     // WC concept
     const provider = await UniversalProviderFactory.getProvider();
+    this.provider = provider;
 
     return new Promise<string>((resolve, reject) => {
       provider.on('display_uri', (uri: string) => {

@@ -16,7 +16,8 @@ import {
   // getRewardAddresses,
   // switchConnector,
   getConnectorIsAvailable,
-  WalletConnectConnector
+  WalletConnectConnector,
+  getActiveConnector
 } from '@dcspark/adalib';
 import { useCallback, useEffect, useState } from 'react';
 import {
@@ -66,11 +67,20 @@ function Home() {
   useEffect(() => {
     if (address) {
       // Get balance of the current wallet
-      getBalance().then(value => {
-        console.log('Balance:', value);
+      getActiveConnector()
+        .enable()
+        .then(() => {
+          getBalance().then(value => {
+            console.log('Balance:', value);
 
-        setBalance(value ?? '');
-      });
+            setBalance(value ?? '');
+          });
+        });
+      // getBalance().then(value => {
+      //   console.log('Balance:', value);
+
+      //   setBalance(value ?? '');
+      // });
     }
   }, [address, setAddress]);
 
