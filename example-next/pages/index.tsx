@@ -67,29 +67,41 @@ function Home() {
   useEffect(() => {
     if (address) {
       // Get balance of the current wallet
-      getActiveConnector()
-        .enable()
-        .then(() => {
-          getBalance().then(value => {
-            console.log('Balance:', value);
+      if (enabledAPI) {
+        enabledAPI.getBalance().then((value: any) => {
+          console.log('Wallet enabled');
 
-            setBalance(value ?? '');
-          });
+          console.log('Balance:', value);
+          setBalance(value ?? '');
         });
+      }
+
       // getBalance().then(value => {
       //   console.log('Balance:', value);
-
       //   setBalance(value ?? '');
       // });
     }
-  }, [address, setAddress]);
+  }, [address, setAddress, enabledAPI]);
 
   const onClick = useCallback(() => {
-    connect().then(api => {
-      console.log({ api });
-      if (api) setEnabledAPI(api);
-    });
+    getActiveConnector()
+      .enable()
+      .then(api => {
+        console.log('API CREATED', { api });
+
+        if (api) setEnabledAPI(api);
+      });
   }, [setEnabledAPI]);
+
+  const getBalance = useCallback(() => {
+    if (address && enabledAPI) {
+      // Get balance of the current wallet
+      enabledAPI.getBalance().then((value: any) => {
+        console.log('Balance:', value);
+        setBalance(value ?? '');
+      });
+    }
+  }, [address, setAddress, enabledAPI]);
 
   const onSign = useCallback(
     (message2: string | undefined) => {
@@ -106,6 +118,8 @@ function Home() {
       <Heading mb="5em">Adalib Example</Heading>
       <Flex gap="10" flexDirection="column" width={'100%'}>
         {!address && <Button onClick={onClick}>Connect</Button>}
+        {address && <Button onClick={getBalance}>Get Balance</Button>}
+
         {address && (
           <Flex gap="5" flexDirection="column" alignItems={'flex-start'}>
             <Badge fontSize="1em" fontStyle={'italic'}>
