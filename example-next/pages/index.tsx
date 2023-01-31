@@ -49,7 +49,7 @@ function Home() {
   const [usedAddresses, setUsedAddresses] = useState<string[]>([]);
   const [unusedAddresses, setUnusedAddresses] = useState<string[]>([]);
   const [changeAddress, setChangeAddress] = useState<string>('');
-
+  const [collateral, setCollateral] = useState<string | undefined>('');
   const [signature, setSignature] = useState<DataSignature | undefined>(undefined);
   const [message, setMessage] = useState<string | undefined>('');
   const [toAddress, setToAddress] = useState<string | undefined>('');
@@ -133,6 +133,15 @@ function Home() {
     }
   }, [enabledAPI, setChangeAddress]);
 
+  const getCollateral = useCallback(() => {
+    if (enabledAPI) {
+      enabledAPI.getCollateral().then((value: any) => {
+        console.log('Collateral:', value);
+        setCollateral(value ?? '');
+      });
+    }
+  }, [enabledAPI, setCollateral]);
+
   const onSign = useCallback(
     (message2: string | undefined) => {
       if (message2 && address)
@@ -175,10 +184,16 @@ function Home() {
             </Badge>
             <Text>{JSON.stringify(changeAddress)}</Text>
 
+            <Badge fontSize="1em" fontStyle={'italic'}>
+              Collateral:
+            </Badge>
+            <Text>{JSON.stringify(collateral)}</Text>
+
             <Button onClick={getBalance}>Get Balance</Button>
             <Button onClick={getUsedAddresses}>Get Used Addresses</Button>
             <Button onClick={getUnusedAddresses}>Get Unused Addresses</Button>
             <Button onClick={getChangeAddress}>Get Change Address</Button>
+            <Button onClick={getCollateral}>Get Collateral</Button>
             <Button onClick={async () => disconnect()}>Disconnect</Button>
           </Flex>
         )}

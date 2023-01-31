@@ -8,6 +8,7 @@ export {
   getCardanoAPI,
   getRewardAddresses,
   getUsedAddresses,
+  getUnusedAddresses,
   getChangeAddress,
   getRewardAddress,
   getCollateral

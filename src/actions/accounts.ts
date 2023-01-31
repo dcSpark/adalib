@@ -88,6 +88,17 @@ export async function getUsedAddresses() {
   });
 }
 
+export async function getUnusedAddresses() {
+  return withConnector(async connector => {
+    const api = connector.getConnectorAPI();
+    if (!api) {
+      throw new Error(`API for connector is not enabled.`);
+    }
+
+    return api.getUnusedAddresses();
+  });
+}
+
 /**
  * @deprecated Unavailable in current standard
  */
