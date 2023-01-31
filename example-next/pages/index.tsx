@@ -17,7 +17,8 @@ import {
   // switchConnector,
   getConnectorIsAvailable,
   WalletConnectConnector,
-  getActiveConnector
+  getActiveConnector,
+  getUsedAddresses
 } from '@dcspark/adalib';
 import { useCallback, useEffect, useState } from 'react';
 import {
@@ -31,10 +32,12 @@ import {
   NumberInput,
   NumberInputField,
   NumberInputStepper,
-  useToast
+  useToast,
+  Text
 } from '@chakra-ui/react';
 import type { DataSignature, EnabledAPI } from '@dcspark/adalib/dist/types/CardanoInjected';
 import { decodeHexAddress } from '@cardano-foundation/cardano-connect-with-wallet';
+import { utils } from '@stricahq/typhonjs';
 
 import { watchAddress } from '@dcspark/adalib';
 
@@ -43,6 +46,10 @@ function Home() {
   console.log('Flint is ready', getConnectorIsAvailable(WalletConnectConnector.connectorName()));
   const [address, setAddress] = useState<string | undefined>('');
   const [balance, setBalance] = useState<string | undefined>('');
+  const [usedAddresses, setUsedAddresses] = useState<string[]>([]);
+  const [unusedAddresses, setUnusedAddresses] = useState<string[]>([]);
+  const [changeAddress, setChangeAddress] = useState<string>('');
+
   const [signature, setSignature] = useState<DataSignature | undefined>(undefined);
   const [message, setMessage] = useState<string | undefined>('');
   const [toAddress, setToAddress] = useState<string | undefined>('');
@@ -63,26 +70,6 @@ function Home() {
     }
   }, [enabledAPI, setAddress]);
 
-  // balance is a CML / CSL serialized `Value`
-  useEffect(() => {
-    if (address) {
-      // Get balance of the current wallet
-      if (enabledAPI) {
-        enabledAPI.getBalance().then((value: any) => {
-          console.log('Wallet enabled');
-
-          console.log('Balance:', value);
-          setBalance(value ?? '');
-        });
-      }
-
-      // getBalance().then(value => {
-      //   console.log('Balance:', value);
-      //   setBalance(value ?? '');
-      // });
-    }
-  }, [address, setAddress, enabledAPI]);
-
   const onClick = useCallback(() => {
     getActiveConnector()
       .enable()
@@ -94,14 +81,57 @@ function Home() {
   }, [setEnabledAPI]);
 
   const getBalance = useCallback(() => {
-    if (address && enabledAPI) {
+    if (enabledAPI) {
       // Get balance of the current wallet
       enabledAPI.getBalance().then((value: any) => {
         console.log('Balance:', value);
         setBalance(value ?? '');
       });
     }
-  }, [address, setAddress, enabledAPI]);
+  }, [enabledAPI, setBalance]);
+
+  const getUsedAddresses = useCallback(() => {
+    if (enabledAPI) {
+      enabledAPI.getUsedAddresses({ limit: 50, page: 1 }).then((value: string[]) => {
+        console.log('Used addresses:', value);
+        if (Array.isArray(value)) {
+          const decodedAddresses = value.map(usedAddress =>
+            utils.getAddressFromHex(usedAddress).getBech32()
+          );
+          setUsedAddresses(decodedAddresses);
+        } else {
+          setUsedAddresses(value ?? '');
+        }
+      });
+    }
+  }, [enabledAPI, setUsedAddresses]);
+
+  const getUnusedAddresses = useCallback(() => {
+    if (enabledAPI) {
+      enabledAPI.getUnusedAddresses({ limit: 50, page: 1 }).then((value: string[]) => {
+        console.log('Unused addresses:', value);
+        if (Array.isArray(value)) {
+          const decodedAddresses = value.map(unusedAddress =>
+            utils.getAddressFromHex(unusedAddress).getBech32()
+          );
+          setUnusedAddresses(decodedAddresses);
+        } else {
+          setUnusedAddresses(value ?? '');
+        }
+      });
+    }
+  }, [enabledAPI, setUnusedAddresses]);
+
+  const getChangeAddress = useCallback(() => {
+    if (enabledAPI) {
+      enabledAPI.getChangeAddress().then((value: string) => {
+        console.log('Change address:', value);
+        const decodedAddress = utils.getAddressFromHex(value).getBech32();
+
+        setChangeAddress(decodedAddress);
+      });
+    }
+  }, [enabledAPI, setChangeAddress]);
 
   const onSign = useCallback(
     (message2: string | undefined) => {
@@ -118,16 +148,37 @@ function Home() {
       <Heading mb="5em">Adalib Example</Heading>
       <Flex gap="10" flexDirection="column" width={'100%'}>
         {!address && <Button onClick={onClick}>Connect</Button>}
-        {address && <Button onClick={getBalance}>Get Balance</Button>}
 
         {address && (
           <Flex gap="5" flexDirection="column" alignItems={'flex-start'}>
             <Badge fontSize="1em" fontStyle={'italic'}>
-              Address {address}
+              Address
             </Badge>
+            <Text>{JSON.stringify(address)}</Text>
             <Badge fontSize="1em" fontStyle={'italic'}>
-              Balance: {balance}
+              Balance:
             </Badge>
+            <Text>{JSON.stringify(balance)}</Text>
+
+            <Badge fontSize="1em" fontStyle={'italic'}>
+              Used Addresses:
+            </Badge>
+            <Text>{JSON.stringify(usedAddresses)}</Text>
+
+            <Badge fontSize="1em" fontStyle={'italic'}>
+              Unused Addresses:
+            </Badge>
+            <Text>{JSON.stringify(unusedAddresses)}</Text>
+
+            <Badge fontSize="1em" fontStyle={'italic'}>
+              Change Address:
+            </Badge>
+            <Text>{JSON.stringify(changeAddress)}</Text>
+
+            <Button onClick={getBalance}>Get Balance</Button>
+            <Button onClick={getUsedAddresses}>Get Used Addresses</Button>
+            <Button onClick={getUnusedAddresses}>Get Unused Addresses</Button>
+            <Button onClick={getChangeAddress}>Get Change Address</Button>
             <Button onClick={async () => disconnect()}>Disconnect</Button>
           </Flex>
         )}
