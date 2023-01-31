@@ -1,5 +1,5 @@
 /* eslint-disable capitalized-comments */
-import type UniversalProvider from '@walletconnect/universal-provider';
+import type UniversalProvider from '@dcspark/universal-provider';
 import type { Connector } from './base';
 import type { EnabledAPI, WalletNames } from '../types/CardanoInjected';
 import { UniversalProviderFactory } from '../utils/universalProvider';

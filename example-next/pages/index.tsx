@@ -93,6 +93,8 @@ function Home() {
 
   const getUsedAddresses = useCallback(() => {
     if (enabledAPI) {
+      console.log('getUsedAddresses', enabledAPI);
+
       enabledAPI.getUsedAddresses({ limit: 50, page: 1 }).then((value: string[]) => {
         console.log('Used addresses:', value);
         if (Array.isArray(value)) {
@@ -109,6 +111,7 @@ function Home() {
 
   const getUnusedAddresses = useCallback(() => {
     if (enabledAPI) {
+      console.log('getUnusedAddresses', enabledAPI);
       enabledAPI.getUnusedAddresses({ limit: 50, page: 1 }).then((value: string[]) => {
         console.log('Used addresses:', value);
         if (Array.isArray(value)) {
