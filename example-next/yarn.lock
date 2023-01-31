@@ -1997,14 +1997,14 @@
   resolved "https://registry.npmjs.org/@csstools/selector-specificity/-/selector-specificity-2.0.2.tgz"
   integrity sha512-IkpVW/ehM1hWKln4fCA3NzJU8KwD+kIOvPZA4cqxoJHtE21CCzjyp+Kxbu0i5I4tBNOlXPL9mjwnWlL0VEG4Fg==
 
-"@dcspark/adalib@0.1.6":
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/@dcspark/adalib/-/adalib-0.1.6.tgz#8cf6e13b239fab0063a05203d405c86dc28855a6"
-  integrity sha512-ZnlML9ArKS9vnkgptsh4cPH9gl7+2vC2H7u9mq930En2+XEVFYm5A7FXXvfJl3sxKPvdzbz93w1dMuibxcIJow==
+"@dcspark/adalib@0.1.7":
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/@dcspark/adalib/-/adalib-0.1.7.tgz#704429d351fc64c65e846194d12f58d9a2aab8b0"
+  integrity sha512-IRiyfTZNGT/lPmSCmv2yXN62sXCCGSUzm8myspdHmy8fiY4UP8z0PRHoajDVp0WXQaUqPrsH/9J6JhkaKKsAfQ==
   dependencies:
     "@cardano-foundation/cardano-connect-with-wallet" "^0.1.45"
+    "@dcspark/universal-provider" "^2.3.2"
     "@ethersproject/sha2" "^5.7.0"
-    "@walletconnect/universal-provider" "2.3.2"
     bn.js "5.2.1"
     borsh "0.7.0"
     bs58 "5.0.0"
@@ -2015,6 +2015,23 @@
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/@dcspark/cardano-multiplatform-lib-browser/-/cardano-multiplatform-lib-browser-3.1.2.tgz#1495d57b6d129c50a87bc838c11d0b7d7ad6939d"
   integrity sha512-BDIF33nqEKAGn72+ESD1fLgnWCZJbPWnVKHr0cy7Al2zhvM30rGsajcJNHLPh2XXZQh1H35fBiHHR2uUyZRRpw==
+
+"@dcspark/universal-provider@^2.3.2":
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/@dcspark/universal-provider/-/universal-provider-2.3.2.tgz#faac92f9ffdc88357869963bb168dd8cf033f20c"
+  integrity sha512-/itMswEMdUNUno7UW4du8poaOBozukGzQBfztIy2trpnnnAbv0VNg0nh9fC9IO9zIkAHMyociIYxgiXntqKeiQ==
+  dependencies:
+    "@walletconnect/jsonrpc-http-connection" "^1.0.4"
+    "@walletconnect/jsonrpc-provider" "^1.0.6"
+    "@walletconnect/jsonrpc-types" "^1.0.2"
+    "@walletconnect/jsonrpc-utils" "^1.0.4"
+    "@walletconnect/logger" "^2.0.1"
+    "@walletconnect/sign-client" "2.3.2"
+    "@walletconnect/types" "2.3.2"
+    "@walletconnect/utils" "2.3.2"
+    eip1193-provider "1.0.1"
+    events "^3.3.0"
+    pino "7.11.0"
 
 "@emotion/babel-plugin@^11.10.5":
   version "11.10.5"
@@ -3714,23 +3731,6 @@
     "@walletconnect/keyvaluestorage" "^1.0.2"
     "@walletconnect/logger" "^2.0.1"
     events "^3.3.0"
-
-"@walletconnect/universal-provider@2.3.2":
-  version "2.3.2"
-  resolved "https://registry.npmjs.org/@walletconnect/universal-provider/-/universal-provider-2.3.2.tgz"
-  integrity sha512-x/tA3U16prAuRi208dRaGN9vop2r/u+entWFcwUX2iagG0Bth+2KPIk8lpz85jUOg8t4n2lF6NVJ8bpDmZkElw==
-  dependencies:
-    "@walletconnect/jsonrpc-http-connection" "^1.0.4"
-    "@walletconnect/jsonrpc-provider" "^1.0.6"
-    "@walletconnect/jsonrpc-types" "^1.0.2"
-    "@walletconnect/jsonrpc-utils" "^1.0.4"
-    "@walletconnect/logger" "^2.0.1"
-    "@walletconnect/sign-client" "2.3.2"
-    "@walletconnect/types" "2.3.2"
-    "@walletconnect/utils" "2.3.2"
-    eip1193-provider "1.0.1"
-    events "^3.3.0"
-    pino "7.11.0"
 
 "@walletconnect/utils@2.3.2":
   version "2.3.2"

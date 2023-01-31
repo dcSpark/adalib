@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable capitalized-comments */
 import type UniversalProvider from '@dcspark/universal-provider';
 import type { Connector } from './base';
@@ -40,7 +41,7 @@ async function loadW3mModal() {
 }
 
 export class WalletConnectConnector implements Connector {
-  protected provider: UniversalProvider | undefined;
+  protected _provider: UniversalProvider | undefined;
   protected qrcode: boolean;
   private enabled = false;
   public enabledWallet: WalletNames | undefined;
@@ -78,12 +79,12 @@ export class WalletConnectConnector implements Connector {
 
     if (autoconnect)
       UniversalProviderFactory.getProvider().then(provider => {
-        this.provider = provider;
+        this._provider = provider;
         console.log('Provider state', { provider });
         // (TODO update typing for provider)
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-        if (this.provider.session?.namespaces?.cardano?.accounts?.length) {
-          const [defaultAccount] = this.provider.session.namespaces.cardano.accounts;
+        if (this._provider.session?.namespaces?.cardano?.accounts?.length) {
+          const [defaultAccount] = this._provider.session.namespaces.cardano.accounts;
           console.log('Found accounts', defaultAccount);
           const address = defaultAccount.split(':')[2];
           // is this still necessary? Or only for solana RPC queries?
@@ -93,14 +94,14 @@ export class WalletConnectConnector implements Connector {
   }
 
   public async disconnect() {
-    const provider = this.provider ? this.provider : await UniversalProviderFactory.getProvider();
+    const provider = this._provider ? this._provider : await UniversalProviderFactory.getProvider();
 
     try {
       await provider.disconnect();
     } finally {
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       delete provider.session?.namespaces?.cardano;
-      this.provider = undefined;
+      this._provider = undefined;
       this.enabled = false;
       this.connectedWalletAPI = undefined;
     }
@@ -114,6 +115,18 @@ export class WalletConnectConnector implements Connector {
 
   public isAvailable() {
     return true;
+  }
+
+  private set provider(provider: UniversalProvider | undefined) {
+    this._provider = provider;
+    if (this._provider) {
+      const emulatedAPI = new EnabledWalletEmulator(this._provider);
+      this.connectedWalletAPI = emulatedAPI;
+    }
+  }
+
+  private get provider() {
+    return this._provider;
   }
 
   public async isEnabled(): Promise<boolean> {
