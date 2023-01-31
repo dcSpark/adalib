@@ -28,13 +28,13 @@ export class EnabledWalletEmulator implements EnabledAPI {
   public async getUsedAddresses(paginate?: Paginate | undefined) {
     return this.provider.request<Cbor<'address'>[]>({
       method: 'cardano_getUsedAddresses',
-      params: [paginate]
+      params: paginate ? [paginate] : []
     });
   }
   public async getUnusedAddresses(paginate?: Paginate | undefined) {
     return this.provider.request<Cbor<'address'>[]>({
       method: 'cardano_getUnusedAddresses',
-      params: [paginate]
+      params: paginate ? [paginate] : []
     });
   }
   public async getChangeAddress() {

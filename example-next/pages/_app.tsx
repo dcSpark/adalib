@@ -4,12 +4,14 @@ import {
   init,
   cardanoMainnetWalletConnect,
   WalletConnectConnector,
-  FlintConnector
+  FlintConnector,
+  switchNetwork
   // setProjectId
 } from '@dcspark/adalib';
 import { ColorModeProvider, ChakraProvider } from '@chakra-ui/react';
 
 const PROJECT_ID = process.env.NEXT_PUBLIC_PROJECT_ID;
+switchNetwork(cardanoMainnetWalletConnect());
 
 init(
   () => ({

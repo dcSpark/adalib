@@ -18,7 +18,9 @@ import {
   getConnectorIsAvailable,
   WalletConnectConnector,
   getActiveConnector,
-  getUsedAddresses
+  getUsedAddresses,
+  switchNetwork,
+  cardanoMainnetWalletConnect
 } from '@dcspark/adalib';
 import { useCallback, useEffect, useState } from 'react';
 import {
@@ -40,7 +42,6 @@ import { decodeHexAddress } from '@cardano-foundation/cardano-connect-with-walle
 import { utils } from '@stricahq/typhonjs';
 
 import { watchAddress } from '@dcspark/adalib';
-
 function Home() {
   const toast = useToast();
   console.log('Flint is ready', getConnectorIsAvailable(WalletConnectConnector.connectorName()));
@@ -109,10 +110,10 @@ function Home() {
   const getUnusedAddresses = useCallback(() => {
     if (enabledAPI) {
       enabledAPI.getUnusedAddresses({ limit: 50, page: 1 }).then((value: string[]) => {
-        console.log('Unused addresses:', value);
+        console.log('Used addresses:', value);
         if (Array.isArray(value)) {
-          const decodedAddresses = value.map(unusedAddress =>
-            utils.getAddressFromHex(unusedAddress).getBech32()
+          const decodedAddresses = value.map(unusedAddresses =>
+            utils.getAddressFromHex(unusedAddresses).getBech32()
           );
           setUnusedAddresses(decodedAddresses);
         } else {
@@ -120,7 +121,7 @@ function Home() {
         }
       });
     }
-  }, [enabledAPI, setUnusedAddresses]);
+  }, [enabledAPI, setUsedAddresses]);
 
   const getChangeAddress = useCallback(() => {
     if (enabledAPI) {
