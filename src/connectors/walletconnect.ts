@@ -144,11 +144,9 @@ export class WalletConnectConnector implements Connector {
     await this.connect();
     this.enabled = true;
     // step 2: initialize enabled Api
-    if (!this.provider) throw new Error('Provider not initialized');
-    const emulatedAPI = new EnabledWalletEmulator(this.provider);
-    this.connectedWalletAPI = emulatedAPI;
+    if (!this.provider || !this.connectedWalletAPI) throw new Error('Provider not initialized');
 
-    return emulatedAPI;
+    return this.connectedWalletAPI;
   }
 
   public getConnectorAPI(): EnabledAPI | undefined {
