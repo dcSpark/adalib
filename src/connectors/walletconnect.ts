@@ -182,7 +182,7 @@ export class WalletConnectConnector implements Connector {
           'cardano_getUtxos',
           'cardano_getNetworkId',
           'cardano_getUsedAddresses',
-          'cardano_getUnusedAddress',
+          'cardano_getUnusedAddresses',
           'cardano_getChangeAddress',
           'cardano_getRewardAddress',
           'cardano_getRewardAddresses'

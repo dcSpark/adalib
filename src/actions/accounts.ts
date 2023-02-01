@@ -99,9 +99,6 @@ export async function getUnusedAddresses() {
   });
 }
 
-/**
- * @deprecated Unavailable in current standard
- */
 export function switchNetwork(chain: Chain) {
   setChain(chain);
 }
