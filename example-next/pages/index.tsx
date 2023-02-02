@@ -41,12 +41,24 @@ import type { DataSignature, EnabledAPI } from '@dcspark/adalib/dist/types/Carda
 import { decodeHexAddress } from '@cardano-foundation/cardano-connect-with-wallet';
 import { utils } from '@stricahq/typhonjs';
 
+const hexEncode = function (str: string) {
+  var hex, i;
+
+  var result = '';
+  for (i = 0; i < str.length; i++) {
+    hex = str.charCodeAt(i).toString(16);
+    result += ('000' + hex).slice(-4);
+  }
+
+  return result;
+};
 import { watchAddress } from '@dcspark/adalib';
 function Home() {
   const toast = useToast();
   console.log('Flint is ready', getConnectorIsAvailable(WalletConnectConnector.connectorName()));
   const [address, setAddress] = useState<string | undefined>('');
   const [balance, setBalance] = useState<string | undefined>('');
+  const [rawSignAddress, setRawSignAddress] = useState<string | undefined>('');
   const [usedAddresses, setUsedAddresses] = useState<string[]>([]);
   const [unusedAddresses, setUnusedAddresses] = useState<string[]>([]);
   const [changeAddress, setChangeAddress] = useState<string>('');
@@ -71,7 +83,7 @@ function Home() {
     }
   }, [enabledAPI, setAddress]);
 
-  const onClick = useCallback(() => {
+  const enableConnector = useCallback(() => {
     getActiveConnector()
       .enable()
       .then(api => {
@@ -98,6 +110,8 @@ function Home() {
       enabledAPI.getUsedAddresses({ limit: 50, page: 1 }).then((value: string[]) => {
         console.log('Used addresses:', value);
         if (Array.isArray(value)) {
+          const [cborAddr] = value;
+          setRawSignAddress(cborAddr);
           const decodedAddresses = value.map(usedAddress =>
             utils.getAddressFromHex(usedAddress).getBech32()
           );
@@ -107,7 +121,7 @@ function Home() {
         }
       });
     }
-  }, [enabledAPI, setUsedAddresses]);
+  }, [enabledAPI, setUsedAddresses, setRawSignAddress]);
 
   const getUnusedAddresses = useCallback(() => {
     if (enabledAPI) {
@@ -148,19 +162,19 @@ function Home() {
 
   const onSign = useCallback(
     (message2: string | undefined) => {
-      if (message2 && address)
-        signData(address, message2).then(signature2 => {
+      if (message2 && enabledAPI && rawSignAddress)
+        enabledAPI?.signData(rawSignAddress, hexEncode(message2)).then(signature2 => {
           setSignature(signature2 ?? undefined);
         });
     },
-    [address, setSignature]
+    [rawSignAddress, setSignature, enabledAPI]
   );
 
   return (
     <div className="App">
       <Heading mb="5em">Adalib Example</Heading>
       <Flex gap="10" flexDirection="column" width={'100%'}>
-        {!address && <Button onClick={onClick}>Connect</Button>}
+        {!address && <Button onClick={enableConnector}>Connect</Button>}
 
         {address && (
           <Flex gap="5" flexDirection="column" alignItems={'flex-start'}>

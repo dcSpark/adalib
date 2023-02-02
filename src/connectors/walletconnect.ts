@@ -94,13 +94,13 @@ export class WalletConnectConnector implements Connector {
   }
 
   public async disconnect() {
-    const provider = this._provider ? this._provider : await UniversalProviderFactory.getProvider();
-
     try {
-      await provider.disconnect();
+      this.provider = this.provider ? this.provider : await UniversalProviderFactory.getProvider();
+
+      await this.provider.disconnect();
     } finally {
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      delete provider.session?.namespaces?.cardano;
+      delete this.provider?.session?.namespaces?.cardano;
       this.provider = undefined;
       this.enabled = false;
       this.connectedWalletAPI = undefined;
