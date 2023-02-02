@@ -209,6 +209,7 @@ export class WalletConnectConnector implements Connector {
 
       this.provider
         ?.connect({
+          pairingTopic: undefined,
           namespaces: cardanoNamespace
         })
         .then(providerResult => {
