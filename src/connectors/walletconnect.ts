@@ -92,7 +92,7 @@ export class WalletConnectConnector implements Connector {
         }
       });
   }
-
+  // TODO: add a session delete listener in the provider factory
   public async disconnect() {
     try {
       this.provider = this.provider ? this.provider : await UniversalProviderFactory.getProvider();
@@ -101,6 +101,7 @@ export class WalletConnectConnector implements Connector {
     } finally {
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       delete this.provider?.session?.namespaces?.cardano;
+      // May need to delete this
       this.provider = undefined;
       this.enabled = false;
       this.connectedWalletAPI = undefined;
@@ -195,11 +196,10 @@ export class WalletConnectConnector implements Connector {
     };
 
     // WC concept
-    const provider = await UniversalProviderFactory.getProvider();
-    this.provider = provider;
+    this.provider = await UniversalProviderFactory.getProvider();
 
     return new Promise<string>((resolve, reject) => {
-      provider.on('display_uri', (uri: string) => {
+      this.provider?.on('display_uri', (uri: string) => {
         if (this.qrcode)
           importW3mModalCtrl().then(ModalCtrl => {
             ModalCtrl.open({ uri, standaloneChains: [chainID] });
@@ -207,8 +207,8 @@ export class WalletConnectConnector implements Connector {
         else resolve(uri);
       });
 
-      provider
-        .connect({
+      this.provider
+        ?.connect({
           pairingTopic: undefined,
           namespaces: cardanoNamespace
         })
