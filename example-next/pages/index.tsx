@@ -212,7 +212,14 @@ function Home() {
             <Button onClick={getUnusedAddresses}>Get Unused Addresses</Button>
             <Button onClick={getChangeAddress}>Get Change Address</Button>
             <Button onClick={getCollateral}>Get Collateral</Button>
-            <Button onClick={async () => disconnect()}>Disconnect</Button>
+            <Button
+              onClick={async () => {
+                setEnabledAPI(undefined);
+                disconnect();
+              }}
+            >
+              Disconnect
+            </Button>
           </Flex>
         )}
         {address && (

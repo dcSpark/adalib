@@ -1997,10 +1997,10 @@
   resolved "https://registry.npmjs.org/@csstools/selector-specificity/-/selector-specificity-2.0.2.tgz"
   integrity sha512-IkpVW/ehM1hWKln4fCA3NzJU8KwD+kIOvPZA4cqxoJHtE21CCzjyp+Kxbu0i5I4tBNOlXPL9mjwnWlL0VEG4Fg==
 
-"@dcspark/adalib@0.1.9":
-  version "0.1.9"
-  resolved "https://registry.yarnpkg.com/@dcspark/adalib/-/adalib-0.1.9.tgz#c72c907ba5c2ba99b83870ca1274bee7e1937fd7"
-  integrity sha512-JGEKjkYmYZ2eILRfUR50z2TG5fkWdQ6wNo3BJ0u01bXDGpYXnptid7ndY0NwkvrL/pPFdDUk/gXHzGQLHB+GOg==
+"@dcspark/adalib@0.1.10":
+  version "0.1.10"
+  resolved "https://registry.yarnpkg.com/@dcspark/adalib/-/adalib-0.1.10.tgz#beb97812183632194450563362e5338721fe84d9"
+  integrity sha512-MQmUGWrWUYUio1Scq5+VQqrGa6Bz+6XBv364b+2nGqmKTchDtiA3xPsYHF9aMhp+TvIzJl5Qy9PSbLfRc2YNxQ==
   dependencies:
     "@cardano-foundation/cardano-connect-with-wallet" "^0.1.45"
     "@dcspark/universal-provider" "^2.3.2"
