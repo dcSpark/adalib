@@ -22,7 +22,7 @@ import {
   switchNetwork,
   cardanoMainnetWalletConnect
 } from '../../dist/adalib';
-import { useCallback, useEffect, useState } from 'react';
+import { SetStateAction, useCallback, useEffect, useState } from 'react';
 import {
   Badge,
   Button,
@@ -37,7 +37,7 @@ import {
   useToast,
   Text
 } from '@chakra-ui/react';
-import type { DataSignature, EnabledAPI } from '@dcspark/adalib/dist/types/CardanoInjected';
+// import type { DataSignature, EnabledAPI } from '../../dist/types/CardanoInjected';
 import { decodeHexAddress } from '@cardano-foundation/cardano-connect-with-wallet';
 import { utils } from '@stricahq/typhonjs';
 
@@ -53,6 +53,7 @@ const hexEncode = function (str: string) {
   return result;
 };
 import { watchAddress } from '@dcspark/adalib';
+import { DataSignature, EnabledAPI } from '../../dist/types/CardanoInjected';
 function Home() {
   const toast = useToast();
   console.log('Flint is ready', getConnectorIsAvailable(WalletConnectConnector.connectorName()));
@@ -68,7 +69,7 @@ function Home() {
   const [toAddress, setToAddress] = useState<string | undefined>('');
   const [amount, setAmount] = useState<number>(0);
   const [enabledAPI, setEnabledAPI] = useState<EnabledAPI>();
-  watchAddress(watchedAddress => {
+  watchAddress((watchedAddress: SetStateAction<string | undefined>) => {
     console.log('watchAddress', watchedAddress);
     setAddress(watchedAddress);
   });

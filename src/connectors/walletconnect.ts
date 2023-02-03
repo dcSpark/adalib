@@ -1,3 +1,4 @@
+/* eslint-disable multiline-comment-style */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable capitalized-comments */
 import type UniversalProvider from '@dcspark/universal-provider';
@@ -69,38 +70,33 @@ export class WalletConnectConnector implements Connector {
     });
     UniversalProviderFactory.getProvider().then(provider => {
       this.provider = provider;
-      this.provider.on('session_delete', () => {
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-        delete provider.session?.namespaces.cardano;
-        setAddress('');
-      });
     });
     if (typeof document !== 'undefined' && qrcode) loadW3mModal();
 
     if (autoconnect)
       UniversalProviderFactory.getProvider().then(provider => {
         this.provider = provider;
-        console.log('Provider state', { provider });
+
         // (TODO update typing for provider)
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-        if (this.provider.session?.namespaces?.cardano?.accounts?.length) {
-          const [defaultAccount] = this.provider.session.namespaces.cardano.accounts;
-          console.log('Found accounts', defaultAccount);
-          const address = defaultAccount.split(':')[2];
-          // is this still necessary? Or only for solana RPC queries?
-          setAddress(address);
+        if (this.provider.session?.namespaces?.cip34?.accounts?.length) {
+          // const [defaultAccount] = this.provider.session.namespaces.cip34.accounts;
+          // const address = defaultAccount.split(':')[2];
+          // Note: Setting the address here would prevent the connection from being established
         }
       });
   }
 
   public async disconnect() {
-    const provider = this.provider ? this.provider : await UniversalProviderFactory.getProvider();
-
     try {
+      const provider = await UniversalProviderFactory.getProvider();
+
       await provider.disconnect();
+    } catch (error) {
+      if (!/No matching key/iu.test((error as Error).message)) throw error;
     } finally {
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      delete provider.session?.namespaces?.cardano;
+      // delete provider?.session?.namespaces?.cip34;
       // this.provider = undefined;
       this.enabled = false;
       this.connectedWalletAPI = undefined;
@@ -141,7 +137,6 @@ export class WalletConnectConnector implements Connector {
 
   public async enable() {
     // step 1: pair
-    await this.provider?.cleanupPendingPairings();
     await this.connect();
     this.enabled = true;
     // step 2: initialize enabled Api
@@ -226,6 +221,9 @@ export class WalletConnectConnector implements Connector {
               ModalCtrl.close();
             });
           } else reject(new Error('Could not resolve address'));
+        })
+        .catch(error => {
+          if (!/No matching key/iu.test((error as Error).message)) throw error;
         });
     });
   }

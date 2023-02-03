@@ -132,7 +132,6 @@ export function setChain(chain: Chain) {
 }
 
 export function watchAddress(callback: (address?: string) => void) {
-  console.log('Subscribing to address');
   const unsub = subscribe(store, ops => {
     const addressChangeOp = ops.find(op => op[1].includes('address'));
 
