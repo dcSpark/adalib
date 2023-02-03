@@ -21,7 +21,7 @@ import {
   getUsedAddresses,
   switchNetwork,
   cardanoMainnetWalletConnect
-} from '../../dist/adalib';
+} from '@dcspark/adalib';
 import { SetStateAction, useCallback, useEffect, useState } from 'react';
 import {
   Badge,
@@ -38,7 +38,7 @@ import {
   Text
 } from '@chakra-ui/react';
 // import type { DataSignature, EnabledAPI } from '../../dist/types/CardanoInjected';
-import { decodeHexAddress } from '@cardano-foundation/cardano-connect-with-wallet';
+
 import { utils } from '@stricahq/typhonjs';
 
 const hexEncode = function (str: string) {
@@ -74,11 +74,10 @@ function Home() {
     setAddress(watchedAddress);
   });
   useEffect(() => {
-    console.log('ya hey');
     if (enabledAPI) {
       enabledAPI.getRewardAddress().then(acc => {
         console.log('Reward Address:', acc);
-        const decodedAddress = decodeHexAddress(acc);
+        const decodedAddress = utils.getAddressFromHex(acc).getBech32();
         setAddress(decodedAddress);
       });
     }
