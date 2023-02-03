@@ -141,6 +141,7 @@ export class WalletConnectConnector implements Connector {
 
   public async enable() {
     // step 1: pair
+    await this.provider?.cleanupPendingPairings();
     await this.connect();
     this.enabled = true;
     // step 2: initialize enabled Api

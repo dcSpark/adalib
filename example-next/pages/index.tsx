@@ -21,7 +21,7 @@ import {
   getUsedAddresses,
   switchNetwork,
   cardanoMainnetWalletConnect
-} from '@dcspark/adalib';
+} from '../../dist/adalib';
 import { useCallback, useEffect, useState } from 'react';
 import {
   Badge,
