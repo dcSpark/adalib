@@ -53,7 +53,8 @@ const hexEncode = function (str: string) {
   return result;
 };
 import { watchAddress } from '@dcspark/adalib';
-import { DataSignature, EnabledAPI } from '../../dist/types/CardanoInjected';
+import { DataSignature, EnabledAPI } from '@dcspark/adalib/dist/types/CardanoInjected';
+
 function Home() {
   const toast = useToast();
   console.log('Flint is ready', getConnectorIsAvailable(WalletConnectConnector.connectorName()));
@@ -215,6 +216,11 @@ function Home() {
             <Button
               onClick={async () => {
                 setEnabledAPI(undefined);
+                setBalance(undefined);
+                setUsedAddresses([]);
+                setUnusedAddresses([]);
+                setCollateral(undefined);
+                setChangeAddress('');
                 disconnect();
               }}
             >
