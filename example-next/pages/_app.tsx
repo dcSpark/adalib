@@ -5,7 +5,8 @@ import {
   cardanoMainnetWalletConnect,
   WalletConnectConnector,
   FlintConnector,
-  switchNetwork
+  switchNetwork,
+  cardanoPreprodWalletConnect
   // setProjectId
 } from '@dcspark/adalib';
 import { ColorModeProvider, ChakraProvider } from '@chakra-ui/react';
@@ -30,7 +31,7 @@ init(
         qrcode: true
       })
     ],
-    chosenChain: cardanoMainnetWalletConnect()
+    chosenChain: cardanoPreprodWalletConnect()
   }),
   PROJECT_ID
 );

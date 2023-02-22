@@ -66,8 +66,11 @@ function Home() {
   const [changeAddress, setChangeAddress] = useState<string>('');
   const [collateral, setCollateral] = useState<string | undefined>('');
   const [signature, setSignature] = useState<DataSignature | undefined>(undefined);
+  const [txSubmitResult, setTxSubmitResult] = useState<string | undefined>('');
   const [message, setMessage] = useState<string | undefined>('');
   const [toAddress, setToAddress] = useState<string | undefined>('');
+  const [txCBOR, setTxCBOR] = useState<string | undefined>('');
+
   const [amount, setAmount] = useState<number>(0);
   const [enabledAPI, setEnabledAPI] = useState<EnabledAPI>();
   watchAddress((watchedAddress: SetStateAction<string | undefined>) => {
@@ -171,6 +174,17 @@ function Home() {
     [rawSignAddress, setSignature, enabledAPI]
   );
 
+  const onSignTx = useCallback(() => {
+    console.log('Starting to sign tx');
+    if (txCBOR && enabledAPI && rawSignAddress) {
+      console.log('Submitting txCBOR', txCBOR);
+      enabledAPI?.signTx(txCBOR, false).then(resultID => {
+        console.log('Tx signed', resultID);
+        setTxSubmitResult(resultID ?? undefined);
+      });
+    }
+  }, [rawSignAddress, setSignature, enabledAPI, txCBOR]);
+
   return (
     <div className="App">
       <Heading mb="5em">Adalib Example</Heading>
@@ -221,6 +235,7 @@ function Home() {
                 setUnusedAddresses([]);
                 setCollateral(undefined);
                 setChangeAddress('');
+                setTxSubmitResult('');
                 disconnect();
               }}
             >
@@ -229,33 +244,46 @@ function Home() {
           </Flex>
         )}
         {address && (
-          <Flex gap="5" flexDirection="column" alignItems={'flex-start'}>
-            <Flex justifyContent="space-between" alignItems="center" width="100%">
-              <Flex gap="2" flexDirection="column">
-                <Input
-                  type="text"
-                  placeholder="Send to.."
-                  onChange={({ target }) => {
-                    setToAddress(target.value);
-                  }}
-                ></Input>
-                <NumberInput
-                  placeholder="Amount to send"
-                  onChange={(_, value) => {
-                    setAmount(value);
-                  }}
-                >
-                  <NumberInputField />
-                  <NumberInputStepper>
-                    <NumberIncrementStepper />
-                    <NumberDecrementStepper />
-                  </NumberInputStepper>
-                </NumberInput>
+          <div>
+            <Flex gap="5" flexDirection="column" alignItems={'flex-start'}>
+              <Flex flexDirection="column" gap="3" width="100%">
+                <Flex justifyContent="space-between" width="100%">
+                  <Flex>
+                    <Input
+                      type="text"
+                      placeholder="TX to sign..."
+                      onChange={({ target }) => setTxCBOR(target.value)}
+                    ></Input>
+                  </Flex>
+                  <Button onClick={() => onSignTx()}>Sign TX CBOR</Button>
+                </Flex>
+                <address>TX Submit Result: {txSubmitResult}</address>
               </Flex>
-              {/* <Button onClick={() => onSendTransaction(toAddress ?? '', amount)}>
-                Send Transaction
-              </Button> */}
             </Flex>
+            {/* <Flex justifyContent="space-between" alignItems="center" width="100%">
+               <Flex gap="2" flexDirection="column">
+                 <Input
+                   type="text"
+                   placeholder="Send to.."
+                   onChange={({ target }) => {`
+                     setToAddress(target.value);
+                   }}
+                 ></Input>
+                 <NumberInput
+                   placeholder="Amount to send"
+                   onChange={(_, value) => {
+                     setAmount(value);
+                   }}
+                 >
+                   <NumberInputField />
+                   <NumberInputStepper>
+                     <NumberIncrementStepper />
+                     <NumberDecrementStepper />
+                   </NumberInputStepper>
+                 </NumberInput>
+               </Flex>
+             </Flex> */}
+
             <Flex flexDirection="column" gap="3" width="100%">
               <Flex justifyContent="space-between" width="100%">
                 <Flex>
@@ -269,7 +297,7 @@ function Home() {
               </Flex>
               <address>Signature: {signature?.signature}</address>
             </Flex>
-          </Flex>
+          </div>
         )}
       </Flex>
     </div>
