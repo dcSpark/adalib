@@ -48,7 +48,7 @@ export class EnabledWalletEmulator implements EnabledAPI {
       method: 'cardano_getRewardAddresses'
     });
   }
-  public async signTx(tx: string, partialSign?: boolean | undefined) {
+  public async signTx(tx: string, partialSign = false) {
     return this.provider.request<Cbor<'transaction_witness_set'>>({
       method: 'cardano_signTx',
       params: [tx, partialSign]
