@@ -66,7 +66,9 @@ function Home() {
   const [changeAddress, setChangeAddress] = useState<string>('');
   const [collateral, setCollateral] = useState<string | undefined>('');
   const [signature, setSignature] = useState<DataSignature | undefined>(undefined);
+  const [txSignResult, setTxSignResult] = useState<string | undefined>('');
   const [txSubmitResult, setTxSubmitResult] = useState<string | undefined>('');
+
   const [message, setMessage] = useState<string | undefined>('');
   const [toAddress, setToAddress] = useState<string | undefined>('');
   const [txCBOR, setTxCBOR] = useState<string | undefined>('');
@@ -175,15 +177,35 @@ function Home() {
   );
 
   const onSignTx = useCallback(() => {
-    console.log('Starting to sign tx');
-    if (txCBOR && enabledAPI && rawSignAddress) {
-      console.log('Submitting txCBOR', txCBOR);
+    if (txCBOR && enabledAPI) {
       enabledAPI?.signTx(txCBOR, false).then(resultID => {
         console.log('Tx signed', resultID);
+        setTxSignResult(resultID ?? undefined);
+      });
+    }
+  }, [setSignature, enabledAPI, txCBOR]);
+
+  const onSubmitTx = useCallback(() => {
+    if (txSignResult && enabledAPI) {
+      console.log('Tx submit', txSignResult);
+      /**
+       * Convert signed TX to CBOR:
+       * const txCbor = Buffer.from(
+        RustModule.WalletV4.Transaction.new(
+          tx.body(),
+          RustModule.WalletV4.TransactionWitnessSet.from_bytes(
+            Buffer.from(txSignResult, 'hex')
+          ),
+          tx.auxiliary_data()
+        ).to_bytes()
+      ).toString('hex');
+       */
+      enabledAPI?.submitTx(txSignResult).then(resultID => {
+        console.log('Tx submitted', resultID);
         setTxSubmitResult(resultID ?? undefined);
       });
     }
-  }, [rawSignAddress, setSignature, enabledAPI, txCBOR]);
+  }, [txSignResult, setTxSubmitResult, enabledAPI]);
 
   return (
     <div className="App">
@@ -235,7 +257,7 @@ function Home() {
                 setUnusedAddresses([]);
                 setCollateral(undefined);
                 setChangeAddress('');
-                setTxSubmitResult('');
+                setTxSignResult('');
                 disconnect();
               }}
             >
@@ -257,32 +279,20 @@ function Home() {
                   </Flex>
                   <Button onClick={() => onSignTx()}>Sign TX CBOR</Button>
                 </Flex>
+                <address>TX Sign Result: {txSignResult}</address>
+              </Flex>
+            </Flex>
+
+            <Flex gap="5" flexDirection="column" alignItems={'flex-start'}>
+              <Flex flexDirection="column" gap="3" width="100%">
+                <Flex justifyContent="space-between" width="100%">
+                  <Button disabled={!txSignResult} onClick={() => onSubmitTx()}>
+                    Submit TX
+                  </Button>
+                </Flex>
                 <address>TX Submit Result: {txSubmitResult}</address>
               </Flex>
             </Flex>
-            {/* <Flex justifyContent="space-between" alignItems="center" width="100%">
-               <Flex gap="2" flexDirection="column">
-                 <Input
-                   type="text"
-                   placeholder="Send to.."
-                   onChange={({ target }) => {`
-                     setToAddress(target.value);
-                   }}
-                 ></Input>
-                 <NumberInput
-                   placeholder="Amount to send"
-                   onChange={(_, value) => {
-                     setAmount(value);
-                   }}
-                 >
-                   <NumberInputField />
-                   <NumberInputStepper>
-                     <NumberIncrementStepper />
-                     <NumberDecrementStepper />
-                   </NumberInputStepper>
-                 </NumberInput>
-               </Flex>
-             </Flex> */}
 
             <Flex flexDirection="column" gap="3" width="100%">
               <Flex justifyContent="space-between" width="100%">
