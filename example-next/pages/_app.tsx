@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import {
@@ -6,13 +7,14 @@ import {
   WalletConnectConnector,
   FlintConnector,
   switchNetwork,
-  cardanoPreprodWalletConnect
+  cardanoPreprodWalletConnect,
+  cardanoPreviewWalletConnect
   // setProjectId
 } from '@dcspark/adalib';
 import { ColorModeProvider, ChakraProvider } from '@chakra-ui/react';
 
 const PROJECT_ID = process.env.NEXT_PUBLIC_PROJECT_ID;
-switchNetwork(cardanoMainnetWalletConnect());
+// switchNetwork(cardanoMainnetWalletConnect());
 
 init(
   () => ({

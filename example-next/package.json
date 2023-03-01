@@ -6,7 +6,8 @@
     "dev": "next dev -p 3030",
     "build": "next build",
     "start": "next start -p 3030",
-    "lint": "next lint"
+    "lint": "next lint",
+    "export": "next export"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.3.5",

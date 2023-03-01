@@ -1,59 +1,33 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-plusplus */
+/* eslint-disable @typescript-eslint/init-declarations */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
-  connect,
-  // signTx,
   disconnect,
-  getBalance,
-  // submitTx,
-  FlintConnector,
-  // getCollateral,
-  // getCardanoAPI,
-  // getNetworkId,
-  // getUsedAddresses,
-  // getChangeAddress,
-  getRewardAddress,
-  signData,
-  // getRewardAddresses,
-  // switchConnector,
   getConnectorIsAvailable,
   WalletConnectConnector,
-  getActiveConnector,
-  getUsedAddresses,
-  switchNetwork,
-  cardanoMainnetWalletConnect
+  getActiveConnector
 } from '@dcspark/adalib';
-import { SetStateAction, useCallback, useEffect, useState } from 'react';
-import {
-  Badge,
-  Button,
-  Flex,
-  Heading,
-  Input,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  useToast,
-  Text
-} from '@chakra-ui/react';
-// import type { DataSignature, EnabledAPI } from '../../dist/types/CardanoInjected';
+import type { SetStateAction } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { Badge, Button, Flex, Heading, Input, useToast, Text, Image } from '@chakra-ui/react';
 
 import { utils } from '@stricahq/typhonjs';
 
-const hexEncode = function (str: string) {
-  var hex, i;
+function hexEncode(str: string) {
+  let hex, i;
 
-  var result = '';
+  let result = '';
   for (i = 0; i < str.length; i++) {
     hex = str.charCodeAt(i).toString(16);
-    result += ('000' + hex).slice(-4);
+    result += `000${hex}`.slice(-4);
   }
 
   return result;
-};
+}
 import { watchAddress } from '@dcspark/adalib';
-import { DataSignature, EnabledAPI } from '@dcspark/adalib/dist/types/CardanoInjected';
+import type { DataSignature, EnabledAPI } from '@dcspark/adalib/dist/types/CardanoInjected';
 
 function Home() {
   const toast = useToast();
@@ -70,10 +44,9 @@ function Home() {
   const [txSubmitResult, setTxSubmitResult] = useState<string | undefined>('');
 
   const [message, setMessage] = useState<string | undefined>('');
-  const [toAddress, setToAddress] = useState<string | undefined>('');
+
   const [txCBOR, setTxCBOR] = useState<string | undefined>('');
 
-  const [amount, setAmount] = useState<number>(0);
   const [enabledAPI, setEnabledAPI] = useState<EnabledAPI>();
   watchAddress((watchedAddress: SetStateAction<string | undefined>) => {
     console.log('watchAddress', watchedAddress);
@@ -93,9 +66,9 @@ function Home() {
     getActiveConnector()
       .enable()
       .then(api => {
-        console.log('API CREATED', { api });
+        console.log('CIP-30 API Created', { api });
 
-        if (api) setEnabledAPI(api);
+        setEnabledAPI(api);
       });
   }, [setEnabledAPI]);
 
@@ -135,8 +108,8 @@ function Home() {
       enabledAPI.getUnusedAddresses({ limit: 50, page: 1 }).then((value: string[]) => {
         console.log('Used addresses:', value);
         if (Array.isArray(value)) {
-          const decodedAddresses = value.map(unusedAddresses =>
-            utils.getAddressFromHex(unusedAddresses).getBech32()
+          const decodedAddresses = value.map(remoteUnusedAddresses =>
+            utils.getAddressFromHex(remoteUnusedAddresses).getBech32()
           );
           setUnusedAddresses(decodedAddresses);
         } else {
@@ -144,7 +117,7 @@ function Home() {
         }
       });
     }
-  }, [enabledAPI, setUsedAddresses]);
+  }, [enabledAPI, setUnusedAddresses]);
 
   const getChangeAddress = useCallback(() => {
     if (enabledAPI) {
@@ -169,7 +142,7 @@ function Home() {
   const onSign = useCallback(
     (message2: string | undefined) => {
       if (message2 && enabledAPI && rawSignAddress)
-        enabledAPI?.signData(rawSignAddress, hexEncode(message2)).then(signature2 => {
+        enabledAPI.signData(rawSignAddress, hexEncode(message2)).then(signature2 => {
           setSignature(signature2 ?? undefined);
         });
     },
@@ -178,12 +151,12 @@ function Home() {
 
   const onSignTx = useCallback(() => {
     if (txCBOR && enabledAPI) {
-      enabledAPI?.signTx(txCBOR, false).then(resultID => {
+      enabledAPI.signTx(txCBOR, false).then(resultID => {
         console.log('Tx signed', resultID);
         setTxSignResult(resultID ?? undefined);
       });
     }
-  }, [setSignature, enabledAPI, txCBOR]);
+  }, [enabledAPI, txCBOR]);
 
   const onSubmitTx = useCallback(() => {
     if (txSignResult && enabledAPI) {
@@ -200,7 +173,7 @@ function Home() {
         ).to_bytes()
       ).toString('hex');
        */
-      enabledAPI?.submitTx(txSignResult).then(resultID => {
+      enabledAPI.submitTx(txSignResult).then(resultID => {
         console.log('Tx submitted', resultID);
         setTxSubmitResult(resultID ?? undefined);
       });
@@ -209,7 +182,13 @@ function Home() {
 
   return (
     <div className="App">
-      <Heading mb="5em">Adalib Example</Heading>
+      <Flex width={'100%'} height="50px" mb="5em" justifyContent={'space-between'}>
+        <Heading verticalAlign={'middle'}>Adalib Example </Heading>
+        <Image
+          alt="WalletConnect Logo"
+          src="https://raw.githubusercontent.com/WalletConnect/walletconnect-assets/master/Badge/Blue/Badge%402x.png"
+        ></Image>
+      </Flex>
       <Flex gap="10" flexDirection="column" width={'100%'}>
         {!address && <Button onClick={enableConnector}>Connect</Button>}
 
@@ -250,7 +229,7 @@ function Home() {
             <Button onClick={getChangeAddress}>Get Change Address</Button>
             <Button onClick={getCollateral}>Get Collateral</Button>
             <Button
-              onClick={async () => {
+              onClick={() => {
                 setEnabledAPI(undefined);
                 setBalance(undefined);
                 setUsedAddresses([]);
