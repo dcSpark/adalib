@@ -16,7 +16,8 @@ import {
 import { ColorModeProvider, ChakraProvider } from '@chakra-ui/react';
 import Home from './Home';
 
-const PROJECT_ID = process.env.NEXT_PUBLIC_PROJECT_ID;
+const PROJECT_ID = process.env.REACT_APP_NEXT_PUBLIC_PROJECT_ID;
+console.log('PROJECT_ID', PROJECT_ID, process.env);
 // switchNetwork(cardanoMainnetWalletConnect());
 
 init(

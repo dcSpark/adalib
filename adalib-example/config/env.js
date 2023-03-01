@@ -8,6 +8,7 @@ const paths = require('./paths');
 delete require.cache[require.resolve('./paths')];
 
 const NODE_ENV = process.env.NODE_ENV;
+console.log(`Building for ${NODE_ENV}`);
 if (!NODE_ENV) {
   throw new Error(
     'The NODE_ENV environment variable is required but was not specified.'
@@ -30,8 +31,12 @@ const dotenvFiles = [
 // that have already been set.  Variable expansion is supported in .env files.
 // https://github.com/motdotla/dotenv
 // https://github.com/motdotla/dotenv-expand
+console.log("Loading .dotenv files: ", dotenvFiles)
+
 dotenvFiles.forEach(dotenvFile => {
   if (fs.existsSync(dotenvFile)) {
+    console.log("Adding .dotenv file: ", dotenvFile)
+
     require('dotenv-expand')(
       require('dotenv').config({
         path: dotenvFile,
