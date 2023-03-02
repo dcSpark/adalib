@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 import {
@@ -37,7 +36,7 @@ init(
         qrcode: true
       })
     ],
-    chosenChain: cardanoPreprodWalletConnect()
+    chosenChain: cardanoMainnetWalletConnect()
   }),
   PROJECT_ID
 );

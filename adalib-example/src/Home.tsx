@@ -15,6 +15,7 @@ import { Badge, Button, Flex, Heading, Input, useToast, Text, Image } from '@cha
 import { watchAddress } from '@dcspark/adalib';
 import type { DataSignature, EnabledAPI } from '@dcspark/adalib/dist/types/CardanoInjected';
 import { utils } from '@stricahq/typhonjs';
+import './App.css';
 
 function hexEncode(str: string) {
   let hex, i;
