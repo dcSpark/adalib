@@ -34,7 +34,7 @@ import {
 init(
   {
     // The different connector methodologies that will be used.
-    // PhantomConnector will interact with injected Phantom Wallet using browser
+    // FlintConnector will interact with injected Flint Wallet using browser
     // extension, while WalletConnectConnector can be used to interact with all
     // wallets that support the WalletConnect protocol.
     connectors: [
