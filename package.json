@@ -38,8 +38,8 @@
   ],
   "dependencies": {
     "@cardano-foundation/cardano-connect-with-wallet": "^0.1.45",
-    "@dcspark/universal-provider": "^2.3.2",
     "@ethersproject/sha2": "^5.7.0",
+    "@walletconnect/universal-provider": "2.4.7",
     "bn.js": "5.2.1",
     "borsh": "0.7.0",
     "bs58": "5.0.0",
