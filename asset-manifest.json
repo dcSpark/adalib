@@ -1,19 +1,19 @@
 {
   "files": {
     "main.css": "/adalib/static/css/main.c4e4f11d.css",
-    "main.js": "/adalib/static/js/main.67220bea.js",
+    "main.js": "/adalib/static/js/main.f646fa2e.js",
     "static/js/330.50d8a0d4.chunk.js": "/adalib/static/js/330.50d8a0d4.chunk.js",
     "static/js/509.4767f4b7.chunk.js": "/adalib/static/js/509.4767f4b7.chunk.js",
     "static/js/787.3ccd0c7e.chunk.js": "/adalib/static/js/787.3ccd0c7e.chunk.js",
     "index.html": "/adalib/index.html",
     "main.c4e4f11d.css.map": "/adalib/static/css/main.c4e4f11d.css.map",
-    "main.67220bea.js.map": "/adalib/static/js/main.67220bea.js.map",
+    "main.f646fa2e.js.map": "/adalib/static/js/main.f646fa2e.js.map",
     "330.50d8a0d4.chunk.js.map": "/adalib/static/js/330.50d8a0d4.chunk.js.map",
     "509.4767f4b7.chunk.js.map": "/adalib/static/js/509.4767f4b7.chunk.js.map",
     "787.3ccd0c7e.chunk.js.map": "/adalib/static/js/787.3ccd0c7e.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.c4e4f11d.css",
-    "static/js/main.67220bea.js"
+    "static/js/main.f646fa2e.js"
   ]
 }
