@@ -10,7 +10,7 @@ You will need a Walletconnect Project ID to use this library. You can get one by
 
 For an examples, see `App.tsx` and `Home.tsx` in [example project](adalib-example/) in this repo.
 
-For further docs, see [docs](docs/).
+For further docs, see [docs](docs/docs).
 ### API
 
 - Connect Wallet:
