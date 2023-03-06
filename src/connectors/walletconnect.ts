@@ -1,7 +1,7 @@
 /* eslint-disable multiline-comment-style */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable capitalized-comments */
-import type UniversalProvider from '@dcspark/universal-provider';
+import type UniversalProvider from '@walletconnect/universal-provider';
 import type { Connector } from './base';
 import type { EnabledAPI, WalletNames } from '../types/CardanoInjected';
 import { UniversalProviderFactory } from '../utils/universalProvider';
@@ -79,7 +79,7 @@ export class WalletConnectConnector implements Connector {
 
         // (TODO update typing for provider)
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-        if (this.provider.session?.namespaces?.cip34?.accounts?.length) {
+        if (this.provider?.session?.namespaces?.cip34?.accounts?.length) {
           // const [defaultAccount] = this.provider.session.namespaces.cip34.accounts;
           // const address = defaultAccount.split(':')[2];
           // Note: Setting the address here would prevent the connection from being established

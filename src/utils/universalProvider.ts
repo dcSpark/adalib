@@ -1,4 +1,4 @@
-import UniversalProvider from '@dcspark/universal-provider';
+import UniversalProvider from '@walletconnect/universal-provider';
 import type { WalletConnectAppMetadata } from '../connectors/walletconnect';
 import { setAddress } from '../store';
 

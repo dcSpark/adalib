@@ -1,7 +1,7 @@
 /* eslint-disable no-warning-comments */
 /* eslint-disable multiline-comment-style */
 /* eslint-disable capitalized-comments */
-import type UniversalProvider from '@dcspark/universal-provider/dist/types/UniversalProvider';
+import type UniversalProvider from '@walletconnect/universal-provider/dist/types/UniversalProvider';
 import type { Cbor, DataSignature, EnabledAPI, Paginate } from '../types/CardanoInjected';
 
 /**
