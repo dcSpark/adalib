@@ -45,7 +45,18 @@ init({
 }, PROJECT_ID)
 ```
 
-## State management
+### Enabling a Connection
+
+The current connector can be enabled by calling getActiveConnector. You can then call `enable()` on the result of this call:
+
+```ts
+    getActiveConnector()
+      .enable()
+      .then(api => {
+        console.log('CIP-30 API Created', { api });
+        // store the CIP-30 api in state and make subsequent calls to it
+      })
+```
 
 ### Switch Connector
 `switchConnector` will determine the connector used to perform `connect`,
@@ -69,20 +80,6 @@ import { switchConnector, cardanoMainnetWalletConnect, cardanoPreprodWalletConne
 switchNetwork(cardanoMainnetWalletConnect()) 
 
 switchNetwork(cardanoPreprodWalletConnect())
-```
-
-### Set and Get project Id
-The functions here are conceded with manipulating `PROJECT_ID` (the second
-argument in `init`.
-
-```ts
-import { getProjectId, setProjectId } from '@dcspark/adalib'
-
-setProjectId('0x8s...')
-
-const projectId = getProjectId() 
-
-console.log(projectId) // 0x8s...
 ```
 
 ### Get Connector is available
