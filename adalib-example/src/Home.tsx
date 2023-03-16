@@ -42,6 +42,7 @@ function Home() {
   const [signature, setSignature] = useState<DataSignature | undefined>(undefined);
   const [txSignResult, setTxSignResult] = useState<string | undefined>('');
   const [txSubmitResult, setTxSubmitResult] = useState<string | undefined>('');
+  const [utxos, setUTXOs] = useState<Array<string> | undefined>([]);
 
   const [message, setMessage] = useState<string | undefined>('');
 
@@ -81,6 +82,17 @@ function Home() {
       });
     }
   }, [enabledAPI, setBalance]);
+
+  const getUTXOs = useCallback(() => {
+    if (enabledAPI) {
+      // Get balance of the current wallet
+      console.log('getUTXOs', enabledAPI);
+      enabledAPI.getUtxos(undefined, undefined).then(value => {
+        console.log('UTXOs:', value);
+        setUTXOs(value ?? []);
+      });
+    }
+  }, [enabledAPI, setUTXOs]);
 
   const getUsedAddresses = useCallback(() => {
     if (enabledAPI) {
@@ -223,11 +235,17 @@ function Home() {
             </Badge>
             <Text>{JSON.stringify(collateral)}</Text>
 
+            <Badge fontSize="1em" fontStyle={'italic'}>
+              UTXOs:
+            </Badge>
+            <Text>{JSON.stringify(utxos)}</Text>
+
             <Button onClick={getBalance}>Get Balance</Button>
             <Button onClick={getUsedAddresses}>Get Used Addresses</Button>
             <Button onClick={getUnusedAddresses}>Get Unused Addresses</Button>
             <Button onClick={getChangeAddress}>Get Change Address</Button>
             <Button onClick={getCollateral}>Get Collateral</Button>
+            <Button onClick={getUTXOs}>Get UTXOs</Button>
             <Button
               onClick={() => {
                 setEnabledAPI(undefined);
@@ -237,6 +255,7 @@ function Home() {
                 setCollateral(undefined);
                 setChangeAddress('');
                 setTxSignResult('');
+                setUTXOs([]);
                 disconnect();
               }}
             >
