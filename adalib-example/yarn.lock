@@ -2005,10 +2005,10 @@
   resolved "https://registry.yarnpkg.com/@csstools/selector-specificity/-/selector-specificity-2.1.1.tgz#c9c61d9fe5ca5ac664e1153bb0aa0eba1c6d6308"
   integrity sha512-jwx+WCqszn53YHOfvFMJJRd/B2GqkCBt+1MJSG6o5/s8+ytHMvDZXsJgUEWLk12UnLd7HYKac4BYU5i/Ron1Cw==
 
-"@dcspark/adalib@1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@dcspark/adalib/-/adalib-1.0.2.tgz#992ee23afcd46137e420f0e7d075f1e2f21befc5"
-  integrity sha512-DgpnDSAGDVOfxdBEiv7WnmIzjs8P5mTrifSa+NhENQCaaopZNfTNjYj2+Ue2qUuFzJ/NzKTO8W5BuhqwR2mI7w==
+"@dcspark/adalib@1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@dcspark/adalib/-/adalib-1.0.3.tgz#11418a5b737334ad96d4704861ee3f7984a1fa3d"
+  integrity sha512-cfJle0xwya9bY4e/0qljGoTr5TiI5aNZ25n3kEhAzA5TOsvMvb4hE2mvOqcMGPhG2w41i1zXsSQwl0sOvjgJ8w==
   dependencies:
     "@cardano-foundation/cardano-connect-with-wallet" "^0.1.45"
     "@ethersproject/sha2" "^5.7.0"
