@@ -199,7 +199,7 @@ function Home() {
         <Image
           alt="WalletConnect Logo"
           src="https://raw.githubusercontent.com/WalletConnect/walletconnect-assets/master/Badge/Blue/Badge%402x.png"
-        ></Image>
+        />
       </Flex>
       <Flex gap="10" flexDirection="column" width={'100%'}>
         {!address && <Button onClick={enableConnector}>Connect</Button>}
