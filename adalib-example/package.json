@@ -6,7 +6,7 @@
   "dependencies": {
     "@babel/core": "^7.16.0",
     "@chakra-ui/react": "^2.5.1",
-    "@dcspark/adalib": "1.0.0",
+    "@dcspark/adalib": "1.0.1",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",

@@ -1622,78 +1622,90 @@
   resolved "https://registry.npmjs.org/@leichtgewicht/ip-codec/-/ip-codec-2.0.4.tgz"
   integrity sha512-Hcv+nVC0kZnQ3tD9GVu5xSMR4VVYOteQIr/hwFPVEvPdlXqgGEuRjiheChHgdM+JyqdgNcmzZOX/tnl0JOiI7A==
 
-"@lit/reactive-element@^1.3.0", "@lit/reactive-element@^1.4.0":
+"@lit-labs/ssr-dom-shim@^1.0.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@lit-labs/ssr-dom-shim/-/ssr-dom-shim-1.1.0.tgz#3361d6b8c4cb2ac426d5794ac7cd9776cd2f0814"
+  integrity sha512-92uQ5ARf7UXYrzaFcAX3T2rTvaS9Z1//ukV+DqjACM4c8s0ZBQd7ayJU5Dh2AFLD/Ayuyz4uMmxQec8q3U4Ong==
+
+"@lit/reactive-element@^1.3.0":
   version "1.4.2"
   resolved "https://registry.npmjs.org/@lit/reactive-element/-/reactive-element-1.4.2.tgz"
   integrity sha512-VMOxsWh/QDwrxPsgkSQnuZ+8mfNy1OTjzzUdLBvvZtpahwPTHTeVZ51RZRqO4xfKVrR+btIPA8D01IL3xeG66w==
 
-"@motionone/animation@^10.14.0":
-  version "10.14.0"
-  resolved "https://registry.npmjs.org/@motionone/animation/-/animation-10.14.0.tgz"
-  integrity sha512-h+1sdyBP8vbxEBW5gPFDnj+m2DCqdlAuf2g6Iafb1lcMnqjsRXWlPw1AXgvUMXmreyhqmPbJqoNfIKdytampRQ==
+"@lit/reactive-element@^1.6.0":
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/@lit/reactive-element/-/reactive-element-1.6.1.tgz#0d958b6d479d0e3db5fc1132ecc4fa84be3f0b93"
+  integrity sha512-va15kYZr7KZNNPZdxONGQzpUr+4sxVu7V/VG7a8mRfPPXUyhEYj5RzXCQmGrlP3tAh0L3HHm5AjBMFYRqlM9SA==
   dependencies:
-    "@motionone/easing" "^10.14.0"
-    "@motionone/types" "^10.14.0"
-    "@motionone/utils" "^10.14.0"
+    "@lit-labs/ssr-dom-shim" "^1.0.0"
+
+"@motionone/animation@^10.15.1":
+  version "10.15.1"
+  resolved "https://registry.yarnpkg.com/@motionone/animation/-/animation-10.15.1.tgz#4a85596c31cbc5100ae8eb8b34c459fb0ccf6807"
+  integrity sha512-mZcJxLjHor+bhcPuIFErMDNyrdb2vJur8lSfMCsuCB4UyV8ILZLvK+t+pg56erv8ud9xQGK/1OGPt10agPrCyQ==
+  dependencies:
+    "@motionone/easing" "^10.15.1"
+    "@motionone/types" "^10.15.1"
+    "@motionone/utils" "^10.15.1"
     tslib "^2.3.1"
 
-"@motionone/dom@^10.14.3":
-  version "10.14.3"
-  resolved "https://registry.npmjs.org/@motionone/dom/-/dom-10.14.3.tgz"
-  integrity sha512-tese0zSBsWwxCcs9qGNyynhnQ3/n43F6XI588AUKBIfE9D5ZelzQXOzr/T0+ErsVppXJtyGHviYEnv7KHc9x7Q==
+"@motionone/dom@^10.15.5":
+  version "10.15.5"
+  resolved "https://registry.yarnpkg.com/@motionone/dom/-/dom-10.15.5.tgz#4af18f8136d85c2fc997cac98121c969f6731802"
+  integrity sha512-Xc5avlgyh3xukU9tydh9+8mB8+2zAq+WlLsC3eEIp7Ax7DnXgY7Bj/iv0a4X2R9z9ZFZiaXK3BO0xMYHKbAAdA==
   dependencies:
-    "@motionone/animation" "^10.14.0"
-    "@motionone/generators" "^10.14.0"
-    "@motionone/types" "^10.14.0"
-    "@motionone/utils" "^10.14.0"
+    "@motionone/animation" "^10.15.1"
+    "@motionone/generators" "^10.15.1"
+    "@motionone/types" "^10.15.1"
+    "@motionone/utils" "^10.15.1"
     hey-listen "^1.0.8"
     tslib "^2.3.1"
 
-"@motionone/easing@^10.14.0":
-  version "10.14.0"
-  resolved "https://registry.npmjs.org/@motionone/easing/-/easing-10.14.0.tgz"
-  integrity sha512-2vUBdH9uWTlRbuErhcsMmt1jvMTTqvGmn9fHq8FleFDXBlHFs5jZzHJT9iw+4kR1h6a4SZQuCf72b9ji92qNYA==
+"@motionone/easing@^10.15.1":
+  version "10.15.1"
+  resolved "https://registry.yarnpkg.com/@motionone/easing/-/easing-10.15.1.tgz#95cf3adaef34da6deebb83940d8143ede3deb693"
+  integrity sha512-6hIHBSV+ZVehf9dcKZLT7p5PEKHGhDwky2k8RKkmOvUoYP3S+dXsKupyZpqx5apjd9f+php4vXk4LuS+ADsrWw==
   dependencies:
-    "@motionone/utils" "^10.14.0"
+    "@motionone/utils" "^10.15.1"
     tslib "^2.3.1"
 
-"@motionone/generators@^10.14.0":
-  version "10.14.0"
-  resolved "https://registry.npmjs.org/@motionone/generators/-/generators-10.14.0.tgz"
-  integrity sha512-6kRHezoFfIjFN7pPpaxmkdZXD36tQNcyJe3nwVqwJ+ZfC0e3rFmszR8kp9DEVFs9QL/akWjuGPSLBI1tvz+Vjg==
+"@motionone/generators@^10.15.1":
+  version "10.15.1"
+  resolved "https://registry.yarnpkg.com/@motionone/generators/-/generators-10.15.1.tgz#dc6abb11139d1bafe758a41c134d4c753a9b871c"
+  integrity sha512-67HLsvHJbw6cIbLA/o+gsm7h+6D4Sn7AUrB/GPxvujse1cGZ38F5H7DzoH7PhX+sjvtDnt2IhFYF2Zp1QTMKWQ==
   dependencies:
-    "@motionone/types" "^10.14.0"
-    "@motionone/utils" "^10.14.0"
+    "@motionone/types" "^10.15.1"
+    "@motionone/utils" "^10.15.1"
     tslib "^2.3.1"
 
-"@motionone/svelte@^10.14.3":
-  version "10.14.3"
-  resolved "https://registry.npmjs.org/@motionone/svelte/-/svelte-10.14.3.tgz"
-  integrity sha512-fHyyyGJRkHsfE2IAg+6YU0BiMT/Jz5OAMpJvBZs3oGfwsgdqSms4YtLW22Ecs87e59hPZ26SqWCHad6enRfD9A==
+"@motionone/svelte@^10.15.5":
+  version "10.15.5"
+  resolved "https://registry.yarnpkg.com/@motionone/svelte/-/svelte-10.15.5.tgz#f36b40101ec1db122820598089f42e831f6cf5f5"
+  integrity sha512-Xyxtgp7BlVnSBwcoFmXGHUVnpNktzeXsEifu2NJJWc7VGuxutDsBZxNdz80qvpLIC5MeBa1wh7GGegZzTm1msg==
   dependencies:
-    "@motionone/dom" "^10.14.3"
+    "@motionone/dom" "^10.15.5"
     tslib "^2.3.1"
 
-"@motionone/types@^10.14.0":
-  version "10.14.0"
-  resolved "https://registry.npmjs.org/@motionone/types/-/types-10.14.0.tgz"
-  integrity sha512-3bNWyYBHtVd27KncnJLhksMFQ5o2MSdk1cA/IZqsHtA9DnRM1SYgN01CTcJ8Iw8pCXF5Ocp34tyAjY7WRpOJJQ==
+"@motionone/types@^10.15.1":
+  version "10.15.1"
+  resolved "https://registry.yarnpkg.com/@motionone/types/-/types-10.15.1.tgz#89441b54285012795cbba8612cbaa0fa420db3eb"
+  integrity sha512-iIUd/EgUsRZGrvW0jqdst8st7zKTzS9EsKkP+6c6n4MPZoQHwiHuVtTQLD6Kp0bsBLhNzKIBlHXponn/SDT4hA==
 
-"@motionone/utils@^10.14.0":
-  version "10.14.0"
-  resolved "https://registry.npmjs.org/@motionone/utils/-/utils-10.14.0.tgz"
-  integrity sha512-sLWBLPzRqkxmOTRzSaD3LFQXCPHvDzyHJ1a3VP9PRzBxyVd2pv51/gMOsdAcxQ9n+MIeGJnxzXBYplUHKj4jkw==
+"@motionone/utils@^10.15.1":
+  version "10.15.1"
+  resolved "https://registry.yarnpkg.com/@motionone/utils/-/utils-10.15.1.tgz#6b5f51bde75be88b5411e084310299050368a438"
+  integrity sha512-p0YncgU+iklvYr/Dq4NobTRdAPv9PveRDUXabPEeOjBLSO/1FNB2phNTZxOxpi1/GZwYpAoECEa0Wam+nsmhSw==
   dependencies:
-    "@motionone/types" "^10.14.0"
+    "@motionone/types" "^10.15.1"
     hey-listen "^1.0.8"
     tslib "^2.3.1"
 
-"@motionone/vue@^10.14.3":
-  version "10.14.3"
-  resolved "https://registry.npmjs.org/@motionone/vue/-/vue-10.14.3.tgz"
-  integrity sha512-FZ/vefJMDthnzlVQbL2I54WEvDyx720KClxWqmHZZ+wKic+i9XhNCU1qijGcvA3/1sFFp8u9fOqmejEWXSsHmw==
+"@motionone/vue@^10.15.5":
+  version "10.15.5"
+  resolved "https://registry.yarnpkg.com/@motionone/vue/-/vue-10.15.5.tgz#3101c62b2fce06b3f3072b9ff0f551213eb02476"
+  integrity sha512-cUENrLYAolUacHvCgU+8wF9OgSlVutfWbHMLERI/bElCJ+e2YVQvG/CpGhIM5fYOOJzuvg2T2wHmLLmvJoavEw==
   dependencies:
-    "@motionone/dom" "^10.14.3"
+    "@motionone/dom" "^10.15.5"
     tslib "^2.3.1"
 
 "@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1":
@@ -2838,22 +2850,22 @@
     "@walletconnect/window-getters" "^1.0.1"
     tslib "1.14.1"
 
-"@web3modal/core@2.0.0-beta.5", "@web3modal/core@^2.0.0-beta.5":
-  version "2.0.0-beta.5"
-  resolved "https://registry.npmjs.org/@web3modal/core/-/core-2.0.0-beta.5.tgz"
-  integrity sha512-rMuQ3ajFDobXqFVNmcYrUySN0y0/RJWTA+fa44myuvpXO+NDKIlGC7+eg4QX6Vg7HRkBld68yTTCM1ZVWymIIA==
+"@web3modal/core@2.2.2":
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/@web3modal/core/-/core-2.2.2.tgz#1e282dc45bddb11c04f1c93abce570bac1b9a620"
+  integrity sha512-RKbYNIEVP5Hwiva68PWXExbkTFLUTasneyRpcjoQSM4BIh78qXp1YMt0nyTvFdHmHQEGxXEMCuRG5qoE97uMHA==
   dependencies:
     buffer "6.0.3"
-    valtio "1.7.5"
+    valtio "1.10.3"
 
-"@web3modal/ui@^2.0.0-beta.5":
-  version "2.0.0-beta.5"
-  resolved "https://registry.npmjs.org/@web3modal/ui/-/ui-2.0.0-beta.5.tgz"
-  integrity sha512-0O/+6sZDEHZzDpH0Q1jtAnD/vrGE3FYN5LxiWxwbg3bfTPbZaZN4Mj1dvyESuaJrKmzm+mOqoZWlyRykob4nJw==
+"@web3modal/ui@2.2.2":
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/@web3modal/ui/-/ui-2.2.2.tgz#f1c1ac908230d4214c35891a5d922c118353eaf2"
+  integrity sha512-PAuMOuk4sZ4UGjucGMZKzu6Qu56XtFsgLaqOn8ZgP2RkZmYEBGSG9mUQVzJd3XzfzAy1T91Wmqp/3TI3m0pXuQ==
   dependencies:
-    "@web3modal/core" "2.0.0-beta.5"
-    lit "2.4.1"
-    motion "10.14.3"
+    "@web3modal/core" "2.2.2"
+    lit "2.6.1"
+    motion "10.15.5"
     qrcode "1.5.1"
 
 "@webassemblyjs/ast@1.11.1":
@@ -7048,21 +7060,28 @@ lit-element@^3.2.0:
     "@lit/reactive-element" "^1.3.0"
     lit-html "^2.2.0"
 
-lit-html@^2.2.0, lit-html@^2.4.0:
+lit-html@^2.2.0:
   version "2.4.0"
   resolved "https://registry.npmjs.org/lit-html/-/lit-html-2.4.0.tgz"
   integrity sha512-G6qXu4JNUpY6aaF2VMfaszhO9hlWw0hOTRFDmuMheg/nDYGB+2RztUSOyrzALAbr8Nh0Y7qjhYkReh3rPnplVg==
   dependencies:
     "@types/trusted-types" "^2.0.2"
 
-lit@2.4.1:
-  version "2.4.1"
-  resolved "https://registry.npmjs.org/lit/-/lit-2.4.1.tgz"
-  integrity sha512-qohSgLiyN1cFnJG26dIiY03S4F49857A0AHQfnS0zYtnUVnD2MFvx+UT52rtXsIuNFQrnUupX+zyGSATlk1f/A==
+lit-html@^2.6.0:
+  version "2.7.2"
+  resolved "https://registry.yarnpkg.com/lit-html/-/lit-html-2.7.2.tgz#e4593da022298d8029ae3f67d10d322c18152d3d"
+  integrity sha512-ZJCfKlA2XELu5tn7XuzOziGFGvf1SeQm+ngLWoJ8bXtSkRrrR3ms6SWy+gsdxeYwySLij5xAhdd2C3EX0ftxdQ==
   dependencies:
-    "@lit/reactive-element" "^1.4.0"
+    "@types/trusted-types" "^2.0.2"
+
+lit@2.6.1:
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/lit/-/lit-2.6.1.tgz#5951a2098b9bde5b328c73b55c15fdc0eefd96d7"
+  integrity sha512-DT87LD64f8acR7uVp7kZfhLRrHkfC/N4BVzAtnw9Yg8087mbBJ//qedwdwX0kzDbxgPccWRW6mFwGbRQIxy0pw==
+  dependencies:
+    "@lit/reactive-element" "^1.6.0"
     lit-element "^3.2.0"
-    lit-html "^2.4.0"
+    lit-html "^2.6.0"
 
 loader-runner@^4.2.0:
   version "4.3.0"
@@ -7366,17 +7385,17 @@ mocha@^10.2.0:
     yargs-parser "20.2.4"
     yargs-unparser "2.0.0"
 
-motion@10.14.3:
-  version "10.14.3"
-  resolved "https://registry.npmjs.org/motion/-/motion-10.14.3.tgz"
-  integrity sha512-xBbgYho8nPiR2OZOrfJTbJpiiQl0F2PZF6H5ItAeIPJEfA/x0ZwxpFC/gbsKfUv3CFUVAoxCRkTDCJjiZ48dxw==
+motion@10.15.5:
+  version "10.15.5"
+  resolved "https://registry.yarnpkg.com/motion/-/motion-10.15.5.tgz#d336ddbdd37bc28bb99fbb243fe309df6c685ad6"
+  integrity sha512-ejP6KioN4pigTGxL93APzOnvtLklParL59UQB2T3HWXQBxFcIp5/7YXFmkgiA6pNKKzjvnLhnonRBN5iSFMnNw==
   dependencies:
-    "@motionone/animation" "^10.14.0"
-    "@motionone/dom" "^10.14.3"
-    "@motionone/svelte" "^10.14.3"
-    "@motionone/types" "^10.14.0"
-    "@motionone/utils" "^10.14.0"
-    "@motionone/vue" "^10.14.3"
+    "@motionone/animation" "^10.15.1"
+    "@motionone/dom" "^10.15.5"
+    "@motionone/svelte" "^10.15.5"
+    "@motionone/types" "^10.15.1"
+    "@motionone/utils" "^10.15.1"
+    "@motionone/vue" "^10.15.5"
 
 ms@2.0.0:
   version "2.0.0"
@@ -8543,6 +8562,11 @@ proxy-compare@2.3.0:
   version "2.3.0"
   resolved "https://registry.npmjs.org/proxy-compare/-/proxy-compare-2.3.0.tgz"
   integrity sha512-c3L2CcAi7f7pvlD0D7xsF+2CQIW8C3HaYx2Pfgq8eA4HAl3GAH6/dVYsyBbYF/0XJs2ziGLrzmz5fmzPm6A0pQ==
+
+proxy-compare@2.5.0:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/proxy-compare/-/proxy-compare-2.5.0.tgz#0387c5e4d283ba9b1c0353bb20def4449b06bbd2"
+  integrity sha512-f1us0OsVAJ3tdIMXGQx2lmseYS4YXe4W+sKF5g5ww/jV+5ogMadPt+sIZ+88Ga9kvMJsrRNWzCrKPpr6pMWYbA==
 
 psl@^1.1.33:
   version "1.9.0"
@@ -10165,18 +10189,18 @@ v8-to-istanbul@^8.1.0:
     convert-source-map "^1.6.0"
     source-map "^0.7.3"
 
+valtio@1.10.3:
+  version "1.10.3"
+  resolved "https://registry.yarnpkg.com/valtio/-/valtio-1.10.3.tgz#273eda9ba6459869798b4f58c84514e18fb80ed8"
+  integrity sha512-t3Ez/+baJ+Z5tIyeaI6nCAbW/hrmcq2jditwg/X++o5IvCdiGirQKTOv1kJq0glgUo13v5oABCVGcinggBfiKw==
+  dependencies:
+    proxy-compare "2.5.0"
+    use-sync-external-store "1.2.0"
+
 valtio@1.7.0:
   version "1.7.0"
   resolved "https://registry.npmjs.org/valtio/-/valtio-1.7.0.tgz"
   integrity sha512-3Tnix66EERwMcrl1rfB3ylcewOcL5L/GiPmC3FlVNreQzqf2jufEeqlNmgnLgSGchkEmH3WYVtS+x6Qw4r+yzQ==
-  dependencies:
-    proxy-compare "2.3.0"
-    use-sync-external-store "1.2.0"
-
-valtio@1.7.5:
-  version "1.7.5"
-  resolved "https://registry.npmjs.org/valtio/-/valtio-1.7.5.tgz"
-  integrity sha512-YGgYA1fkjDWIJuI2Z178GWxocd7f+AGfwe7vSL9+WKWfQuzWBEMqIIZ2UnEuy58DpEOYFSQTLfxQGOFIatEpmQ==
   dependencies:
     proxy-compare "2.3.0"
     use-sync-external-store "1.2.0"

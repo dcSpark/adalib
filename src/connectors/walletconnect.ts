@@ -22,8 +22,7 @@ async function importW3mModalCtrl() {
     const web3modalCore = await import('@web3modal/core');
 
     web3modalCore.ConfigCtrl.setConfig({
-      projectId: getProjectId(),
-      accentColor: 'blue'
+      projectId: getProjectId()
     });
 
     return web3modalCore.ModalCtrl;
