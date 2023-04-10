@@ -26,8 +26,12 @@ async function importW3mModalCtrl() {
     });
 
     return web3modalCore.ModalCtrl;
-  } catch {
-    throw new Error('No @web3modal/core module found. It is needed when using the qrcode option');
+  } catch (e) {
+    throw new Error(
+      `No @web3modal/core module found. It is needed when using the qrcode option: ${JSON.stringify(
+        e
+      )}`
+    );
   }
 }
 
