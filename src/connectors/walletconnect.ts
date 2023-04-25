@@ -17,12 +17,13 @@ export interface WalletConnectAppMetadata {
   icons: string[];
 }
 
-async function importW3mModalCtrl() {
+async function importW3mModalCtrl(standaloneChains?: string[]) {
   try {
     const web3modalCore = await import('@web3modal/core');
-
+    console.log('Setting modal config ', standaloneChains);
     web3modalCore.ConfigCtrl.setConfig({
-      projectId: getProjectId()
+      projectId: getProjectId(),
+      standaloneChains
     });
 
     return web3modalCore.ModalCtrl;
@@ -93,8 +94,8 @@ export class WalletConnectConnector implements Connector {
   public async disconnect() {
     try {
       const provider = await UniversalProviderFactory.getProvider();
-
       await provider.disconnect();
+      await provider.cleanupPendingPairings();
     } catch (error) {
       if (!/No matching key/iu.test((error as Error).message)) throw error;
     } finally {
@@ -119,7 +120,7 @@ export class WalletConnectConnector implements Connector {
   private set provider(provider: UniversalProvider | undefined) {
     this._provider = provider;
     if (this._provider) {
-      const emulatedAPI = new EnabledWalletEmulator(this._provider);
+      const emulatedAPI = new EnabledWalletEmulator();
       this.connectedWalletAPI = emulatedAPI;
     }
   }
@@ -133,9 +134,7 @@ export class WalletConnectConnector implements Connector {
   }
 
   protected async getProvider() {
-    const provider = await UniversalProviderFactory.getProvider();
-
-    return provider;
+    return UniversalProviderFactory.getProvider();
   }
 
   public async enable() {
@@ -200,7 +199,7 @@ export class WalletConnectConnector implements Connector {
     return new Promise<string>((resolve, reject) => {
       provider.on('display_uri', (uri: string) => {
         if (this.qrcode)
-          importW3mModalCtrl().then(ModalCtrl => {
+          importW3mModalCtrl([chainID]).then(ModalCtrl => {
             ModalCtrl.open({ uri, standaloneChains: [chainID] });
           });
         else resolve(uri);
@@ -209,7 +208,7 @@ export class WalletConnectConnector implements Connector {
       provider
         .connect({
           pairingTopic: undefined,
-          namespaces: cardanoNamespace
+          namespaces: { ...cardanoNamespace }
         })
         .then(providerResult => {
           if (!providerResult) throw new Error('Failed connection.');
@@ -219,10 +218,11 @@ export class WalletConnectConnector implements Connector {
           const address = providerResult.namespaces?.cip34?.accounts[0]?.split(':')[2];
           if (address && this.qrcode) {
             setAddress(address);
-            resolve(address);
+
             importW3mModalCtrl().then(ModalCtrl => {
               ModalCtrl.close();
             });
+            resolve(address);
           } else reject(new Error('Could not resolve address'));
         })
         .catch(error => {
