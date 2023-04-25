@@ -2,7 +2,7 @@
 /* eslint-disable no-inline-comments */
 /* eslint-disable line-comment-position */
 
-import { getProjectId } from '../store';
+import { getChain, getProjectId } from '../store';
 import { ProtocolMagic } from '../types/CardanoInjected';
 import type { Chain } from '../types/chain';
 
@@ -54,4 +54,11 @@ export function cardanoPreprodWalletConnect() {
 
 export function cardanoPreviewWalletConnect() {
   return { ...preview, endpoint: chainToEndpoint(preview) };
+}
+
+export function currentChainID(): string {
+  const chosenChain = getChain();
+  const chainID = chainToId(chosenChain);
+
+  return chainID;
 }
