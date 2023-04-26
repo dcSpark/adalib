@@ -20,26 +20,15 @@ export interface WalletConnectAppMetadata {
 
 function createW3mModalCtrl(standaloneChains?: string[]) {
   try {
-    // const web3modalCore = await import('@web3modal/core');
-    // console.log('Setting modal config ', standaloneChains);
-    // web3modalCore.ConfigCtrl.setConfig({
-    //   projectId: getProjectId(),
-    //   standaloneChains
-    // });
     const web3modal = new Web3Modal({
       walletConnectVersion: 2,
       projectId: getProjectId(),
       standaloneChains
     });
 
-    // return web3modalCore.ModalCtrl;
     return web3modal;
   } catch (e) {
-    throw new Error(
-      `No @web3modal/core module found. It is needed when using the qrcode option: ${JSON.stringify(
-        e
-      )}`
-    );
+    throw new Error(`Error instantiating web3Modal: ${JSON.stringify(e)}`);
   }
 }
 
