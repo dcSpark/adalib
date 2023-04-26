@@ -20,6 +20,7 @@
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@walletconnect/universal-provider": "^2.7.0",
+    "@web3modal/standalone": "2.3.7",
     "babel-jest": "^27.4.2",
     "babel-loader": "^8.2.3",
     "babel-plugin-named-asset-import": "^0.3.8",
