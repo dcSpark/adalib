@@ -9,6 +9,7 @@ import { getChain, getProjectId, setAddress } from '../store';
 
 import { EnabledWalletEmulator } from '../utils/EnabledWalletEmulator';
 import { chainToId } from '../defaults/chains';
+import { Web3Modal } from '@web3modal/standalone';
 
 export interface WalletConnectAppMetadata {
   name: string;
@@ -17,31 +18,28 @@ export interface WalletConnectAppMetadata {
   icons: string[];
 }
 
-async function importW3mModalCtrl(standaloneChains?: string[]) {
+function createW3mModalCtrl(standaloneChains?: string[]) {
   try {
-    const web3modalCore = await import('@web3modal/core');
-    console.log('Setting modal config ', standaloneChains);
-    web3modalCore.ConfigCtrl.setConfig({
+    // const web3modalCore = await import('@web3modal/core');
+    // console.log('Setting modal config ', standaloneChains);
+    // web3modalCore.ConfigCtrl.setConfig({
+    //   projectId: getProjectId(),
+    //   standaloneChains
+    // });
+    const web3modal = new Web3Modal({
+      walletConnectVersion: 2,
       projectId: getProjectId(),
       standaloneChains
     });
 
-    return web3modalCore.ModalCtrl;
+    // return web3modalCore.ModalCtrl;
+    return web3modal;
   } catch (e) {
     throw new Error(
       `No @web3modal/core module found. It is needed when using the qrcode option: ${JSON.stringify(
         e
       )}`
     );
-  }
-}
-
-async function loadW3mModal() {
-  try {
-    await import('@web3modal/ui');
-    document.getElementsByTagName('body')[0].appendChild(document.createElement('w3m-modal'));
-  } catch {
-    throw new Error('No @web3modal/ui module found. It is needed when using the qrcode option');
   }
 }
 
@@ -75,7 +73,6 @@ export class WalletConnectConnector implements Connector {
     UniversalProviderFactory.getProvider().then(provider => {
       this.provider = provider;
     });
-    if (typeof document !== 'undefined' && qrcode) loadW3mModal();
 
     if (autoconnect)
       UniversalProviderFactory.getProvider().then(provider => {
@@ -198,11 +195,11 @@ export class WalletConnectConnector implements Connector {
 
     return new Promise<string>((resolve, reject) => {
       provider.on('display_uri', (uri: string) => {
-        if (this.qrcode)
-          importW3mModalCtrl([chainID]).then(ModalCtrl => {
-            ModalCtrl.open({ uri, standaloneChains: [chainID] });
-          });
-        else resolve(uri);
+        if (this.qrcode) {
+          const ModalCtrl = createW3mModalCtrl([chainID]);
+
+          ModalCtrl.openModal({ uri, standaloneChains: [chainID] });
+        } else resolve(uri);
       });
 
       provider
@@ -219,9 +216,9 @@ export class WalletConnectConnector implements Connector {
           if (address && this.qrcode) {
             setAddress(address);
 
-            importW3mModalCtrl().then(ModalCtrl => {
-              ModalCtrl.close();
-            });
+            const ModalCtrl = createW3mModalCtrl();
+            ModalCtrl.closeModal();
+
             resolve(address);
           } else reject(new Error('Could not resolve address'));
         })
