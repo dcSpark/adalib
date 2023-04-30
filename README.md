@@ -68,6 +68,10 @@ init(
 The connect function can be used to connect a wallet to a dApp. The wallet
 chosen needs to be configured in the `init` function above.
 
+With the WalletConnect connector, if the user closes the QR modal without
+scanning the QR code, the `connect` function will throw an error. It is important
+to catch this error and handle it appropriately to ensure your application does not hang.
+
 ```ts
 import { connect, getActiveConnector } from 'adalib'
 
@@ -111,7 +115,9 @@ switchConnector(FlintConnector.connectorName)
 const flintWalletAPI = await connect()
 ```
 
-
+Note: Sometimes the connection will die and you will need to reconnect. You will
+need to manually call `disconnect` on the connector before calling `connect` again.
+This helps ensure that a fresh connection state is created.
 
 <!-- # Folders
  -->

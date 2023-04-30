@@ -181,6 +181,7 @@ export class WalletConnectConnector implements Connector {
     // WC concept
     const provider = await UniversalProviderFactory.getProvider();
     this.provider = provider;
+    // let isConnected = false;
 
     return new Promise<string>((resolve, reject) => {
       provider.on('display_uri', (uri: string) => {
@@ -188,6 +189,11 @@ export class WalletConnectConnector implements Connector {
           const ModalCtrl = createW3mModalCtrl([chainID]);
 
           ModalCtrl.openModal({ uri, standaloneChains: [chainID] });
+          ModalCtrl.subscribeModal(newState => {
+            if (!this.enabled && !newState.open) {
+              reject(new Error('User closed modal before connecting'));
+            }
+          });
         } else resolve(uri);
       });
 
@@ -206,6 +212,8 @@ export class WalletConnectConnector implements Connector {
             setAddress(address);
 
             const ModalCtrl = createW3mModalCtrl();
+
+            this.enabled = true;
             ModalCtrl.closeModal();
 
             resolve(address);

@@ -70,6 +70,9 @@ function Home() {
         console.log('CIP-30 API Created', { api });
 
         setEnabledAPI(api);
+      })
+      .catch(e => {
+        console.log('Error enabling connector', e);
       });
   }, [setEnabledAPI]);
 
