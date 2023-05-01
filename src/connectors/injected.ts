@@ -178,14 +178,16 @@ export class InjectedConnector implements Connector {
   }
 
   private async actualConnectionCheck() {
-    if (this.connectedWalletAPI != null) {
-      return true;
-    }
-
     if (this.enabledWallet != null && window.cardano[this.enabledWallet] != null) {
       const isEnabled = await window.cardano[this.enabledWallet]?.isEnabled();
+      if (isEnabled && this.getConnectorAPI()) {
+        // checks if we can still receive a response from the injected wallet
+        const networkID = await this.getConnectorAPI()?.getNetworkId();
 
-      return isEnabled ?? false;
+        if (networkID != null) {
+          return true;
+        }
+      }
     }
 
     return false;

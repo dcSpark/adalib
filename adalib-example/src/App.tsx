@@ -21,7 +21,7 @@ console.log('PROJECT_ID', PROJECT_ID, process.env);
 
 init(
   () => ({
-    connectorName: WalletConnectConnector.connectorName(),
+    connectorName: FlintConnector.connectorName(),
     connectors: [
       new FlintConnector(),
       new WalletConnectConnector({
