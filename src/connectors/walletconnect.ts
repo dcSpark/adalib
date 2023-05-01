@@ -129,6 +129,12 @@ export class WalletConnectConnector implements Connector {
     return UniversalProviderFactory.getProvider();
   }
 
+  /**
+   * This will ping the wallet relay connection to check if it is connected
+   * If the timeout expires, it will return false.
+   * @param timeout timeout in milliseconds
+   * @returns true if the wallet is still interactable, false otherwise
+   */
   public async isConnected(timeout = 10000): Promise<boolean> {
     return new Promise<boolean>((resolve, _) => {
       const timeoutId = setTimeout(() => {

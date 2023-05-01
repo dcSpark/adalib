@@ -158,6 +158,14 @@ export class InjectedConnector implements Connector {
     return this.connectedWalletAPI!.signTx(tx, partialSign);
   }
 
+  /**
+   * This will call the injected wallet to see if it is still connected.
+   * It makes a call to the getNetworkID method of the enabled wallet to see
+   * if a response is still received.
+   * If the timeout expires, it will return false.
+   * @param timeout timeout in milliseconds
+   * @returns true if the wallet is still interactable, false otherwise
+   */
   public async isConnected(timeout = 10000): Promise<boolean> {
     return new Promise<boolean>((resolve, _) => {
       const timeoutId = setTimeout(() => {
