@@ -115,9 +115,26 @@ switchConnector(FlintConnector.connectorName)
 const flintWalletAPI = await connect()
 ```
 
-Note: Sometimes the connection will die and you will need to reconnect. You will
-need to manually call `disconnect` on the connector before calling `connect` again.
-This helps ensure that a fresh connection state is created.
+Note: Sometimes the connection will die and you will need to reconnect.
+The connectors have an isConnected(timeout) function that can be used to check
+if the connection is still alive. If it is not, you can call the `connect` function
+again. The timeout is in milliseconds. The default is 10,000ms.
+
+The walletconnect connector will ping the connected wallet. If there is no response
+before the timeout, it will assume the connection is dead and will return false.
+
+The injected connector will check the network ID. If there is no response before
+the timeout, it will assume the connection is dead and will return false.
+
+```ts
+import { getActiveConnector } from 'adalib'
+
+const connector = getActiveConnector()
+const isStillConnected = await connector.isConnected(1000)
+if (!isStillConnected) {
+  await connector.enable()
+}
+```
 
 <!-- # Folders
  -->
