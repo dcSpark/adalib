@@ -92,5 +92,5 @@ const flintIsAvailable1 = getConnectorIsAvailable(FlintConnector.connectorName()
 
 // OR
 
-const phantomIsAvailable2 = getConnectorIsAvailable('injected-window.cardano.flint')
+const flintIsAvailable2 = getConnectorIsAvailable('injected-window.cardano.flint')
 

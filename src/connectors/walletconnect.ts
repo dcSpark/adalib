@@ -36,8 +36,15 @@ export class WalletConnectConnector implements Connector {
   protected _provider: UniversalProvider | undefined;
   protected qrcode: boolean;
   private enabled = false;
+  private currentTopic: string | undefined;
   public enabledWallet: WalletNames | undefined;
   public connectedWalletAPI: EnabledAPI | undefined;
+
+  private cleanupInternalState() {
+    this.enabled = false;
+    this.currentTopic = undefined;
+    this.connectedWalletAPI = undefined;
+  }
 
   public static connectorName = () => 'walletconnect';
 
@@ -88,8 +95,7 @@ export class WalletConnectConnector implements Connector {
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       // delete provider?.session?.namespaces?.cip34;
       // this.provider = undefined;
-      this.enabled = false;
-      this.connectedWalletAPI = undefined;
+      this.cleanupInternalState();
     }
 
     setAddress('');
@@ -123,7 +129,57 @@ export class WalletConnectConnector implements Connector {
     return UniversalProviderFactory.getProvider();
   }
 
+  public async isConnected(timeout = 10000): Promise<boolean> {
+    return new Promise<boolean>((resolve, _) => {
+      const timeoutId = setTimeout(() => {
+        clearTimeout(timeoutId);
+        resolve(false);
+      }, timeout);
+
+      this.actualConnectionCheck()
+        .then(result => {
+          clearTimeout(timeoutId);
+          resolve(result);
+        })
+        .catch(() => {
+          clearTimeout(timeoutId);
+          resolve(false);
+        });
+    });
+  }
+
+  private async actualConnectionCheck(): Promise<boolean> {
+    if (!this.currentTopic) {
+      return false;
+    }
+    try {
+      const provider = await this.getProvider();
+      await provider.client.ping({ topic: this.currentTopic });
+
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  // todo: Add timeout to return false
+  // public async isConnected() {
+  //   if (!this.currentTopic) {
+  //     return false;
+  //   }
+  //   try {
+  //     const provider = await this.getProvider();
+  //     await provider.client.ping({ topic: this.currentTopic });
+
+  //     return true;
+  //   } catch (e) {
+  //     return false;
+  //   }
+  // }
+
   public async enable() {
+    // step 0: cleanup
+    this.cleanupInternalState();
     // step 1: pair
     await this.connect();
     this.enabled = true;
@@ -214,6 +270,7 @@ export class WalletConnectConnector implements Connector {
             const ModalCtrl = createW3mModalCtrl();
 
             this.enabled = true;
+            this.currentTopic = providerResult.topic;
             ModalCtrl.closeModal();
 
             resolve(address);

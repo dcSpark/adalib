@@ -86,6 +86,14 @@ function Home() {
     }
   }, [enabledAPI, setBalance]);
 
+  const ping = useCallback(() => {
+    getActiveConnector()
+      .isConnected()
+      .then((value: boolean) => {
+        console.log('isConnected:', value);
+      });
+  }, []);
+
   const getUTXOs = useCallback(() => {
     if (enabledAPI) {
       // Get balance of the current wallet
@@ -249,6 +257,7 @@ function Home() {
             <Button onClick={getChangeAddress}>Get Change Address</Button>
             <Button onClick={getCollateral}>Get Collateral</Button>
             <Button onClick={getUTXOs}>Get UTXOs</Button>
+            <Button onClick={ping}>Ping</Button>
             <Button
               onClick={() => {
                 setEnabledAPI(undefined);

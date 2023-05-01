@@ -15,6 +15,7 @@ export interface Connector {
 
   isEnabled: () => Promise<boolean>;
   isAvailable: () => boolean;
+  isConnected: (timeout?: number) => Promise<boolean>;
   disconnect: () => Promise<void>;
 }
 
@@ -42,6 +43,10 @@ export class BaseConnector {
   }
 
   public isAvailable() {
+    throw new Error('Not allowed on base connector');
+  }
+
+  public isConnected() {
     throw new Error('Not allowed on base connector');
   }
 }

@@ -158,13 +158,36 @@ export class InjectedConnector implements Connector {
     return this.connectedWalletAPI!.signTx(tx, partialSign);
   }
 
-  public async isConnected(): Promise<boolean> {
-    return (
-      this.connectedWalletAPI != null ||
-      ((this.enabledWallet != null &&
-        window.cardano[this.enabledWallet] != null &&
-        (await window.cardano[this.enabledWallet]?.isEnabled())) ??
-        false)
-    );
+  public async isConnected(timeout = 10000): Promise<boolean> {
+    return new Promise<boolean>((resolve, _) => {
+      const timeoutId = setTimeout(() => {
+        clearTimeout(timeoutId);
+        resolve(false);
+      }, timeout);
+
+      this.actualConnectionCheck()
+        .then(result => {
+          clearTimeout(timeoutId);
+          resolve(result);
+        })
+        .catch(() => {
+          clearTimeout(timeoutId);
+          resolve(false);
+        });
+    });
+  }
+
+  private async actualConnectionCheck() {
+    if (this.connectedWalletAPI != null) {
+      return true;
+    }
+
+    if (this.enabledWallet != null && window.cardano[this.enabledWallet] != null) {
+      const isEnabled = await window.cardano[this.enabledWallet]?.isEnabled();
+
+      return isEnabled ?? false;
+    }
+
+    return false;
   }
 }
