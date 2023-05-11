@@ -34,11 +34,14 @@ import {
 init(
   {
     // The different connector methodologies that will be used.
-    // FlintConnector will interact with injected Flint Wallet using browser
+    // FlintConnector will interact with injected Flint Wallet using the browser
     // extension, while WalletConnectConnector can be used to interact with all
     // wallets that support the WalletConnect protocol.
+    // The injected connector is used to interact with any cardano wallet.
+    // It requires the full cardano window path.
     connectors: [
       new FlintConnector(),
+      new InjectedConnector('window.cardano.eternl'),
       new WalletConnectConnector({
         relayerRegion: 'wss://relay.walletconnect.com',
         metadata: {
@@ -107,23 +110,31 @@ connect()
 
 ### Switch Connector
 
+Sometimes you may want to switch from WalletConnect to an injected
+browser extension wallet, such as Flint or vice versa. This can be done using the `switchConnector` function.
+
+Connectors are switched via the connectorName, so it is good to keep a reference to the instance of the connector you want to switch to.
+
+
 ```ts
 import { switchConnector, FlintConnector, connect } from 'adalib'
 
-switchConnector(FlintConnector.connectorName)
+switchConnector(FlintConnector.connectorName())
 
 const flintWalletAPI = await connect()
 ```
 
-Note: Sometimes the connection will die and you will need to reconnect.
+### Checking Connection Health
+
+Sometimes the connection will die and you will need to reconnect.
 The connectors have an isConnected(timeout) function that can be used to check
 if the connection is still alive. If it is not, you can call the `connect` function
-again. The timeout is in milliseconds. The default is 10,000ms.
+again. The timeout is in milliseconds. You typically only need this for the WalletConnect connector. The default is 10,000ms.
 
 The walletconnect connector will ping the connected wallet. If there is no response
 before the timeout, it will assume the connection is dead and will return false.
 
-The injected connector will check the network ID. If there is no response before
+An injected connector will check the network ID. If there is no response before
 the timeout, it will assume the connection is dead and will return false.
 
 ```ts
