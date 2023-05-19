@@ -127,15 +127,15 @@ const flintWalletAPI = await connect()
 ### Checking Connection Health
 
 Sometimes the connection will die and you will need to reconnect.
-The connectors have an isConnected(timeout) function that can be used to check
-if the connection is still alive. If it is not, you can call the `connect` function
+The connectors have an `isConnected(timeout)` function that can be used to check
+if the connection is still alive. If it is not, you can call the `enable` function
 again. The timeout is in milliseconds. You typically only need this for the WalletConnect connector. The default is 10,000ms.
 
 The walletconnect connector will ping the connected wallet. If there is no response
 before the timeout, it will assume the connection is dead and will return false.
 
-An injected connector will check the network ID. If there is no response before
-the timeout, it will assume the connection is dead and will return false.
+An injected connector will check for the wallet to respond with a network ID. If there is no response before
+the timeout, it will assume the connection has been lost and will return false.
 
 ```ts
 import { getActiveConnector } from 'adalib'
