@@ -2,7 +2,7 @@
 
 **Cardano** friendly API
 
-Adalib implements a `Connector` interface that complies with WalletConnect's standards.
+Adalib implements a `Connector` interface that complies with WalletConnect's standards. There are connectors that support both WalletConnect wallets, and browser extension injected wallets.
 
 It attempts to closely emulate the CIP-30 standard within the connectors. A dapp developer can use these connectors to retrieve the enabled CIP-30 API, and benefit from the included typings this library provides.
 
@@ -13,10 +13,10 @@ For an examples, see `App.tsx` and `Home.tsx` in [example project](adalib-exampl
 For further docs, see [docs](docs/docs).
 ### API
 
-- Connect Wallet:
-  - Flint
-  - WalletConnect
-  - Injected Connector
+- Provided Connectors:
+  - `FlintConnector`: Connect to an injected Flint extension
+  - `WalletConnectConnector`: Connect to any wallet that supports WalletConnect
+  - `InjectedConnector`: Connect to any browser-injected wallet by providing the window path
 
 ### Init
 
