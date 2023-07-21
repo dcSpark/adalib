@@ -38,8 +38,8 @@
   ],
   "dependencies": {
     "@cardano-foundation/cardano-connect-with-wallet": "0.1.45",
-    "@walletconnect/universal-provider": "^2.7.0",
-    "@web3modal/standalone": "2.3.7",
+    "@walletconnect/universal-provider": "^2.8.1",
+    "@web3modal/standalone": "2.4.3",
     "bs58": "5.0.0",
     "buffer": "^6.0.3",
     "valtio": "1.7.0"

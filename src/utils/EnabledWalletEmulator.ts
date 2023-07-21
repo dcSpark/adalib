@@ -4,6 +4,7 @@
 import type { Cbor, DataSignature, EnabledAPI, Paginate } from '../types/CardanoInjected';
 import { currentChainID } from '../defaults/chains';
 import { UniversalProviderFactory } from './universalProvider';
+import UniversalProvider from '@walletconnect/universal-provider/dist/types/UniversalProvider';
 
 /**
  * This class is used to emulate the Cardano Wallet API's content script.
@@ -81,6 +82,17 @@ export class EnabledWalletEmulator implements EnabledAPI {
       currentChainID()
     );
   }
+  public async exitWallet(optionalMessage?: string) {
+    const provider = await UniversalProviderFactory.getProvider();
+
+    return provider.request<string>(
+      {
+        method: 'cardano_exitWallet',
+        params: [optionalMessage]
+      },
+      currentChainID()
+    );
+  }
   public async signTx(tx: string, partialSign = false) {
     const provider = await UniversalProviderFactory.getProvider();
 
@@ -149,5 +161,14 @@ export class EnabledWalletEmulator implements EnabledAPI {
         reject(e);
       }
     });
+  }
+
+  /**
+   * 
+   * @returns available wc session or undefined.
+   */
+  public async availableSession() {
+    const provider = await UniversalProviderFactory.getProvider();
+    return provider.client.session;
   }
 }

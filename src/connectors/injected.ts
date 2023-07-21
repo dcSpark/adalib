@@ -61,6 +61,16 @@ export class InjectedConnector implements Connector {
       throw new Error('Injected wallet path must start at window');
     this.injectedWalletPath = injectedWallet;
   }
+  getSession(): any {
+    throw new Error('Method not implemented.');
+  };
+  getSignature(): DataSignature | undefined {
+    throw new Error('Method not implemented.');
+  }
+  
+  init(): Promise<void> {
+    return Promise.resolve();
+  }
 
   public isAvailable(): boolean {
     if (typeof window === 'undefined') return false;
