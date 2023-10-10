@@ -40,6 +40,20 @@ interface SessionEventTypes {
   chainId: string;
 }
 
+interface ConnectParamsTypes {
+  topic?: string;
+  events?: SessionTypes.Namespace["events"];
+  methods?: string[];
+}
+
+interface SessionEventTypes {
+  event: {
+    name: string;
+    data: any;
+  };
+  chainId: string;
+}
+
 function createW3mModalCtrl(standaloneChains?: string[]) {
   try {
     const web3modal = new Web3Modal({
@@ -347,6 +361,7 @@ export class WalletConnectConnector implements Connector {
         if (existingPairing) {
           existingPairingTopic = existingPairing.topic;
         }
+
         // alert(existingPairing);
         let existingSession = this.getSession();   
 
@@ -354,8 +369,9 @@ export class WalletConnectConnector implements Connector {
         {
           existingSession = WalletConnectConnector._provider?.session;
           existingPairingTopic = undefined;
-        }        
-                
+        }       
+        
+
         WalletConnectConnector._provider?.connect({
             pairingTopic: existingPairingTopic,
             sessionProperties: existingSession?.sessionProperties,
@@ -390,7 +406,9 @@ export class WalletConnectConnector implements Connector {
             // if (!/No matching key/iu.test((error as Error).message)) throw error;
             const ModalCtrl = createW3mModalCtrl();
             ModalCtrl.closeModal();
+
             alert(error);
+
             return reject(error);
           });
     });  
@@ -440,6 +458,7 @@ export class WalletConnectConnector implements Connector {
         if (!this.session || this.session?.topic !== topic) {
           return;
         }
+
         // Logger.error(WalletConnectV2ProviderErrorMessagesEnum.sessionExpired);
         // this.onClientConnect.onClientLogout();
 
