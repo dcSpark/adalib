@@ -1,18 +1,18 @@
 /* eslint-disable capitalized-comments */
 /* eslint-disable multiline-comment-style */
-import type { EnabledAPI, WalletNames } from '../types/CardanoInjected';
+import type { DataSignature, EnabledAPI, WalletNames } from '../types/CardanoInjected';
 
 export interface Connector {
   enabledWallet: WalletNames | undefined;
   connectedWalletAPI: EnabledAPI | undefined;
-
+  init(): Promise<void>;
   getConnectorName: () => string;
-
+  getSignature(): DataSignature | undefined;
   getConnectorAPI: () => EnabledAPI | undefined;
   // Tx construction is dapp responsibility
 
   enable: () => Promise<EnabledAPI>;
-
+  getSession:() => any;
   isEnabled: () => Promise<boolean>;
   isAvailable: () => boolean;
   isConnected: (timeout?: number) => Promise<boolean>;

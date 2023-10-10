@@ -1,6 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable capitalized-comments */
 
+import {
+  ISession
+} from "@walletconnect/types";
+
 // BEGIN CARDANO
 
 // Fake types just to make the API more readable
@@ -65,6 +69,7 @@ export type CardanoContentScriptApi = CardanoInjectorEventMethods & {
   getChangeAddress: () => Promise<Cbor<'address'>>;
   getRewardAddress: () => Promise<Cbor<'address'>>;
   getRewardAddresses: () => Promise<Cbor<'address'>[] | undefined>;
+  exitWallet: (optionalMessage?: string) => void;
   signTx: (
     tx: Cbor<'transaction'>,
     partialSign?: boolean
@@ -109,6 +114,7 @@ export const NetworkMagic = {
   PREPROD: 1
 };
 
+export type EnabledAPIBrowser = Omit<CardanoInjectedNamespaceApi, 'enable' | 'isEnabled'>;
 export type EnabledAPI = Omit<CardanoInjectedNamespaceApi, 'enable' | 'isEnabled'>;
 
 // CIP-30 Compliant
@@ -125,6 +131,7 @@ export interface CardanoInjectedNamespaceApi {
   getChangeAddress: () => Promise<Cbor<'address'>>;
   getRewardAddress: () => Promise<Cbor<'address'>>;
   getRewardAddresses: () => Promise<Cbor<'address'>[]>;
+  exitWallet: (optionalMessage?: string) => void;
   signTx: (
     tx: Cbor<'transaction'>,
     partialSign?: boolean
@@ -139,6 +146,7 @@ export interface CardanoInjectedNamespaceApi {
   onNetworkChange: (
     callback: CardanoContentScriptApi['onNetworkChangeTrigger']
   ) => Promise<undefined>;
+  availableSession: () => Promise<ISession>;
   nami?: PerWalletNamespace | undefined;
   ccvault?: PerWalletNamespace | undefined;
   flint?: PerWalletNamespace | undefined;

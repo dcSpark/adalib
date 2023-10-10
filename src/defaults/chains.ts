@@ -62,3 +62,27 @@ export function currentChainID(): string {
 
   return chainID;
 }
+
+export enum Operation {
+  SIGN_TRANSACTION = "cardano_signTx",
+  SIGN_DATA = "cardano_signData",
+  SUBMIT_TRANSACTION = "cardano_submitTx",
+  GET_BALANCE = "cardano_getBalance",
+  GET_COLLATERAL = "cardano_getCollateral",
+  GET_UTXOS = "cardano_getUtxos",
+  GET_NETWORK_ID = "cardano_getNetworkId",
+  GET_USED_ADDRESSES = "cardano_getUsedAddresses",
+  GET_UNUSED_ADDRESSES = "cardano_getUnusedAddresses",
+  GET_CHANGE_ADDRESS = "cardano_getChangeAddress",
+  GET_REWARD_ADDRESS = "cardano_getRewardAddress",
+  GET_REWARD_ADDRESSES = "cardano_getRewardAddresses",
+  EXIT_WALLET = "cardano_exitWallet"
+}
+
+export enum Events {
+  ON_NETWORK_CHANGE = "cardano_onNetworkChange",
+  ON_ACCOUNT_CHANGE = "cardano_onAccountChange"
+}
+
+export const WALLETCONNECT_CARDANO_METHODS = Object.values(Operation);
+export const WALLETCONNECT_CARDANO_EVENTS = Object.values(Events);

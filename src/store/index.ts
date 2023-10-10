@@ -104,25 +104,24 @@ export function getConnecterId() {
   return get('connectorName');
 }
 
-function getConnector(name: string) {
+async function getConnector(name: string) {
   const { connectors } = store;
   const connector = connectors.find(
     availableConnector => availableConnector.getConnectorName() === name
   );
 
   if (!connector) throw new Error('Invalid connector id configured');
-
+  await connector.init();
   return connector;
 }
 
 export function getActiveConnector() {
   const id = store.connectorName;
-
   return getConnector(id);
 }
 
-export function getConnectorIsAvailable(name: string) {
-  const connector = getConnector(name);
+export async function getConnectorIsAvailable(name: string) {
+  const connector = await getConnector(name);
 
   return connector.isAvailable();
 }
