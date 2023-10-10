@@ -15,7 +15,7 @@ export default defineConfig(() => ({
       formats: ['es'],
       name: 'Adalib'
     },
-    minify: 'esbuild',
+    minify: 'terser',
     rollupOptions: {
       external: isExternal
     }

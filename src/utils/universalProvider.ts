@@ -21,12 +21,11 @@ export class UniversalProviderFactory {
     UniversalProviderFactory.projectId = params.projectId;
     UniversalProviderFactory.metadata = params.metadata;
   }
-
+  
   public static async getProvider(): Promise<UniversalProvider> {
     if (!UniversalProviderFactory.provider) await UniversalProviderFactory.init();
     if (!UniversalProviderFactory.provider)
       throw new Error('Failed to initialize universal provider');
-
     return UniversalProviderFactory.provider;
   }
 

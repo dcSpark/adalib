@@ -16,7 +16,7 @@
     "esModuleInterop": true,
     "outDir": "dist",
     "noEmit": false,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "skipLibCheck": true,
